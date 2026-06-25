@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Greg McGuirk is a senior software engineer specializing in Ruby, Rails, Typescript,
+      Postgres, distributed architectures, job systems, and people first softare.">
   <title>Greg McGuirk</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -13,6 +15,7 @@
       <a href="#experience">Experience</a>
       <a href="#projects">Projects</a>
       <a href="#community">Community</a>
+      <a href="blog/">Blog</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -25,9 +28,21 @@
   <section id="about" class="about">
     <h2>About</h2>
     <p>
-      Senior software engineer with a track record of taking products from concept to global scale.
-      I specialize in Ruby, Rails, and developer tooling, with a pragmatic approach to refactoring
-      and improving legacy codebases. I build things that make development more humane.
+        Senior Software Engineer with a track record of taking products from concept to reality. I specialize in clean,
+        maintainable code and systems that solve real-world problems at scale. I'm known for making sense of complexity
+        by digging in deeper, researching the contexts, surfacing hidden edge cases, and turning code into reliable tools
+        into easy to maintain resources teams can build on. As a team lead, I've helped cross-functional teams deliver
+        high-impact features, mentor junior developers, and adopt best practices that stick.
+
+        Outside of work, I run Ruby meetups, lead technical book clubs, and promote a culture of learning and
+        inclusivity in tech. I balance my engineering work with hands-on crafts like shoemaking and bartending, where
+        small details matter and mastery takes time. These creative disciplines remind me that whether I'm debugging
+        code, shaping leather, or mixing flavors, the goal is the same: to create something that is a pleasure to
+        experience.
+
+        I spend a lot of time thinking about where technology is headed, AI and the new shape of human-computer
+        collaboration, quantum computing and what it will mean for the systems we build today.  I read widely
+        and always try to bring new perspectives to hard problems.
     </p>
   </section>
 
@@ -35,11 +50,52 @@
     <h2>Experience</h2>
     <div class="timeline">
       <div class="timeline-entry">
-        <span class="timeline-date">Current</span>
+        <span class="timeline-date">2021 &ndash; Present</span>
+        <div class="timeline-content">
+          <h3>Technical Lead and Senior Software Engineer</h3>
+          <p class="timeline-company">Facet Digital</p>
+            <p>
+              Drove legacy-to-modern migrations through a zero-downtime platform migration off an Oracle SQL
+              / Java stack to Ruby, React, and TypeScript. it was launched in 14 countries on day one, and generated
+              profits immedately. 
+            </p>
+        </div>
+      </div>
+      <div class="timeline-entry">
+        <span class="timeline-date">2019 &ndash; 2021</span>
+        <div class="timeline-content">
+          <h3>Senior Software Engineer and Teamn Lead</h3>
+          <p class="timeline-company">Omada Health</p>
+            <p>
+              Led modernization of the Rails outcomes-based billing system on the company's revenue-critical path.
+              I architected a scalable Amazon SNS messaging layer for real-time integrations, and built a CI-driven
+              billing verification system that gated releases on financial accuracy.
+            </p>
+        </div>
+      </div>
+      <div class="timeline-entry">
+        <span class="timeline-date">2018 &ndash; 2019</span>
         <div class="timeline-content">
           <h3>Senior Software Engineer</h3>
-          <p class="timeline-company">Tabz (FKA HealNow)</p>
-          <p>Pharmacy commerce platform powering digital ordering and payments.</p>
+          <p class="timeline-company">Apple</p>
+          <p>
+              Built internal Ruby on Rails and JavaScript tooling used daily by the Apple Maps developers and SRE teams in
+              a zero-downtime, high-security environment. Owned the full tooling lifecycle and led new-hire engineering
+              training and intern cohorts.
+            </p>
+        </div>
+      </div>
+      <div class="timeline-entry">
+        <span class="timeline-date">2016 &ndash; 2018</span>
+        <div class="timeline-content">
+          <h3>Lead Software Engineer</h3>
+          <p class="timeline-company">Unity Technologies</p>
+          <p>
+              Tech lead and primary developer reporting to Unity's Chief of Security. Built a global office
+              visitor-tracking system across 27 offices, a large-scale anti-malware API securing the Unity Asset
+              Store, a infrastructure and ownership aware vulnerability tracking system to enforce SLAs, 
+              and stood up the security engineering team from scratch.
+          </p>
         </div>
       </div>
     </div>
@@ -47,30 +103,59 @@
 
   <section id="projects" class="projects">
     <h2>Projects</h2>
-    <div class="project-grid">
+      <a href="https://github.com/bgreg/rails-on-rails/" class="project-card">
+        <h3>Rails On Rails</h3>
+        <p>
+          A Rails 8 application that serves source-cited chatbot answers about Rails and the Ruby language, grounded in a Postgres + pgvector.
+          Every answer can trace back to an exact source of truth.
+        </p>
+        <div class="tags">
+          <span class="tag">Rails</span>
+          <span class="tag">Ruby</span>
+          <span class="tag">RAG</span>
+          <span class="tag">LLM</span>
+          <span class="tag">Open Source</span>
+        </div>
+      </a>
       <a href="https://github.com/bgreg/humanist-errors" class="project-card">
         <h3>humanist-errors</h3>
-        <p>Ruby gem that makes error messages more readable for humans. 27 stars, 5 contributors.</p>
-        <span class="tag">Ruby</span>
-        <span class="tag">Open Source</span>
+        <p>Ruby gem that rewrites error messages to be readable by humans instead of machines.</p>
+        <div class="project-meta">
+          <span class="project-stat">&#9733; 27</span>
+          <span class="project-stat">5 contributors</span>
+        </div>
+        <div class="tags">
+          <span class="tag">Ruby</span>
+          <span class="tag">Open Source</span>
+        </div>
       </a>
-      <a href="https://github.com/bgreg/algorithms_unlocked_study_guide" class="project-card">
-        <h3>Algorithms Unlocked Study Guide</h3>
-        <p>Collaborative study guide for Cormen's Algorithms Unlocked. 7 stars, 3 forks.</p>
-        <span class="tag">Algorithms</span>
-        <span class="tag">Education</span>
+      <a href="https://github.com/bgreg/goodmorning-script" class="project-card">
+        <h3>goodmorning-script</h3>
+        <p>Terminal-based daily briefing tool. Pulls calendar, weather, and system status into a single morning summary.</p>
+        <div class="tags">
+          <span class="tag">Zsh</span>
+          <span class="tag">ShellSpec</span>
+          <span class="tag">macOS</span>
+        </div>
       </a>
-      <a href="https://github.com/bgreg/understanding_computation_studyguide" class="project-card">
-        <h3>Understanding Computation</h3>
-        <p>Study guide for Tom Stuart's exploration of computation theory.</p>
-        <span class="tag">CS Theory</span>
+      <a href="https://github.com/bgreg/claude-explorer-extension-vscode" class="project-card">
+        <h3>Claude Explorer (VS Code)</h3>
+        <p>VS Code extension providing a filtered tree view for Claude configuration files and .claude paths.</p>
+        <div class="tags">
+          <span class="tag">TypeScript</span>
+          <span class="tag">VS Code API</span>
+          <span class="tag">Open Source</span>
+        </div>
       </a>
-      <a href="https://github.com/bgreg/dragon_book_guide" class="project-card">
-        <h3>Dragon Book Guide</h3>
-        <p>Study companion for the classic compilers textbook.</p>
-        <span class="tag">Compilers</span>
+      <a href="https://github.com/bgreg/claude-explorer.nvim" class="project-card">
+        <h3>claude-explorer.nvim</h3>
+        <p>Neovim plugin for browsing Claude configuration files. Sidebar navigation with file preview.</p>
+        <div class="tags">
+          <span class="tag">Lua</span>
+          <span class="tag">Neovim</span>
+          <span class="tag">Open Source</span>
+        </div>
       </a>
-    </div>
   </section>
 
   <section id="community" class="community">
@@ -87,11 +172,6 @@
         <span class="community-role">Teacher</span>
         <p>Taught free workshops focused on increasing diversity in tech by bringing underrepresented groups into the Ruby and Rails ecosystem.</p>
       </div>
-      <div class="community-card">
-        <h3>Comedy Hack Day</h3>
-        <span class="community-role">Volunteer</span>
-        <p>Hackathon blending comedy and technology where teams build intentionally funny software in a day.</p>
-      </div>
     </div>
   </section>
 
@@ -99,13 +179,13 @@
     <h2>Contact</h2>
     <div class="contact-links">
       <a href="https://github.com/bgreg">GitHub</a>
-      <a href="https://www.linkedin.com/in/greg-mcguirk-68660332/">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/greg-mcguirk">LinkedIn</a>
     </div>
   </section>
 
   <footer>
-    <p>&copy; <span id="year"></span> Greg McGuirk</p>
-    <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+      <p>&copy; <span id="year"></span> Greg McGuirk</p>
+      <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
   </footer>
 </body>
 </html>
