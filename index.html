@@ -104,7 +104,8 @@
   </section>
 
   <footer>
-    <p>&copy; 2026 Greg McGuirk</p>
+    <p>&copy; <span id="year"></span> Greg McGuirk</p>
+    <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
   </footer>
 </body>
 </html>
