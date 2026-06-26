@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
   <meta name="description" content="Greg McGuirk is a senior software engineer specializing in Ruby, Rails, TypeScript,
       Postgres, distributed architectures, job systems, and people first software.">
   <title>Greg McGuirk</title>
@@ -10,15 +11,19 @@
 </head>
 <body>
   <header>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#community">Community</a>
-      <a href="blog/">Blog</a>
-      <a href="#contact">Contact</a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#community">Community</a></li>
+        <li><a href="blog/">Blog</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </nav>
   </header>
+
+  <main>
 
   <section class="hero">
     <h1>Greg McGuirk</h1>
@@ -28,24 +33,22 @@
   <section id="about" class="about">
     <h2>About</h2>
     <p>
-      I'm a senior software engineer who likes taking products from a rough idea to something people actually use.
-      Coming from a Rails-heavy background, I've been doing more and more of my professional work in TypeScript lately. I
-      care a lot about code that still reads clearly years later. Give me a messy problem and I'll dig into the context,
-      find the edge cases nobody flagged, and leave behind something the rest of the team can build on without me in the
-      room. Over the years, I've led cross-functional teams, mentored junior engineers, and pushed for the kind of
-      practices that outlast whoever introduced them.
+      I'm a senior software engineer who likes turning rough ideas into tools people enjoy using. My background is Ruby,
+      though more of my recent work is in TypeScript. No matter the environment, I always strive to write code that
+      stays manageable for years. Hand me a messy problem and I'll find the edge cases nobody flagged and leave behind
+      something the team can build on without me. I've led cross-functional teams, mentored junior engineers, and pushed
+      for practices that outlast whoever introduced them.
     </p>
     <p>
-      Outside of work I run Ruby meetups and lead technical book clubs, mostly because I want more people to feel like
-      they belong in tech. I also make shoes and tend bar. Both are slow crafts where the details are the whole job and
-      you can't rush getting good at them. I like that the same instinct shows up there as in my code: get the small
-      things right and the whole thing feels better to use.
+      Outside of work I run Ruby meetups and lead technical book clubs, because I want more people to feel like they
+      belong in tech. I also make shoes and tend bar, slow crafts where the details are the whole job and you can't rush
+      getting good. The same instinct carries into my code: get the small things right and the whole thing feels better
+      to use.
     </p>
     <p>
-      These days most of my curiosity goes to AI and how it's changing the way we build software. I've shipped LLM
-      features into production and reworked my own day-to-day around AI tooling, so I've got real opinions about what
-      holds up and what's hype. I read far outside my lane. The best idea for a hard problem usually comes from somewhere
-      I wasn't looking.
+      Lately most of my curiosity goes into AI, how it's built, and how its adoption is changing the way we build
+      software. I've put frontier models into production at real scale, and reshaped my own workflow around agentic
+      tools that keep me in the loop.
     </p>
   </section>
 
@@ -185,6 +188,8 @@
       <a href="https://www.linkedin.com/in/greg-mcguirk">LinkedIn</a>
     </div>
   </section>
+
+  </main>
 
   <footer>
       <p>&copy; <span id="year"></span> Greg McGuirk</p>
