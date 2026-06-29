@@ -8,6 +8,9 @@
       Postgres, distributed architectures, job systems, and people first software.">
   <title>Greg McGuirk</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,12 +29,33 @@
   <main>
 
   <section class="hero">
-    <h1>Greg McGuirk</h1>
-    <p class="tagline">Senior Software Engineer</p>
+    <div class="hero-main">
+      <p class="prompt"><span class="user">greg@home</span>:<span class="path">~</span>$ whoami</p>
+      <h1>Greg McGuirk<span class="caret" aria-hidden="true"></span></h1>
+      <p class="lede">I turn rough ideas into tools people enjoy using, and write code that stays manageable for years.</p>
+      <ul class="pills">
+        <li class="pill"><b>13+</b> years</li>
+        <li class="pill">ex-Apple &middot; ex-Unity &middot; ex-Omada</li>
+        <li class="pill">Ruby &middot; TypeScript &middot; Golang &middot; Python</li>
+      </ul>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#projects">[ see work ]</a>
+        <a class="btn btn-ghost" href="#contact">[ contact ]</a>
+      </div>
+    </div>
+    <aside class="colophon" aria-label="At a glance">
+      <dl>
+        <div><dt>Name</dt><dd>Greg McGuirk</dd></div>
+        <div><dt>Focus</dt><dd>Senior / Lead IC, Rails &amp; TypeScript</dd></div>
+        <div><dt>Lately</dt><dd>Shipping frontier AI at real scale</dd></div>
+        <div><dt>Also</dt><dd>Makes shoes, tends bar, runs Ruby meetups</dd></div>
+        <div><dt>Find me</dt><dd><a href="https://github.com/bgreg">GitHub</a> &middot; <a href="https://www.linkedin.com/in/greg-mcguirk">LinkedIn</a> &middot; <a href="mailto:froze-borough.3f@icloud.com">Email</a></dd></div>
+      </dl>
+    </aside>
   </section>
 
   <section id="about" class="about">
-    <h2>About</h2>
+    <div class="section-head"><span class="idx">00</span><h2>About</h2></div>
     <p>
       I'm a senior software engineer who likes turning rough ideas into tools people enjoy using. My background is Ruby,
       though more of my recent work is in TypeScript. No matter the environment, I always strive to write code that
@@ -53,7 +77,7 @@
   </section>
 
   <section id="experience" class="experience">
-    <h2>Experience</h2>
+    <div class="section-head"><span class="idx">01</span><h2>Experience</h2></div>
     <div class="timeline">
       <div class="timeline-entry">
         <span class="timeline-date">2021 &ndash; Present</span>
@@ -108,7 +132,8 @@
   </section>
 
   <section id="projects" class="projects">
-    <h2>Projects</h2>
+    <div class="section-head"><span class="idx">02</span><h2>Projects</h2></div>
+    <div class="grid">
       <a href="https://github.com/bgreg/rails-on-rails/" class="project-card">
         <h3>Rails On Rails</h3>
         <p>
@@ -150,10 +175,21 @@
           <span class="tag">Open Source</span>
         </div>
       </a>
+      <a href="https://github.com/bgreg/config-tester" class="project-card">
+        <h3>config-tester</h3>
+        <p>Terminal UI that tests Claude Code configurations (rules, skills, hooks, settings) by running prompts through the claude CLI and judging the output with an LLM.</p>
+        <div class="tags">
+          <span class="tag">Go</span>
+          <span class="tag">TUI</span>
+          <span class="tag">LLM-as-judge</span>
+          <span class="tag">Open Source</span>
+        </div>
+      </a>
+    </div>
   </section>
 
   <section id="community" class="community">
-    <h2>Community</h2>
+    <div class="section-head"><span class="idx">03</span><h2>Community</h2></div>
     <div class="community-grid">
       <div class="community-card">
         <h3>The Ruby Workshop</h3>
@@ -170,7 +206,7 @@
   </section>
 
   <section id="contact" class="contact">
-    <h2>Contact</h2>
+    <div class="section-head"><span class="idx">04</span><h2>Contact</h2></div>
     <div class="contact-links">
       <a href="mailto:froze-borough.3f@icloud.com">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
