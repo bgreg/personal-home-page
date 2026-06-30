@@ -29,36 +29,29 @@
   <main>
 
   <section class="hero">
+    <div class="hero-intro">
+      <h1>Greg McGuirk</h1>
+    </div>
     <div class="hero-main">
-      <p class="prompt"><span class="user">greg@home</span>:<span class="path">~</span>$ whoami</p>
-      <h1>Greg McGuirk<span class="caret" aria-hidden="true"></span></h1>
       <p class="lede">I turn rough ideas into tools people enjoy using, and write code that stays manageable for years.</p>
       <ul class="pills">
         <li class="pill"><b>13+</b> years</li>
-        <li class="pill">ex-Apple &middot; ex-Unity &middot; ex-Omada</li>
+        <li class="pill">ex-Apple &middot; ex-Unity</li>
         <li class="pill">Ruby &middot; TypeScript &middot; Golang &middot; Python</li>
       </ul>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#projects">[ see work ]</a>
+        <a class="btn btn-ghost" href="#projects">[ see projects ]</a>
         <a class="btn btn-ghost" href="#contact">[ contact ]</a>
       </div>
     </div>
-    <aside class="colophon" aria-label="At a glance">
-      <dl>
-        <div><dt>Name</dt><dd>Greg McGuirk</dd></div>
-        <div><dt>Focus</dt><dd>Senior / Lead IC, Rails &amp; TypeScript</dd></div>
-        <div><dt>Lately</dt><dd>Shipping frontier AI at real scale</dd></div>
-        <div><dt>Also</dt><dd>Makes shoes, tends bar, runs Ruby meetups</dd></div>
-        <div><dt>Find me</dt><dd><a href="https://github.com/bgreg">GitHub</a> &middot; <a href="https://www.linkedin.com/in/greg-mcguirk">LinkedIn</a> &middot; <a href="mailto:froze-borough.3f@icloud.com">Email</a></dd></div>
-      </dl>
-    </aside>
   </section>
 
   <section id="about" class="about">
     <div class="section-head"><span class="idx">00</span><h2>About</h2></div>
-    <p>
-      I'm a senior software engineer who likes turning rough ideas into tools people enjoy using. My background is Ruby,
-      though more of my recent work is in TypeScript. No matter the environment, I always strive to write code that
+    <div class="about-grid">
+      <div class="about-text">
+      <p>
+      I'm a senior software engineer who likes turning rough ideas into tools people enjoy using. My background is Ruby, though more of my recent work is in TypeScript. No matter the environment, I always strive to write code that
       stays manageable for years. Hand me a messy problem and I'll find the edge cases nobody flagged and leave behind
       something the team can build on without me. I've led cross-functional teams, mentored junior engineers, and pushed
       for practices that outlast whoever introduced them.
@@ -74,6 +67,18 @@
       software. I've put frontier models into production at real scale, and reshaped my own workflow around agentic
       tools that keep me in the loop.
     </p>
+      </div>
+      <aside class="colophon" aria-label="At a glance">
+        <dl>
+          <div><dt>Name</dt><dd>Greg McGuirk</dd></div>
+          <div><dt>Focus</dt><dd>Senior / Lead IC, Rails &amp; TypeScript</dd></div>
+          <div><dt>Lately</dt><dd>Shipping frontier AI at real scale</dd></div>
+          <div><dt>Also</dt><dd>Runs technical book clubs, makes shoes, tends bar, roller skates backwards, enjoys mochi waffles</dd></div>
+          <div><dt>Learning</dt><dd>Quantum computing, Neural networks</dd></div>
+          <div><dt>Find me</dt><dd><a href="https://github.com/bgreg">GitHub</a> &middot; <a href="https://www.linkedin.com/in/greg-mcguirk">LinkedIn</a> &middot; <a href="mailto:froze-borough.3f@icloud.com">Email</a></dd></div>
+        </dl>
+      </aside>
+    </div>
   </section>
 
   <section id="experience" class="experience">
@@ -229,5 +234,107 @@
       <p>&copy; <span id="year"></span> Greg McGuirk</p>
       <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
   </footer>
+
+  <script>
+    (function () {
+      var nameEl = document.querySelector(".hero h1");
+      if (!nameEl) return;
+
+      var words = [
+        "AIEEE!", "AIIEEE!", "ARRGH!", "ARRGGHH!", "AWK!", "AWKKKKKK!", "BAM!", "BANG!", "BANG-ETH!", "BIFF!",
+        "BLOOP!", "BLURP!", "BOFF!", "BONK!", "BONG!", "BOOM!", "CLANK!", "CLANK-EST!", "CLASH!", "CLICK!",
+        "CLUNK!", "CLUNK-ETH!", "CRACK!", "CRAAACK!", "CRASH!", "CRRAAACK!", "CRUNCH!", "CRUNCH-ETH!", "EEE-YOW!",
+        "FLRBBBBB!", "GLIPP!", "GLURPP!", "HURT!", "KAPOW!", "KAYO!", "KER-SPLOOSH!", "KER-PLOP!", "KLONK!",
+        "KLUNK!", "KRUNCH!", "OOOFF!", "OOOOFF!", "OUCH!", "OUCH-ETH!", "OWWW!", "PAM!", "PLOP!", "POW!", "POWIE!",
+        "QUNCKKK!", "RAKKK!", "RIP!", "SLOSH!", "SMASH!", "SNAP!", "SOCK!", "SPLAAT!", "SPLATS!", "SPLATT!",
+        "SPLOOSH!", "SWAAP!", "SWISH!", "SWOOSH!", "THUNK!", "THWACK!", "THWACKE!", "THWAP!", "THWAPE!", "THWAPP!",
+        "TOUCHE!", "UGGH!", "URKK!", "URKKK!", "VRONK!", "WHAM!", "WHACK!", "WHACK-ETH!", "WHAM-ETH!", "WHAMM!",
+        "WHAMMM!", "WHAP!", "Z-ZWAP!", "ZAM!", "ZAMM!", "ZAP!", "ZAP-ETH!", "ZGRUPPP!", "ZLONK!", "ZLOPP!",
+        "ZLOTT!", "ZOK!", "ZOWIE!", "ZWAPP!", "ZZONK!", "ZZWAP!", "ZZZZWAP!", "ZZZZZWAP!", "ZZZZZZWAP!"
+      ];
+      var colors = ["#FFD700", "#FF6B6B", "#00BFFF", "#32CD32", "#FF4500", "#E91E63", "#9B59B6", "#FF69B4", "#00FF7F", "#FFA500"];
+      var burstFills = ["#FFD700", "#FFA500", "#FF8C00", "#FFB347", "#FFCC33"];
+      var GAP = 25;
+      var SVG_NS = "http://www.w3.org/2000/svg";
+
+      function generateBurst(numPoints) {
+        var coords = [];
+        for (var i = 0; i < numPoints * 2; i++) {
+          var angle = (Math.PI * i) / numPoints - Math.PI / 2;
+          var r = i % 2 === 0 ? 46 : 22;
+          var jitter = 0.88 + Math.random() * 0.24;
+          coords.push(
+            (50 + r * jitter * Math.cos(angle)).toFixed(1) + "," +
+            (50 + r * jitter * Math.sin(angle)).toFixed(1)
+          );
+        }
+        return coords.join(" ");
+      }
+
+      function burst(clientX, clientY) {
+        var word = words[Math.floor(Math.random() * words.length)];
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        var burstFill = burstFills[Math.floor(Math.random() * burstFills.length)];
+        var size = 28 + Math.floor(Math.random() * 13);
+        var rot = -15 + Math.random() * 30;
+        var numPoints = 9 + Math.floor(Math.random() * 4);
+
+        var placeRight = clientX < window.innerWidth / 2;
+        var x = placeRight ? clientX + GAP : clientX - GAP;
+        var tx = placeRight ? "0%" : "-100%";
+        var base = "translate(" + tx + ", -50%) rotate(" + rot + "deg)";
+
+        var wrapper = document.createElement("div");
+        wrapper.style.cssText =
+          "position:fixed;left:" + x + "px;top:" + clientY + "px;" +
+          "z-index:999999;pointer-events:none;transform:" + base + " scale(1);";
+
+        var svgSize = size * 5;
+        var svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("viewBox", "0 0 100 100");
+        svg.setAttribute("width", svgSize);
+        svg.setAttribute("height", svgSize);
+        svg.style.cssText = "position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);opacity:0.5;";
+
+        var poly = document.createElementNS(SVG_NS, "polygon");
+        poly.setAttribute("points", generateBurst(numPoints));
+        poly.setAttribute("fill", burstFill);
+        poly.setAttribute("stroke", "#000");
+        poly.setAttribute("stroke-width", "1.5");
+        poly.setAttribute("stroke-linejoin", "round");
+        svg.appendChild(poly);
+
+        var textEl = document.createElement("span");
+        textEl.textContent = word;
+        textEl.style.cssText =
+          "position:relative;font-family:Impact,sans-serif;font-size:" + size + "px;color:" + color + ";" +
+          "text-shadow:2px 2px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000;white-space:nowrap;";
+
+        wrapper.appendChild(svg);
+        wrapper.appendChild(textEl);
+        document.body.appendChild(wrapper);
+        wrapper.animate(
+          [
+            { opacity: 1, transform: base + " scale(1)" },
+            { opacity: 0, transform: base + " scale(2)" }
+          ],
+          { duration: 900, easing: "ease-out", fill: "forwards" }
+        );
+        setTimeout(function () { wrapper.remove(); }, 960);
+      }
+
+      function onClick(e) {
+        burst(e.clientX, e.clientY);
+      }
+
+      nameEl.addEventListener("click", function (e) {
+        e.stopPropagation();
+        if (window.__holyClicksOn) return;
+        window.__holyClicksOn = true;
+        document.addEventListener("click", onClick, true);
+        burst(e.clientX, e.clientY);
+      });
+    })();
+  </script>
 </body>
 </html>
