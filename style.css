@@ -426,6 +426,93 @@ h2 {
   border-radius: 4px;
 }
 
+/* ---------- Games ---------- */
+.game {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.game[open] {
+  border-color: var(--border-strong);
+}
+
+.game-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.5rem;
+  border-radius: 10px;
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.game-summary::-webkit-details-marker {
+  display: none;
+}
+
+.game-summary:hover {
+  background: var(--surface-2);
+}
+
+.game-title::before {
+  content: "// ";
+  color: var(--accent);
+}
+
+.game-summary::after {
+  content: "play \25B8";
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.game-summary:hover::after {
+  color: var(--accent);
+}
+
+.game[open] .game-summary::after {
+  content: "playing";
+  color: var(--accent);
+}
+
+.game-body {
+  padding: 0 1.5rem 1.5rem;
+}
+
+.game-desc {
+  font-size: 0.92rem;
+  color: var(--secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  text-wrap: pretty;
+}
+
+.game-desc b {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.game-body .tags {
+  margin-bottom: 1.2rem;
+}
+
+.game-frame {
+  display: block;
+  width: 480px;
+  max-width: 100%;
+  height: 320px;
+  margin: 0 auto;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: #eee;
+}
+
 /* ---------- Community ---------- */
 .community-grid {
   display: grid;
