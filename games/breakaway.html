@@ -51,11 +51,16 @@
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
     document.addEventListener("mousemove", mouseMoveHandler, false);
+    canvas.addEventListener("mousedown", startHandler, false);
+
+    function startHandler() {
+      readyToPlay = true;
+    }
 
     function keyDownHandler(e) {
       if(e.keyCode == 39) {
         rightPressed = true;
-      }else if(e.keyCode == 83) { // S
+      }else if(e.keyCode == 83 || e.keyCode == 32) { // S or Space
         readyToPlay = true;
       }else if(e.keyCode == 37) {
         leftPressed = true;
@@ -218,6 +223,19 @@
         setBricks();
       }
 
+      function drawStartScreen() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = gameColor;
+        ctx.textAlign = "center";
+        ctx.font = "28px Arial";
+        ctx.fillText("BREAKAWAY", canvas.width / 2, canvas.height / 2 - 30);
+        ctx.font = "16px Arial";
+        ctx.fillText("Click or press S to start", canvas.width / 2, canvas.height / 2 + 5);
+        ctx.font = "12px Arial";
+        ctx.fillText("Move: mouse or arrow keys    Pause: P", canvas.width / 2, canvas.height / 2 + 35);
+        ctx.textAlign = "left";
+      }
+
       function draw() {
         if(pause == false ) {
           if (readyToPlay) {
@@ -240,6 +258,8 @@
               }
               restart();
             }
+          } else {
+            drawStartScreen();
           }
         }else {
           drawPause();
