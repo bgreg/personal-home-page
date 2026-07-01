@@ -27,6 +27,12 @@ html {
   --display: "Space Grotesk", system-ui, sans-serif;
   --body: "Inter", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  /* Fluid type scale */
+  --fs-hero: clamp(3.5rem, 11vw, 7.5rem);
+  --fs-h2: clamp(1.6rem, 4vw, 2.2rem);
+  --fs-h3: 1.2rem;
+  --fs-lede: clamp(1.1rem, 2.2vw, 1.4rem);
+  --fs-body: 1.08rem;
 }
 
 body {
@@ -168,7 +174,7 @@ section {
 .hero h1 {
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(3.5rem, 11vw, 7.5rem);
+  font-size: var(--fs-hero);
   line-height: 1;
   letter-spacing: -0.03em;
   margin: 1.2rem 0 1.6rem;
@@ -182,7 +188,7 @@ section {
 }
 
 .lede {
-  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  font-size: var(--fs-lede);
   color: var(--secondary);
   max-width: 42ch;
   margin-inline: auto;
@@ -270,8 +276,9 @@ section {
 h2 {
   font-family: var(--display);
   font-weight: 600;
-  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-size: var(--fs-h2);
   letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 /* ---------- About ---------- */
@@ -288,10 +295,11 @@ h2 {
 }
 
 .about p {
-  font-size: 1.08rem;
+  font-size: var(--fs-body);
   color: var(--secondary);
   max-width: 68ch;
   line-height: 1.75;
+  text-wrap: pretty;
 }
 
 .about p + p {
@@ -330,9 +338,10 @@ h2 {
 
 .timeline-content h3 {
   font-family: var(--display);
-  font-size: 1.2rem;
+  font-size: var(--fs-h3);
   font-weight: 500;
   letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
 .timeline-company {
@@ -364,12 +373,15 @@ h2 {
   border-radius: 10px;
   text-decoration: none;
   color: var(--text);
-  transition: border-color 0.2s, transform 0.15s;
+  translate: 0;
+  transition: border-color 0.2s, background 0.2s, translate 0.2s ease, box-shadow 0.2s ease;
 }
 
 .project-card:hover {
   border-color: var(--accent);
-  transform: translateY(-3px);
+  background: var(--surface-2);
+  translate: 0 -4px;
+  box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--accent-dim);
 }
 
 .project-card h3 {
@@ -377,11 +389,17 @@ h2 {
   font-size: 1rem;
   font-weight: 500;
   margin-bottom: 0.6rem;
+  text-wrap: balance;
 }
 
 .project-card h3::before {
   content: "// ";
   color: var(--accent);
+  transition: color 0.2s;
+}
+
+.project-card:hover h3::before {
+  color: var(--accent-bright);
 }
 
 .project-card p {
@@ -389,6 +407,7 @@ h2 {
   color: var(--secondary);
   margin-bottom: 1.1rem;
   line-height: 1.6;
+  text-wrap: pretty;
 }
 
 .tags {
@@ -422,9 +441,11 @@ h2 {
 
 .community-card h3 {
   font-family: var(--display);
-  font-size: 1.15rem;
+  font-size: var(--fs-h3);
   font-weight: 500;
+  letter-spacing: -0.01em;
   margin-bottom: 0.5rem;
+  text-wrap: balance;
 }
 
 .community-role {
@@ -448,6 +469,7 @@ h2 {
   color: var(--secondary);
   line-height: 1.65;
   margin-top: 0.9rem;
+  text-wrap: pretty;
 }
 
 /* ---------- Contact ---------- */
