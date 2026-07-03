@@ -1,404 +1,444 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="dark">
-  <meta name="description" content="Greg McGuirk is a senior software engineer specializing in Ruby, Rails, TypeScript,
-      Postgres, distributed architectures, job systems, and people first software.">
-  <title>Greg McGuirk</title>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <nav aria-label="Primary">
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#games">Games</a></li>
-        <li><a href="#community">Community</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="Greg McGuirk is a senior software engineer specializing in Ruby, Rails, TypeScript,
+      Postgres, distributed architectures, job systems, and people first software."
+    />
+    <title>Greg McGuirk</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#about">about</a></li>
+          <li><a href="#projects">projects</a></li>
+          <li><a href="#games">games</a></li>
+          <li><a href="#experience">experience</a></li>
+          <li><a href="#community">community</a></li>
+          <li><a href="#contact">contact</a></li>
+        </ul>
+      </nav>
+    </header>
 
-  <main>
+    <main>
+      <section class="hero">
+        <div class="orbit" aria-hidden="true"><div class="orbit-sat"></div></div>
+        <div class="star star-1" aria-hidden="true"></div>
+        <div class="star star-2" aria-hidden="true"></div>
+        <div class="hero-inner">
+          <div class="eyebrow">&#9737; sol &middot; G2V &middot; &minus;26.7 mag &middot; 1 AU</div>
+          <h1>Greg McGuirk</h1>
+          <ul class="pills">
+            <li class="pill"><b>13+</b> years</li>
+            <li class="pill">ex&middot;Apple &middot; ex&middot;Unity</li>
+            <li class="pill">Ruby &middot; TypeScript &middot; Golang &middot; Python</li>
+          </ul>
+          <div class="cta-row">
+            <a class="btn btn-ghost" href="#projects">[ projects ]</a>
+            <a class="btn btn-ghost" href="#contact">[ contact ]</a>
+          </div>
+        </div>
+      </section>
 
-  <section class="hero">
-    <div class="hero-intro">
-      <h1>Greg McGuirk</h1>
-    </div>
-    <div class="hero-main">
-      <p class="lede">I turn rough ideas into tools people enjoy using, and write code that stays manageable for years.</p>
-      <ul class="pills">
-        <li class="pill"><b>13+</b> years</li>
-        <li class="pill">ex-Apple &middot; ex-Unity</li>
-        <li class="pill">Ruby &middot; TypeScript &middot; Golang &middot; Python</li>
-      </ul>
-      <div class="cta-row">
-        <a class="btn btn-ghost" href="#projects">[ see projects ]</a>
-        <a class="btn btn-ghost" href="#contact">[ contact ]</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="about" class="about">
-    <div class="section-head"><span class="idx">00</span><h2>About</h2></div>
-    <div class="about-grid">
-      <div class="about-text">
-      <p>
-      I'm a senior software engineer who likes turning rough ideas into tools people enjoy using. My background is Ruby, though more of my recent work is in TypeScript. No matter the environment, I always strive to write code that
-      stays manageable for years. Hand me a messy problem and I'll find the edge cases nobody flagged and leave behind
-      something the team can build on without me. I've led cross-functional teams, mentored junior engineers, and pushed
-      for practices that outlast whoever introduced them.
-    </p>
-    <p>
-      Outside of work I run Ruby meetups and lead technical book clubs, because I want more people to feel like they
-      belong in tech. I also make shoes and tend bar, slow crafts where the details are the whole job and you can't rush
-      getting good. The same instinct carries into my code: get the small things right and the whole thing feels better
-      to use.
-    </p>
-    <p>
-      Lately most of my curiosity goes into AI, how it's built, and how its adoption is changing the way we build
-      software. I've put frontier models into production at real scale, and reshaped my own workflow around agentic
-      tools that keep me in the loop.
-    </p>
-      </div>
-      <aside class="colophon" aria-label="At a glance">
-        <dl>
-          <div><dt>Name</dt><dd>Greg McGuirk</dd></div>
-          <div><dt>Focus</dt><dd>Senior / Lead IC, Rails &amp; TypeScript</dd></div>
-          <div><dt>Lately</dt><dd>Shipping frontier AI at real scale</dd></div>
-          <div><dt>Also</dt><dd>Runs technical book clubs, makes shoes, tends bar, roller skates backwards, enjoys mochi waffles</dd></div>
-          <div><dt>Learning</dt><dd>Quantum computing, Neural networks</dd></div>
-          <div><dt>Find me</dt><dd><a href="https://github.com/bgreg">GitHub</a> &middot; <a href="https://www.linkedin.com/in/greg-mcguirk">LinkedIn</a> &middot; <a href="mailto:froze-borough.3f@icloud.com">Email</a></dd></div>
-        </dl>
-      </aside>
-    </div>
-  </section>
-
-  <section id="experience" class="experience">
-    <div class="section-head"><span class="idx">01</span><h2>Experience</h2></div>
-    <div class="timeline">
-      <div class="timeline-entry">
-        <span class="timeline-date">2021 &ndash; Present</span>
-        <div class="timeline-content">
-          <h3>Technical Lead and Senior Software Engineer</h3>
-          <p class="timeline-company">Facet Digital</p>
+      <section id="about" class="about">
+        <div class="section-head">
+          <span class="idx">00</span>
+          <h2>About</h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-text">
             <p>
-              Drove legacy-to-modern migrations through a zero-downtime platform migration off an Oracle SQL
-              / Java stack to Ruby, React, and TypeScript. It was launched in 14 countries on day one, and generated
-              profits immediately.
+              I'm a senior software engineer who likes turning rough ideas into
+              tools people enjoy using. My background is Ruby, though more of my
+              recent work is in TypeScript. No matter the environment, I always
+              strive to write code that stays manageable for years. Hand me a
+              messy problem and I'll find the edge cases nobody flagged and
+              leave behind something the team can build on without me. I've led
+              cross-functional teams, mentored junior engineers, and pushed for
+              practices that outlast whoever introduced them.
             </p>
-        </div>
-      </div>
-      <div class="timeline-entry">
-        <span class="timeline-date">2019 &ndash; 2021</span>
-        <div class="timeline-content">
-          <h3>Senior Software Engineer and Team Lead</h3>
-          <p class="timeline-company">Omada Health</p>
             <p>
-              Led modernization of the Rails outcomes-based billing system on the company's revenue-critical path.
-              I architected a scalable Amazon SNS messaging layer for real-time integrations, and built a CI-driven
-              billing verification system that gated releases on financial accuracy.
+              Outside of work I run Ruby meetups and lead technical book clubs,
+              because I want more people to feel like they belong in tech. I
+              also make shoes and tend bar, slow crafts where the details are
+              the whole job and you can't rush getting good. The same instinct
+              carries into my code: get the small things right and the whole
+              thing feels better to use.
             </p>
-        </div>
-      </div>
-      <div class="timeline-entry">
-        <span class="timeline-date">2018 &ndash; 2019</span>
-        <div class="timeline-content">
-          <h3>Senior Software Engineer</h3>
-          <p class="timeline-company">Apple</p>
-          <p>
-              Built internal Ruby on Rails and JavaScript tooling used daily by the Apple Maps developers and SRE teams in
-              a zero-downtime, high-security environment. Owned the full tooling lifecycle and led new-hire engineering
-              training and intern cohorts.
+            <p>
+              Lately most of my curiosity goes into AI, how it's built, and how
+              its adoption is changing the way we build software. I've put
+              frontier models into production at real scale, and reshaped my own
+              workflow around agentic tools that keep me in the loop.
             </p>
+          </div>
+          <aside class="colophon" aria-label="At a glance">
+            <dl>
+              <div>
+                <dt>Name</dt>
+                <dd>Greg McGuirk</dd>
+              </div>
+              <div>
+                <dt>Focus</dt>
+                <dd>Senior / Lead IC, Rails &amp; TypeScript</dd>
+              </div>
+              <div>
+                <dt>Lately</dt>
+                <dd>Shipping frontier AI at real scale</dd>
+              </div>
+              <div>
+                <dt>Also</dt>
+                <dd>
+                  Runs technical book clubs, makes shoes, tends bar, roller
+                  skates backwards, enjoys mochi waffles
+                </dd>
+              </div>
+              <div>
+                <dt>Learning</dt>
+                <dd>Quantum computing, Neural networks</dd>
+              </div>
+              <div>
+                <dt>Find me</dt>
+                <dd>
+                  <a href="https://github.com/bgreg">GitHub</a> &middot;
+                  <a href="https://www.linkedin.com/in/greg-mcguirk"
+                    >LinkedIn</a
+                  >
+                  &middot;
+                  <a href="mailto:froze-borough.3f@icloud.com">Email</a>
+                </dd>
+              </div>
+            </dl>
+          </aside>
         </div>
-      </div>
-      <div class="timeline-entry">
-        <span class="timeline-date">2016 &ndash; 2018</span>
-        <div class="timeline-content">
-          <h3>Lead Software Engineer</h3>
-          <p class="timeline-company">Unity Technologies</p>
-          <p>
-              Tech lead and primary developer reporting to Unity's Chief of Security. Built a global office
-              visitor-tracking system across 27 offices, a large-scale anti-malware API securing the Unity Asset
-              Store, an infrastructure and ownership aware vulnerability tracking system to enforce SLAs,
-              and stood up the security engineering team from scratch.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <section id="projects" class="projects">
-    <div class="section-head"><span class="idx">02</span><h2>Projects</h2></div>
-    <div class="grid">
-      <a href="https://github.com/bgreg/rails-on-rails/" class="project-card">
-        <h3>Rails On Rails</h3>
-        <p>
-          A Rails 8 application that serves source-cited chatbot answers about Rails and the Ruby language, grounded in a Postgres + pgvector.
-          Every answer can trace back to an exact source of truth.
-        </p>
-        <div class="tags">
-          <span class="tag">Rails</span>
-          <span class="tag">Ruby</span>
-          <span class="tag">RAG</span>
-          <span class="tag">LLM</span>
-          <span class="tag">Open Source</span>
+      <section id="projects" class="projects">
+        <div class="section-head">
+          <span class="idx">01</span>
+          <h2>Projects</h2>
         </div>
-      </a>
-      <a href="https://github.com/bgreg/claude-explorer-extension-vscode" class="project-card">
-        <h3>Claude Explorer (VS Code)</h3>
-        <p>VS Code extension providing a filtered tree view for Claude configuration files and .claude paths.</p>
-        <div class="tags">
-          <span class="tag">TypeScript</span>
-          <span class="tag">VS Code API</span>
-          <span class="tag">Open Source</span>
+        <div class="grid">
+          <a
+            href="https://github.com/bgreg/rails-on-rails/"
+            class="project-card"
+          >
+            <h3>Rails On Rails</h3>
+            <p>
+              A Rails 8 chatbot that answers Rails and Ruby questions with
+              sources you can trace.
+            </p>
+            <div class="tags">
+              <span class="tag">Rails</span>
+              <span class="tag">Ruby</span>
+              <span class="tag">RAG</span>
+              <span class="tag">LLM</span>
+              <span class="tag">Open Source</span>
+            </div>
+          </a>
+          <a
+            href="https://github.com/bgreg/claude-explorer-extension-vscode"
+            class="project-card"
+          >
+            <h3>Claude Explorer (VS Code)</h3>
+            <p>
+              A VS Code extension that shows a filtered tree view of your Claude
+              config files.
+            </p>
+            <div class="tags">
+              <span class="tag">TypeScript</span>
+              <span class="tag">VS Code API</span>
+              <span class="tag">Open Source</span>
+            </div>
+          </a>
+          <a
+            href="https://github.com/bgreg/goodmorning-script"
+            class="project-card"
+          >
+            <h3>goodmorning-script</h3>
+            <p>
+              A terminal tool that gathers your calendar, weather, and system
+              status into one morning briefing.
+            </p>
+            <div class="tags">
+              <span class="tag">Zsh</span>
+              <span class="tag">ShellSpec</span>
+              <span class="tag">macOS</span>
+            </div>
+          </a>
+          <a href="https://github.com/bgreg/holy-clicks" class="project-card">
+            <h3>Holy Clicks!</h3>
+            <p>
+              A Chrome extension that stamps retro comic-book sound effects at
+              your cursor on every click.
+            </p>
+            <div class="tags">
+              <span class="tag">JavaScript</span>
+              <span class="tag">Chrome Extension</span>
+              <span class="tag">Open Source</span>
+            </div>
+          </a>
+          <a href="https://github.com/bgreg/config-tester" class="project-card">
+            <h3>config-tester</h3>
+            <p>
+              A terminal UI that tests Claude Code configurations and judges the
+              results with an LLM.
+            </p>
+            <div class="tags">
+              <span class="tag">Go</span>
+              <span class="tag">TUI</span>
+              <span class="tag">LLM-as-judge</span>
+              <span class="tag">Open Source</span>
+            </div>
+          </a>
+          <a
+            href="https://github.com/bgreg/moe-peer-review"
+            class="project-card"
+          >
+            <h3>moe-peer-review</h3>
+            <p>
+              A Claude Code plugin where nine expert personas debate your work
+              and return one prioritized verdict.
+            </p>
+            <div class="tags">
+              <span class="tag">Claude Code</span>
+              <span class="tag">Plugin</span>
+              <span class="tag">Code Review</span>
+              <span class="tag">Multi-Agent</span>
+              <span class="tag">Open Source</span>
+            </div>
+          </a>
+          <a
+            href="https://github.com/bgreg/document-audit"
+            class="project-card"
+          >
+            <h3>document-audit</h3>
+            <p>
+              A Claude Code pipeline that fact-checks a document and returns a
+              prioritized set of fixes.
+            </p>
+            <div class="tags">
+              <span class="tag">Claude Code</span>
+              <span class="tag">Plugin</span>
+              <span class="tag">Multi-Agent</span>
+              <span class="tag">Auditing</span>
+              <span class="tag">Open Source</span>
+            </div>
+          </a>
+          <a href="https://github.com/bgreg/claude-reload" class="project-card">
+            <h3>claude-reload</h3>
+            <p>
+              Reloads Claude Code mid-session to pick up config changes without
+              losing your conversation.
+            </p>
+            <div class="tags">
+              <span class="tag">Claude Code</span>
+              <span class="tag">Shell</span>
+              <span class="tag">Bash</span>
+              <span class="tag">Dev Tools</span>
+              <span class="tag">Open Source</span>
+            </div>
+          </a>
         </div>
-      </a>
-      <a href="https://github.com/bgreg/goodmorning-script" class="project-card">
-        <h3>goodmorning-script</h3>
-        <p>Terminal-based daily briefing tool. Pulls calendar, weather, and system status into a single morning summary.</p>
-        <div class="tags">
-          <span class="tag">Zsh</span>
-          <span class="tag">ShellSpec</span>
-          <span class="tag">macOS</span>
-        </div>
-      </a>
-      <a href="https://github.com/bgreg/holy-clicks" class="project-card">
-        <h3>Holy Clicks!</h3>
-        <p>Chrome extension that stamps retro comic-book sound effects (POW!, ZAP!, BAM!) at the cursor on every click. Toggle it on or off from the toolbar.</p>
-        <div class="tags">
-          <span class="tag">JavaScript</span>
-          <span class="tag">Chrome Extension</span>
-          <span class="tag">Open Source</span>
-        </div>
-      </a>
-      <a href="https://github.com/bgreg/config-tester" class="project-card">
-        <h3>config-tester</h3>
-        <p>Terminal UI that tests Claude Code configurations (rules, skills, hooks, settings) by running prompts through the claude CLI and judging the output with an LLM.</p>
-        <div class="tags">
-          <span class="tag">Go</span>
-          <span class="tag">TUI</span>
-          <span class="tag">LLM-as-judge</span>
-          <span class="tag">Open Source</span>
-        </div>
-      </a>
-      <a href="https://github.com/bgreg/moe-peer-review" class="project-card">
-        <h3>moe-peer-review</h3>
-        <p>A Mixture of Experts peer-review plugin for Claude Code. Nine specialized personas (eight reviewers and a moderator) debate your designs, docs, or plans across multiple rounds, then produce a prioritized verdict.</p>
-        <div class="tags">
-          <span class="tag">Claude Code</span>
-          <span class="tag">Plugin</span>
-          <span class="tag">Code Review</span>
-          <span class="tag">Multi-Agent</span>
-          <span class="tag">Open Source</span>
-        </div>
-      </a>
-      <a href="https://github.com/bgreg/document-audit" class="project-card">
-        <h3>document-audit</h3>
-        <p>A six-agent document audit pipeline for Claude Code. It verifies every number against evidence, challenges every hedge, reads the text as hostile opposing counsel, then synthesizes a prioritized changeset and a corrected draft.</p>
-        <div class="tags">
-          <span class="tag">Claude Code</span>
-          <span class="tag">Plugin</span>
-          <span class="tag">Multi-Agent</span>
-          <span class="tag">Auditing</span>
-          <span class="tag">Open Source</span>
-        </div>
-      </a>
-      <a href="https://github.com/bgreg/claude-reload" class="project-card">
-        <h3>claude-reload</h3>
-        <p>Reload Claude Code mid-session to pick up config, plugin, and rule changes without losing your conversation. A /reload command signals a watcher script that relaunches Claude and continues the same thread.</p>
-        <div class="tags">
-          <span class="tag">Claude Code</span>
-          <span class="tag">Shell</span>
-          <span class="tag">Bash</span>
-          <span class="tag">Dev Tools</span>
-          <span class="tag">Open Source</span>
-        </div>
-      </a>
-    </div>
-  </section>
+      </section>
 
-  <section id="games" class="games">
-    <div class="section-head"><span class="idx">03</span><h2>Games</h2></div>
-    <details class="game">
-      <summary class="game-summary"><span class="game-title">Breakaway</span></summary>
-      <div class="game-body">
-        <p class="game-desc">A browser Breakout clone adapted from the classic MDN canvas tutorial. Click the board or press <b>S</b> to start; move the paddle with your <b>mouse</b> or the <b>arrow keys</b>; press <b>P</b> to pause.</p>
-        <div class="tags">
-          <span class="tag">JavaScript</span>
-          <span class="tag">Canvas</span>
-          <span class="tag">Game</span>
-          <span class="tag">Open Source</span>
+      <section id="games" class="games">
+        <div class="section-head">
+          <span class="idx">02</span>
+          <h2>Games</h2>
         </div>
-        <iframe class="game-frame" src="games/breakaway.html" title="Breakaway — a Breakout clone" width="480" height="320" loading="lazy"></iframe>
+        <div class="games-list">
+          <details class="game">
+            <summary class="game-summary">
+              <span class="slashes">//</span> Breakaway
+            </summary>
+            <div class="game-body">
+              <p class="game-desc">
+                A browser Breakout clone. Click the board or press <b>S</b> to
+                start; move the paddle with your <b>mouse</b> or the
+                <b>arrow keys</b>; press <b>P</b> to pause.
+              </p>
+              <div class="tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">Canvas</span>
+                <span class="tag">Game</span>
+                <span class="tag">Open Source</span>
+              </div>
+              <iframe
+                class="game-frame"
+                src="games/breakaway.html"
+                title="Breakaway — a Breakout clone"
+                width="480"
+                height="320"
+                loading="lazy"
+              ></iframe>
+            </div>
+          </details>
+          <details class="game">
+            <summary class="game-summary">
+              <span class="slashes">//</span> Snake
+            </summary>
+            <div class="game-body">
+              <p class="game-desc">
+                The classic Snake. Click the board or press <b>S</b> to start;
+                steer with the <b>arrow keys</b>; eat food to grow; don't hit
+                the walls or yourself; press <b>P</b> to pause.
+              </p>
+              <div class="tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">Canvas</span>
+                <span class="tag">Game</span>
+                <span class="tag">Open Source</span>
+              </div>
+              <iframe
+                class="game-frame"
+                src="games/snake.html"
+                title="Snake, the classic arcade game"
+                width="480"
+                height="320"
+                loading="lazy"
+              ></iframe>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section id="experience" class="experience">
+        <div class="section-head">
+          <span class="idx">03</span>
+          <h2>Experience</h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline-entry">
+            <span class="timeline-date">2021 &ndash; Present</span>
+            <div class="timeline-content">
+              <h3>Technical Lead and Senior Software Engineer</h3>
+              <p class="timeline-company">Facet Digital</p>
+              <p>
+                Led a zero-downtime platform migration to Ruby, React, and
+                TypeScript that launched in 14 countries on day one.
+              </p>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <span class="timeline-date">2019 &ndash; 2021</span>
+            <div class="timeline-content">
+              <h3>Senior Software Engineer and Team Lead</h3>
+              <p class="timeline-company">Omada Health</p>
+              <p>
+                Modernized the Rails billing system on the company's
+                revenue-critical path.
+              </p>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <span class="timeline-date">2018 &ndash; 2019</span>
+            <div class="timeline-content">
+              <h3>Senior Software Engineer</h3>
+              <p class="timeline-company">Apple</p>
+              <p>
+                Built internal Rails and JavaScript tooling used daily by Apple
+                Maps developers and SRE teams.
+              </p>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <span class="timeline-date">2016 &ndash; 2018</span>
+            <div class="timeline-content">
+              <h3>Lead Software Engineer</h3>
+              <p class="timeline-company">Unity Technologies</p>
+              <p>
+                Built security tooling across Unity's 27 offices and stood up
+                the security engineering team from scratch.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="community" class="community">
+        <div class="section-head">
+          <span class="idx">04</span>
+          <h2>Community</h2>
+        </div>
+        <div class="community-grid">
+          <div class="community-card">
+            <h3>The Ruby Workshop</h3>
+            <span class="community-role">Founder</span>
+            <span class="community-dates">2014 &ndash; 2017</span>
+            <p>Founded a collaborative learning community for Ruby developers.</p>
+          </div>
+          <div class="community-card">
+            <h3>RailsBridge</h3>
+            <span class="community-role">Teacher</span>
+            <p>
+              Taught free workshops bringing underrepresented groups into the
+              Ruby and Rails ecosystem.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="contact">
+        <div class="section-head">
+          <span class="idx">05</span>
+          <h2>Contact</h2>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:froze-borough.3f@icloud.com">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path
+                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+              />
+            </svg>
+            Email
+          </a>
+          <a href="https://github.com/bgreg">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path
+                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+              />
+            </svg>
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/greg-mcguirk">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"
+              />
+            </svg>
+            LinkedIn
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="atmo" aria-hidden="true"></div>
+      <div class="atmo-gold" aria-hidden="true"></div>
+      <div class="planet" aria-hidden="true">
+        <div class="planet-bands"></div>
+        <div class="planet-lit"></div>
+        <div class="planet-term"></div>
+        <div class="planet-mottle"></div>
       </div>
-    </details>
-    <details class="game">
-      <summary class="game-summary"><span class="game-title">Snake</span></summary>
-      <div class="game-body">
-        <p class="game-desc">The classic Snake. Click the board or press <b>S</b> to start; steer with the <b>arrow keys</b>; eat food to grow; don't hit the walls or yourself; press <b>P</b> to pause.</p>
-        <div class="tags">
-          <span class="tag">JavaScript</span>
-          <span class="tag">Canvas</span>
-          <span class="tag">Game</span>
-          <span class="tag">Open Source</span>
-        </div>
-        <iframe class="game-frame" src="games/snake.html" title="Snake, the classic arcade game" width="480" height="320" loading="lazy"></iframe>
-      </div>
-    </details>
-  </section>
-
-  <section id="community" class="community">
-    <div class="section-head"><span class="idx">04</span><h2>Community</h2></div>
-    <div class="community-grid">
-      <div class="community-card">
-        <h3>The Ruby Workshop</h3>
-        <span class="community-role">Founder</span>
-        <span class="community-dates">2014 &ndash; 2017</span>
-        <p>Founded a collaborative learning community for Ruby developers producing interactive study guides and group learning sessions.</p>
-      </div>
-      <div class="community-card">
-        <h3>RailsBridge</h3>
-        <span class="community-role">Teacher</span>
-        <p>Taught free workshops focused on increasing diversity in tech by bringing underrepresented groups into the Ruby and Rails ecosystem.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="contact">
-    <div class="section-head"><span class="idx">05</span><h2>Contact</h2></div>
-    <div class="contact-links">
-      <a href="mailto:froze-borough.3f@icloud.com">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-        Email
-      </a>
-      <a href="https://github.com/bgreg">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-        GitHub
-      </a>
-      <a href="https://www.linkedin.com/in/greg-mcguirk">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-  </section>
-
-  </main>
-
-  <footer>
       <p>&copy; <span id="year"></span> Greg McGuirk</p>
-      <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
-  </footer>
-
-  <script>
-    (function () {
-      var nameEl = document.querySelector(".hero h1");
-      if (!nameEl) return;
-
-      var words = [
-        "AIEEE!", "AIIEEE!", "ARRGH!", "ARRGGHH!", "AWK!", "AWKKKKKK!", "BAM!", "BANG!", "BANG-ETH!", "BIFF!",
-        "BLOOP!", "BLURP!", "BOFF!", "BONK!", "BONG!", "BOOM!", "CLANK!", "CLANK-EST!", "CLASH!", "CLICK!",
-        "CLUNK!", "CLUNK-ETH!", "CRACK!", "CRAAACK!", "CRASH!", "CRRAAACK!", "CRUNCH!", "CRUNCH-ETH!", "EEE-YOW!",
-        "FLRBBBBB!", "GLIPP!", "GLURPP!", "HURT!", "KAPOW!", "KAYO!", "KER-SPLOOSH!", "KER-PLOP!", "KLONK!",
-        "KLUNK!", "KRUNCH!", "OOOFF!", "OOOOFF!", "OUCH!", "OUCH-ETH!", "OWWW!", "PAM!", "PLOP!", "POW!", "POWIE!",
-        "QUNCKKK!", "RAKKK!", "RIP!", "SLOSH!", "SMASH!", "SNAP!", "SOCK!", "SPLAAT!", "SPLATS!", "SPLATT!",
-        "SPLOOSH!", "SWAAP!", "SWISH!", "SWOOSH!", "THUNK!", "THWACK!", "THWACKE!", "THWAP!", "THWAPE!", "THWAPP!",
-        "TOUCHE!", "UGGH!", "URKK!", "URKKK!", "VRONK!", "WHAM!", "WHACK!", "WHACK-ETH!", "WHAM-ETH!", "WHAMM!",
-        "WHAMMM!", "WHAP!", "Z-ZWAP!", "ZAM!", "ZAMM!", "ZAP!", "ZAP-ETH!", "ZGRUPPP!", "ZLONK!", "ZLOPP!",
-        "ZLOTT!", "ZOK!", "ZOWIE!", "ZWAPP!", "ZZONK!", "ZZWAP!", "ZZZZWAP!", "ZZZZZWAP!", "ZZZZZZWAP!"
-      ];
-      var colors = ["#FFD700", "#FF6B6B", "#00BFFF", "#32CD32", "#FF4500", "#E91E63", "#9B59B6", "#FF69B4", "#00FF7F", "#FFA500"];
-      var burstFills = ["#FFD700", "#FFA500", "#FF8C00", "#FFB347", "#FFCC33"];
-      var GAP = 25;
-      var SVG_NS = "http://www.w3.org/2000/svg";
-
-      function generateBurst(numPoints) {
-        var coords = [];
-        for (var i = 0; i < numPoints * 2; i++) {
-          var angle = (Math.PI * i) / numPoints - Math.PI / 2;
-          var r = i % 2 === 0 ? 46 : 22;
-          var jitter = 0.88 + Math.random() * 0.24;
-          coords.push(
-            (50 + r * jitter * Math.cos(angle)).toFixed(1) + "," +
-            (50 + r * jitter * Math.sin(angle)).toFixed(1)
-          );
-        }
-        return coords.join(" ");
-      }
-
-      function burst(clientX, clientY) {
-        var word = words[Math.floor(Math.random() * words.length)];
-        var color = colors[Math.floor(Math.random() * colors.length)];
-        var burstFill = burstFills[Math.floor(Math.random() * burstFills.length)];
-        var size = 28 + Math.floor(Math.random() * 13);
-        var rot = -15 + Math.random() * 30;
-        var numPoints = 9 + Math.floor(Math.random() * 4);
-
-        var placeRight = clientX < window.innerWidth / 2;
-        var x = placeRight ? clientX + GAP : clientX - GAP;
-        var tx = placeRight ? "0%" : "-100%";
-        var base = "translate(" + tx + ", -50%) rotate(" + rot + "deg)";
-
-        var wrapper = document.createElement("div");
-        wrapper.style.cssText =
-          "position:fixed;left:" + x + "px;top:" + clientY + "px;" +
-          "z-index:999999;pointer-events:none;transform:" + base + " scale(1);";
-
-        var svgSize = size * 5;
-        var svg = document.createElementNS(SVG_NS, "svg");
-        svg.setAttribute("viewBox", "0 0 100 100");
-        svg.setAttribute("width", svgSize);
-        svg.setAttribute("height", svgSize);
-        svg.style.cssText = "position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);opacity:0.5;";
-
-        var poly = document.createElementNS(SVG_NS, "polygon");
-        poly.setAttribute("points", generateBurst(numPoints));
-        poly.setAttribute("fill", burstFill);
-        poly.setAttribute("stroke", "#000");
-        poly.setAttribute("stroke-width", "1.5");
-        poly.setAttribute("stroke-linejoin", "round");
-        svg.appendChild(poly);
-
-        var textEl = document.createElement("span");
-        textEl.textContent = word;
-        textEl.style.cssText =
-          "position:relative;font-family:Impact,sans-serif;font-size:" + size + "px;color:" + color + ";" +
-          "text-shadow:2px 2px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000;white-space:nowrap;";
-
-        wrapper.appendChild(svg);
-        wrapper.appendChild(textEl);
-        document.body.appendChild(wrapper);
-        wrapper.animate(
-          [
-            { opacity: 1, transform: base + " scale(1)" },
-            { opacity: 0, transform: base + " scale(2)" }
-          ],
-          { duration: 900, easing: "ease-out", fill: "forwards" }
-        );
-        setTimeout(function () { wrapper.remove(); }, 960);
-      }
-
-      function onClick(e) {
-        burst(e.clientX, e.clientY);
-      }
-
-      nameEl.addEventListener("click", function (e) {
-        e.stopPropagation();
-        if (window.__holyClicksOn) return;
-        window.__holyClicksOn = true;
-        document.addEventListener("click", onClick, true);
-        burst(e.clientX, e.clientY);
-      });
-    })();
-  </script>
-</body>
+      <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+      </script>
+    </footer>
+  </body>
 </html>
