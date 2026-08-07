@@ -324,6 +324,15 @@ h2 {
   backdrop-filter: blur(6px);
 }
 
+.portrait {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  margin-bottom: 1.4rem;
+}
+
 .colophon dl {
   display: flex;
   flex-direction: column;
