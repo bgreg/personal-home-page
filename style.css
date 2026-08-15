@@ -24,6 +24,13 @@ html {
   --accent-glow: rgba(103, 232, 249, 0.55);
   --gold: #f5c451;
   --green: #7ee0a8;
+  --pow-1: var(--accent);
+  --pow-2: var(--gold);
+  --pow-3: var(--green);
+  --pow-4: var(--text);
+  --burst-1: var(--gold);
+  --burst-2: var(--accent);
+  --burst-3: var(--green);
   --display: "Space Grotesk", system-ui, sans-serif;
   --body: "Inter", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
