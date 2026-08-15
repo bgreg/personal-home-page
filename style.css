@@ -724,6 +724,56 @@ footer p {
     radial-gradient(9% 3% at 33% 4%, rgba(255, 214, 150, 0.05), transparent 72%);
 }
 
+.pow {
+  position: fixed;
+  left: var(--pow-x);
+  top: var(--pow-y);
+  z-index: 999999;
+  pointer-events: none;
+  translate: var(--pow-tx) -50%;
+  rotate: var(--pow-rot);
+  scale: 1;
+  font-family: Impact, var(--display);
+  font-size: var(--pow-size);
+  color: var(--pow-color);
+  text-shadow:
+    2px 2px 0 #000,
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000;
+  white-space: nowrap;
+  animation: pow-pop 900ms ease-out forwards;
+  --animation-reduced: pow-fade 700ms ease-out forwards;
+}
+
+.pow svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--pow-size) * 5);
+  height: calc(var(--pow-size) * 5);
+  translate: -50% -50%;
+  opacity: 0.5;
+  fill: var(--pow-fill);
+  stroke: #000;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.pow span {
+  position: relative;
+}
+
+@keyframes pow-pop {
+  from { opacity: 1; scale: 1; }
+  to { opacity: 0; scale: 2; }
+}
+
+@keyframes pow-fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 /* ---------- Motion (opt-in) ---------- */
 @media (prefers-reduced-motion: no-preference) {
   .hero-inner > * {
@@ -735,13 +785,13 @@ footer p {
   .hero-inner > *:nth-child(4) { animation-delay: 0.24s; }
 
   @keyframes rise {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: none; }
+    from { opacity: 0; translate: 0 14px; }
+    to { opacity: 1; translate: none; }
   }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to { rotate: 360deg; }
 }
 
 @keyframes twinkle {
@@ -785,6 +835,12 @@ footer p {
   }
 }
 
+@property --animation-reduced {
+  syntax: "*";
+  inherits: false;
+  initial-value: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -793,8 +849,7 @@ footer p {
   *,
   *::before,
   *::after {
+    animation: var(--animation-reduced) !important;
     transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
   }
 }
