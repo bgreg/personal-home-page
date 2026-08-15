@@ -1,0 +1,59 @@
+:root {
+  --pow-1: var(--accent, #67e8f9);
+  --pow-2: var(--gold, #f5c451);
+  --pow-3: var(--green, #7ee0a8);
+  --pow-4: var(--text, #e8eef6);
+  --burst-1: var(--gold, #f5c451);
+  --burst-2: var(--accent, #67e8f9);
+  --burst-3: var(--green, #7ee0a8);
+}
+
+.pow {
+  position: fixed;
+  left: var(--pow-x);
+  top: var(--pow-y);
+  z-index: 999999;
+  pointer-events: none;
+  translate: var(--pow-tx) -50%;
+  rotate: var(--pow-rot);
+  scale: 1;
+  font-family: Impact, var(--display, sans-serif);
+  font-size: var(--pow-size);
+  color: var(--pow-color);
+  text-shadow:
+    2px 2px 0 #000,
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000;
+  white-space: nowrap;
+  animation: pow-pop 900ms ease-out forwards;
+  --animation-reduced: pow-fade 700ms ease-out forwards;
+}
+
+.pow svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--pow-size) * 5);
+  height: calc(var(--pow-size) * 5);
+  translate: -50% -50%;
+  opacity: 0.5;
+  fill: var(--pow-fill);
+  stroke: #000;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.pow span {
+  position: relative;
+}
+
+@keyframes pow-pop {
+  from { opacity: 1; scale: 1; }
+  to { opacity: 0; scale: 2; }
+}
+
+@keyframes pow-fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
