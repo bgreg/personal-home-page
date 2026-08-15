@@ -210,7 +210,6 @@ section {
   letter-spacing: -0.03em;
   margin: 0;
   text-wrap: balance;
-  cursor: pointer;
   transition: text-shadow 0.35s ease;
 }
 

@@ -1,4 +1,4 @@
-const nameEl = document.querySelector(".hero h1");
+const triggerEl = document.querySelector(".sidekick");
 
 const WORDS = [
   "AIEEE!", "AIIEEE!", "ARRGH!", "ARRGGHH!", "AWK!", "AWKKKKKK!", "BAM!", "BANG!", "BANG-ETH!", "BIFF!",
@@ -66,15 +66,19 @@ const spawnBurst = (clientX, clientY) => {
   document.body.append(pow);
 };
 
-if (nameEl && colors.length && burstFills.length) {
-  nameEl.addEventListener(
+if (triggerEl && colors.length && burstFills.length) {
+  triggerEl.addEventListener(
     "click",
     (event) => {
       event.stopPropagation();
       document.addEventListener("click", (e) => spawnBurst(e.clientX, e.clientY), {
         capture: true
       });
-      spawnBurst(event.clientX, event.clientY);
+      const origin = event.detail === 0 ? triggerEl.getBoundingClientRect() : null;
+      spawnBurst(
+        origin ? origin.left + origin.width / 2 : event.clientX,
+        origin ? origin.top + origin.height / 2 : event.clientY
+      );
     },
     { once: true }
   );

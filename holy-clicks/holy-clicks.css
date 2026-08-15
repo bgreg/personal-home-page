@@ -6,6 +6,66 @@
   --burst-1: var(--gold, #f5c451);
   --burst-2: var(--accent, #67e8f9);
   --burst-3: var(--green, #7ee0a8);
+  --sk-cape: var(--gold, #f5c451);
+  --sk-tunic: #c3363f;
+  --sk-tights: #24304d;
+  --sk-boot: #161f33;
+  --sk-limb: #c3363f;
+  --sk-skin: #f0c39c;
+  --sk-hair: #17202f;
+  --sk-mask: #12161f;
+  --sk-eye: #f4f8ff;
+  --sk-emblem: var(--accent, #67e8f9);
+}
+
+.sidekick {
+  position: absolute;
+  top: 110px;
+  left: 120px;
+  translate: -50% -50%;
+  z-index: 2;
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  line-height: 0;
+  cursor: pointer;
+  filter: drop-shadow(0 0 10px rgba(103, 232, 249, 0.25));
+  transition: filter 0.3s ease;
+}
+
+.sidekick:hover,
+.sidekick:focus-visible {
+  filter: drop-shadow(0 0 16px var(--accent-glow, rgba(103, 232, 249, 0.55)));
+}
+
+.sidekick svg {
+  display: block;
+  height: 40px;
+  width: auto;
+  overflow: visible;
+  animation: sidekick-float 3.6s ease-in-out infinite alternate;
+}
+
+.sk-cape { fill: var(--sk-cape); }
+.sk-tunic { fill: var(--sk-tunic); }
+.sk-tights { fill: var(--sk-tights); }
+.sk-boot { fill: var(--sk-boot); }
+.sk-limb { fill: var(--sk-limb); }
+.sk-belt { fill: var(--sk-cape); }
+.sk-skin { fill: var(--sk-skin); }
+.sk-hair { fill: var(--sk-hair); }
+.sk-mask { fill: var(--sk-mask); }
+.sk-emblem { fill: var(--sk-emblem); }
+
+.sk-eye {
+  fill: var(--sk-eye);
+  stroke: none;
+}
+
+@keyframes sidekick-float {
+  from { translate: 0 -4px; }
+  to { translate: 0 4px; }
 }
 
 .pow {
