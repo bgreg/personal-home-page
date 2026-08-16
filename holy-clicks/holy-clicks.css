@@ -51,9 +51,21 @@
 .sidekick-atmo {
   position: absolute;
   right: 17%;
-  bottom: 132px;
+  bottom: max(24px, calc(175px - 4.83vw));
   z-index: 1;
   scale: -1 1;
+}
+
+@media (max-width: 680px) {
+  .sidekick-corner {
+    position: absolute;
+    top: 78px;
+    z-index: 1;
+  }
+
+  .sidekick-corner::after {
+    inset: -8px;
+  }
 }
 
 .sidekick:hover,
