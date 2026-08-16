@@ -29,6 +29,13 @@
   transition: filter 0.3s ease;
 }
 
+.sidekick::after {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  cursor: pointer;
+}
+
 .sidekick svg,
 .sidekick svg * {
   cursor: pointer;
