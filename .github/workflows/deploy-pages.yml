@@ -35,6 +35,14 @@ jobs:
         with:
           enablement: true
 
+      - name: Stamp deploy version onto local stylesheets and scripts
+        run: |
+          VERSION="${GITHUB_SHA:0:7}"
+          find . -name '*.html' -not -path './.git/*' -print0 \
+            | xargs -0 sed -i -E "s#(href|src)=\"([^\":]+\.(css|js))\"#\1=\"\2?v=$VERSION\"#g"
+          echo "Stamped assets with v=$VERSION"
+          find . -name '*.html' -not -path './.git/*' -exec grep -hoE '(href|src)="[^"]*\?v=[a-f0-9]+"' {} + | sort -u
+
       - name: Upload site artifact
         # The site is static at the repo root (index.html + style.css).
         uses: actions/upload-pages-artifact@v3
