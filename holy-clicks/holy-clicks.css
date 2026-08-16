@@ -29,6 +29,11 @@
   transition: filter 0.3s ease;
 }
 
+.sidekick svg,
+.sidekick svg * {
+  cursor: pointer;
+}
+
 .sidekick-corner {
   position: fixed;
   top: 6px;
