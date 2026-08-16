@@ -1,4 +1,4 @@
-const triggerEl = document.querySelector(".sidekick");
+const triggerEls = document.querySelectorAll(".sidekick");
 
 const WORDS = [
   "AIEEE!", "AIIEEE!", "ARRGH!", "ARRGGHH!", "AWK!", "AWKKKKKK!", "BAM!", "BANG!", "BANG-ETH!", "BIFF!",
@@ -66,20 +66,30 @@ const spawnBurst = (clientX, clientY) => {
   document.body.append(pow);
 };
 
-if (triggerEl && colors.length && burstFills.length) {
-  triggerEl.addEventListener(
-    "click",
-    (event) => {
-      event.stopPropagation();
-      document.addEventListener("click", (e) => spawnBurst(e.clientX, e.clientY), {
-        capture: true
-      });
-      const origin = event.detail === 0 ? triggerEl.getBoundingClientRect() : null;
-      spawnBurst(
-        origin ? origin.left + origin.width / 2 : event.clientX,
-        origin ? origin.top + origin.height / 2 : event.clientY
-      );
-    },
-    { once: true }
-  );
+const burstOrigin = (event, fallbackEl) => {
+  if (event.detail !== 0) return [event.clientX, event.clientY];
+  const el = fallbackEl ?? (event.target instanceof Element ? event.target : null);
+  const rect = el?.getBoundingClientRect();
+  return rect
+    ? [rect.left + rect.width / 2, rect.top + rect.height / 2]
+    : [window.innerWidth / 2, window.innerHeight / 2];
+};
+
+if (triggerEls.length && colors.length && burstFills.length) {
+  let armed = false;
+
+  triggerEls.forEach((triggerEl) => {
+    triggerEl.addEventListener(
+      "click",
+      (event) => {
+        if (armed) return;
+        armed = true;
+        document.addEventListener("click", (e) => spawnBurst(...burstOrigin(e)), {
+          capture: true
+        });
+        spawnBurst(...burstOrigin(event, triggerEl));
+      },
+      { once: true }
+    );
+  });
 }

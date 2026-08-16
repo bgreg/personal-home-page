@@ -19,10 +19,6 @@
 }
 
 .sidekick {
-  position: fixed;
-  top: 6px;
-  left: 12px;
-  z-index: 101;
   appearance: none;
   padding: 0;
   border: 0;
@@ -31,6 +27,21 @@
   cursor: pointer;
   filter: drop-shadow(0 0 10px rgba(103, 232, 249, 0.25));
   transition: filter 0.3s ease;
+}
+
+.sidekick-corner {
+  position: fixed;
+  top: 6px;
+  left: 12px;
+  z-index: 101;
+}
+
+.sidekick-atmo {
+  position: absolute;
+  right: 17%;
+  bottom: 132px;
+  z-index: 1;
+  scale: -1 1;
 }
 
 .sidekick:hover,
