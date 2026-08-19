@@ -488,18 +488,107 @@ h2 {
 }
 
 .game-body .tags {
-  margin-bottom: 1rem;
+  margin-bottom: 0.875rem;
 }
 
-.game-frame {
-  display: block;
-  width: 480px;
-  max-width: 100%;
-  height: 320px;
+.game-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.game-source svg {
+  width: 1.05em;
+  height: 1.05em;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.game-source:hover {
+  color: var(--accent);
+}
+
+.game-stage {
+  max-width: 480px;
   margin: 0 auto;
+}
+
+.game-hud {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.hud-stat b {
+  margin-left: 0.4rem;
+  color: var(--accent);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.game-screen {
+  position: relative;
+}
+
+.game-canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
   border: 1px solid var(--border-strong);
   border-radius: 8px;
-  background: #eee;
+  background:
+    radial-gradient(130% 110% at 50% -15%, rgba(103, 232, 249, 0.09), transparent 62%),
+    #080d18;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.35rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: rgba(6, 9, 16, 0.74);
+  text-align: center;
+  pointer-events: none;
+}
+
+.game-overlay[hidden] {
+  display: none;
+}
+
+.overlay-title {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.overlay-hint {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--secondary);
+}
+
+.overlay-hint b {
+  color: var(--accent);
+  font-weight: 500;
 }
 
 /* ---------- Experience ---------- */
