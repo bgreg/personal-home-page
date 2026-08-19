@@ -293,7 +293,8 @@
                 A browser Breakout clone. Click the board or press <b>S</b> to
                 start; move the paddle with your <b>mouse</b>, a <b>drag</b>, or
                 the <b>arrow keys</b>; press <b>P</b> to pause. Higher rows are
-                worth more.
+                worth more. On a phone, tap <b>tilt</b> to steer the paddle by
+                leaning the handset.
               </p>
               <div class="tags">
                 <span class="tag">JavaScript</span>
@@ -317,6 +318,15 @@
                   <span class="hud-stat">score<b data-hud="score">0</b></span>
                   <span class="hud-stat">lives<b data-hud="lives">3</b></span>
                   <span class="hud-stat">best<b data-hud="best">0</b></span>
+                  <button
+                    class="tilt-toggle"
+                    type="button"
+                    data-tilt
+                    aria-pressed="false"
+                    hidden
+                  >
+                    tilt
+                  </button>
                 </div>
                 <div class="game-screen">
                   <canvas
@@ -344,7 +354,8 @@
                 The classic Snake. Click the board or press <b>S</b> to start;
                 steer with the <b>arrow keys</b> or a <b>swipe</b>; eat food to
                 grow, and speed up as you do; don't hit the walls or yourself;
-                press <b>P</b> to pause.
+                press <b>P</b> to pause. On a phone, tap <b>tilt</b> to turn by
+                leaning the handset.
               </p>
               <div class="tags">
                 <span class="tag">JavaScript</span>
@@ -368,6 +379,15 @@
                   <span class="hud-stat">score<b data-hud="score">0</b></span>
                   <span class="hud-stat">length<b data-hud="length">3</b></span>
                   <span class="hud-stat">best<b data-hud="best">0</b></span>
+                  <button
+                    class="tilt-toggle"
+                    type="button"
+                    data-tilt
+                    aria-pressed="false"
+                    hidden
+                  >
+                    tilt
+                  </button>
                 </div>
                 <div class="game-screen">
                   <canvas
@@ -628,6 +648,23 @@
           return (cx - nx) ** 2 + (cy - ny) ** 2 <= r * r;
         }
 
+        /* Tilt input. iOS hands orientation out only after a permission call made
+           inside a tap, so every board carries its own opt-in button. */
+        const TILT_SPAN = 22;                   /* degrees of tilt for full deflection */
+        const TILT_DEAD = 2;                    /* degrees ignored around the neutral pose */
+
+        function tiltAvailable() {
+          if (typeof DeviceOrientationEvent === "undefined") return false;
+          if (typeof DeviceOrientationEvent.requestPermission === "function") return true;
+          return "ondeviceorientation" in window && matchMedia("(pointer: coarse)").matches;
+        }
+
+        function shape(deg) {
+          const past = Math.abs(deg) - TILT_DEAD;
+          if (past <= 0) return 0;
+          return clamp((past / (TILT_SPAN - TILT_DEAD)) * Math.sign(deg), -1, 1);
+        }
+
         const again = (score) =>
           `${score} ${score === 1 ? "point" : "points"} &middot; click or press <b>S</b> to play again`;
 
@@ -723,6 +760,11 @@
 
             point(x) {
               paddleX = clamp(x - paddleW / 2, 0, W - paddleW);
+            },
+
+            tilt(x) {
+              const reach = W / 2 - paddleW / 2;
+              paddleX = clamp(W / 2 + x * reach - paddleW / 2, 0, W - paddleW);
             },
 
             update(dt, api) {
@@ -832,6 +874,7 @@
           let score = 0;
           let since = 0;
           let clock = 0;
+          let latched = false;
 
           const pace = () => Math.max(70, 140 - Math.floor(score / 4) * 6);
 
@@ -896,6 +939,7 @@
               queued = [];
               score = 0;
               since = 0;
+              latched = false;
               dropFood();
             },
 
@@ -911,6 +955,26 @@
 
             swipe(k) {
               this.key(k, true);
+            },
+
+            tilt(x, y) {
+              const pull = Math.max(Math.abs(x), Math.abs(y));
+              if (latched) {
+                if (pull < 0.3) latched = false;
+                return;
+              }
+              if (pull < 0.6) return;
+              latched = true;
+              this.key(
+                Math.abs(x) > Math.abs(y)
+                  ? x > 0
+                    ? "ArrowRight"
+                    : "ArrowLeft"
+                  : y > 0
+                    ? "ArrowDown"
+                    : "ArrowUp",
+                true,
+              );
             },
 
             update(dt, api) {
@@ -971,6 +1035,7 @@
             readouts[el.dataset.hud] = el;
           });
 
+          const tiltButton = stage.querySelector("[data-tilt]");
           const key = `bgreg.${stage.dataset.game}.best`;
           const readBest = () => {
             try {
@@ -985,6 +1050,9 @@
           let frame = 0;
           let stamp = 0;
           let swipeFrom = null;
+          let tilting = false;
+          let neutral = null;
+          let smooth = { x: 0, y: 0 };
 
           const api = {
             ended: false,
@@ -1071,6 +1139,7 @@
             }
             state = "running";
             overlay.hidden = true;
+            neutral = null;
             run();
           }
 
@@ -1088,6 +1157,61 @@
             sync();
             show(heading, note);
             paint();
+          }
+
+          function orientation(e) {
+            if (e.beta === null || e.gamma === null) return;
+            if (state !== "running" && state !== "idle") return;
+            if (!neutral) neutral = { beta: e.beta, gamma: e.gamma };
+
+            /* the screen can be rotated under the device axes, so turn the tilt
+               back into the board's own left/right and up/down */
+            const spin = (((screen.orientation && screen.orientation.angle) || 0) * Math.PI) / 180;
+            const cos = Math.cos(spin);
+            const sin = Math.sin(spin);
+            const sideways = e.gamma - neutral.gamma;
+            const forwards = e.beta - neutral.beta;
+
+            smooth.x += (sideways * cos - forwards * sin - smooth.x) * 0.3;
+            smooth.y += (forwards * cos + sideways * sin - smooth.y) * 0.3;
+
+            game.tilt(shape(smooth.x), shape(smooth.y));
+            if (state === "idle") paint();
+          }
+
+          function setTilt(on) {
+            tilting = on;
+            neutral = null;
+            smooth = { x: 0, y: 0 };
+            tiltButton.setAttribute("aria-pressed", String(on));
+            tiltButton.textContent = on ? "tilt on" : "tilt";
+            window[on ? "addEventListener" : "removeEventListener"]("deviceorientation", orientation);
+          }
+
+          if (tiltButton && game.tilt && tiltAvailable()) {
+            tiltButton.hidden = false;
+            tiltButton.addEventListener("click", async () => {
+              if (tilting) {
+                setTilt(false);
+                return;
+              }
+              /* the permission call has to start inside this tap */
+              if (typeof DeviceOrientationEvent.requestPermission === "function") {
+                let verdict = "denied";
+                try {
+                  verdict = await DeviceOrientationEvent.requestPermission();
+                } catch {
+                  verdict = "denied";
+                }
+                if (verdict !== "granted") {
+                  tiltButton.disabled = true;
+                  tiltButton.textContent = "tilt blocked";
+                  return;
+                }
+              }
+              setTilt(true);
+              canvas.focus({ preventScroll: true });
+            });
           }
 
           const handled = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", " ", "s", "p"]);
