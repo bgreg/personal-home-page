@@ -31,11 +31,15 @@
   const LAUNCH_MS = 1100;
   const LAUNCH_CLEARANCE = 140;
   const LAUNCH_OVERSHOOT = 220;
+  const HERO_OVER_VILLAIN = 1.1;
+  const HERO_FLY_MS = 1500;
+  const HERO_STANDOFF = 26;
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   let clicks = 0;
   let departing = false;
+  let summoned = false;
 
   const growth = () => GROWTH_STEP ** Math.min(clicks, GROWTH_CLICKS);
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -208,11 +212,73 @@
     sidekick.style.setProperty("--sk-grow", growth().toFixed(6));
     sidekick.classList.remove("is-launching");
     sidekick.classList.add("is-landed");
-    sidekick.setAttribute("aria-hidden", "true");
-    sidekick.inert = true;
+    sidekick.setAttribute("aria-label", "Send in the other sidekick");
     hero.append(sidekick);
     hero.classList.add("is-charging");
     buildArcField(artwork);
+  };
+
+  const summonHero = async () => {
+    const champion = document.querySelector(".sidekick-corner");
+    const ring = document.querySelector(".orbit");
+    const stage = document.querySelector(".hero");
+    if (!champion || !ring || !stage) return;
+
+    const start = champion.getBoundingClientRect();
+    const ringBox = ring.getBoundingClientRect();
+    const radius = ring.offsetWidth / 2;
+    const ringCentre = {
+      x: ringBox.left + ringBox.width / 2,
+      y: ringBox.top + ringBox.height / 2
+    };
+
+    const size = growth() * HERO_OVER_VILLAIN;
+    const spread = (start.width * size) / 2;
+    const from = { x: start.left + start.width / 2, y: start.top + start.height / 2 };
+    const shift = {
+      x: ringCentre.x - radius - HERO_STANDOFF - spread - from.x,
+      y: ringCentre.y - from.y
+    };
+
+    document.body.classList.add("is-showdown");
+    champion.classList.add("is-summoned");
+
+    if (reducedMotion.matches) {
+      champion.style.translate = `${shift.x.toFixed(2)}px ${shift.y.toFixed(2)}px`;
+      champion.style.scale = size.toFixed(4);
+    } else {
+      await champion.animate(
+        [
+          { translate: "0 0", scale: "1", easing: "cubic-bezier(0.55, 0, 0.3, 1)" },
+          {
+            offset: 0.28,
+            translate: `${(shift.x * 0.14).toFixed(2)}px ${(shift.y * 0.2 - 30).toFixed(2)}px`,
+            scale: (1 + (size - 1) * 0.28).toFixed(4),
+            easing: "cubic-bezier(0.3, 0, 0.2, 1)"
+          },
+          {
+            translate: `${shift.x.toFixed(2)}px ${shift.y.toFixed(2)}px`,
+            scale: size.toFixed(4)
+          }
+        ],
+        { duration: HERO_FLY_MS, easing: "linear", fill: "forwards" }
+      ).finished;
+    }
+
+    const settled = champion.getBoundingClientRect();
+    const stageBox = stage.getBoundingClientRect();
+    champion.getAnimations().forEach((animation) => animation.cancel());
+    champion.style.position = "absolute";
+    champion.style.left = `${(settled.left + settled.width / 2 - start.width / 2 - stageBox.left).toFixed(2)}px`;
+    champion.style.top = `${(settled.top + settled.height / 2 - start.height / 2 - stageBox.top).toFixed(2)}px`;
+    champion.style.right = "auto";
+    champion.style.bottom = "auto";
+    champion.style.translate = "none";
+    champion.style.transformOrigin = "50% 50%";
+    champion.style.scale = size.toFixed(4);
+    stage.append(champion);
+
+    champion.classList.add("is-buff");
   };
 
   const fadeOut = async () => {
@@ -299,6 +365,15 @@
   };
 
   sidekick.addEventListener("click", () => {
+    if (sidekick.classList.contains("is-landed")) {
+      if (summoned) return;
+      summoned = true;
+      summonHero().catch(() => {
+        summoned = false;
+      });
+      return;
+    }
+
     if (departing) return;
     clicks += 1;
 
