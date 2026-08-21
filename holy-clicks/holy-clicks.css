@@ -6,16 +6,17 @@
   --burst-1: var(--gold, #f5c451);
   --burst-2: var(--accent, #67e8f9);
   --burst-3: var(--green, #7ee0a8);
-  --sk-cape: var(--gold, #f5c451);
-  --sk-tunic: #c3363f;
-  --sk-tights: #24304d;
-  --sk-boot: #161f33;
-  --sk-limb: #c3363f;
-  --sk-skin: #f0c39c;
-  --sk-hair: #17202f;
-  --sk-mask: #12161f;
-  --sk-eye: #f4f8ff;
-  --sk-emblem: var(--accent, #67e8f9);
+  --sk-cape: var(--green, #7ee0a8);
+  --sk-tunic: #45596e;
+  --sk-tights: #415161;
+  --sk-boot: #3d4854;
+  --sk-limb: #45596e;
+  --sk-skin: #b8c6d8;
+  --sk-hair: #565f69;
+  --sk-mask: #060910;
+  --sk-eye: var(--green, #7ee0a8);
+  --sk-emblem: var(--green, #7ee0a8);
+  --sk-line: #060910;
 }
 
 .sidekick {
@@ -76,6 +77,10 @@
 .sidekick:hover,
 .sidekick:focus-visible {
   filter: drop-shadow(0 0 16px var(--accent-glow, rgba(103, 232, 249, 0.55)));
+}
+
+.sidekick svg g {
+  stroke: var(--sk-line);
 }
 
 .sidekick svg {

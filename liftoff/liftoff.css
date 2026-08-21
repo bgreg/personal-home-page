@@ -119,8 +119,8 @@
 .sidekick-atmo.is-landed {
   --sk-charge-eye: #ff2f2f;
   --sk-charge-core: #ff8a6a;
-  --sk-charge-pants: #a8232c;
-  --sk-charge-arc: var(--accent, #67e8f9);
+  --sk-charge-pants: #c2454f;
+  --sk-charge-arc: var(--green, #7ee0a8);
 }
 
 .sidekick-atmo.is-landed .sk-tights {
