@@ -67,3 +67,51 @@
     animation: none;
   }
 }
+
+.sidekick-atmo.is-landed {
+  position: absolute;
+  top: calc(var(--orbit-top) + var(--orbit-size) / 2);
+  right: calc(var(--orbit-right) + var(--orbit-size) / 2);
+  bottom: auto;
+  left: auto;
+  z-index: 0;
+  transform-origin: 50% 50%;
+  translate: 50% -50%;
+  rotate: none;
+  pointer-events: none;
+}
+
+.sidekick-atmo.is-landed svg {
+  scale: 1 1;
+}
+
+.sidekick-atmo.is-landed .sk-cape {
+  display: none;
+}
+
+.sidekick-atmo.is-landed .sk-leg-l,
+.sidekick-atmo.is-landed .sk-leg-r,
+.sidekick-atmo.is-landed .sk-arm-l,
+.sidekick-atmo.is-landed .sk-arm-r {
+  transform-box: view-box;
+}
+
+.sidekick-atmo.is-landed .sk-leg-l {
+  transform-origin: 19.3px 29.5px;
+  rotate: -13.1deg;
+}
+
+.sidekick-atmo.is-landed .sk-leg-r {
+  transform-origin: 24.8px 29.5px;
+  rotate: 17.8deg;
+}
+
+.sidekick-atmo.is-landed .sk-arm-l {
+  transform-origin: 18.5px 19.3px;
+  rotate: 36.5deg;
+}
+
+.sidekick-atmo.is-landed .sk-arm-r {
+  transform-origin: 28.3px 19px;
+  rotate: 43.2deg;
+}
