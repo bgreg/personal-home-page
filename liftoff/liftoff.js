@@ -15,6 +15,19 @@
   const EDGE_MARGIN = 56;
   const CROUCH_MS = 190;
   const CROUCH_DIP = 4;
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const ARC_OUTER_FALLBACK = 34;
+  const ARC_KINKS = 7;
+  const ARC_WANDER = 0.07;
+  const ARC_CENTRE = { x: 22, y: 25 };
+  const ARCS_PER_LIMB = 3;
+  const ARC_FAN = 15;
+  const EXTREMITIES = [
+    { limb: ".sk-arm-l", root: { x: 18.5, y: 19.35 }, tip: { x: 11, y: 24.9 } },
+    { limb: ".sk-arm-r", root: { x: 28.3, y: 19.05 }, tip: { x: 35.85, y: 11.95 } },
+    { limb: ".sk-boot.sk-leg-l", root: { x: 19.35, y: 29.5 }, tip: { x: 17.2, y: 45 } },
+    { limb: ".sk-boot.sk-leg-r", root: { x: 24.8, y: 29.5 }, tip: { x: 28.6, y: 44.3 } }
+  ];
   const LAUNCH_MS = 1100;
   const LAUNCH_CLEARANCE = 140;
   const LAUNCH_OVERSHOOT = 220;
@@ -80,6 +93,107 @@
     }
   ];
 
+  const ringInUserUnits = (artwork) => {
+    const ring = document.querySelector(".orbit");
+    if (!ring || !artwork.getScreenCTM) {
+      return { centre: ARC_CENTRE, radius: ARC_OUTER_FALLBACK };
+    }
+
+    const box = ring.getBoundingClientRect();
+    const inverse = artwork.getScreenCTM().inverse();
+    const place = (x, y) => {
+      const point = artwork.createSVGPoint();
+      point.x = x;
+      point.y = y;
+      return point.matrixTransform(inverse);
+    };
+
+    const middle = { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+    const acrossPx = ring.offsetWidth / 2;
+    const centre = place(middle.x, middle.y);
+    const edge = place(middle.x + acrossPx, middle.y);
+    const radius = Math.hypot(edge.x - centre.x, edge.y - centre.y);
+
+    if (!radius) return { centre: ARC_CENTRE, radius: ARC_OUTER_FALLBACK };
+    return { centre, radius };
+  };
+
+  const posedLimb = (artwork, { limb, root, tip }) => {
+    const node = artwork.querySelector(limb);
+    if (!node || !artwork.getScreenCTM) return { from: tip, heading: 0 };
+
+    const toViewBox = artwork.getScreenCTM().inverse().multiply(node.getScreenCTM());
+    const place = ({ x, y }) => {
+      const point = artwork.createSVGPoint();
+      point.x = x;
+      point.y = y;
+      return point.matrixTransform(toViewBox);
+    };
+
+    const shoulder = place(root);
+    const hand = place(tip);
+    return {
+      from: hand,
+      heading: (Math.atan2(hand.y - shoulder.y, hand.x - shoulder.x) * 180) / Math.PI
+    };
+  };
+
+  const strikeRing = (from, heading, ring) => {
+    const radians = (heading * Math.PI) / 180;
+    const step = { x: Math.cos(radians), y: Math.sin(radians) };
+    const offset = { x: from.x - ring.centre.x, y: from.y - ring.centre.y };
+    const along = 2 * (offset.x * step.x + offset.y * step.y);
+    const outside = offset.x ** 2 + offset.y ** 2 - ring.radius ** 2;
+    const reach = along ** 2 - 4 * outside;
+
+    if (reach < 0) {
+      return {
+        x: ring.centre.x + step.x * ring.radius,
+        y: ring.centre.y + step.y * ring.radius
+      };
+    }
+
+    const travel = (-along + Math.sqrt(reach)) / 2;
+    return { x: from.x + step.x * travel, y: from.y + step.y * travel };
+  };
+
+  const arcPoints = (from, to) => {
+    const span = Math.hypot(to.x - from.x, to.y - from.y);
+    const across = { x: -(to.y - from.y) / span, y: (to.x - from.x) / span };
+    const spread = span * ARC_WANDER;
+
+    return Array.from({ length: ARC_KINKS + 1 }, (_, step) => {
+      const travel = step / ARC_KINKS;
+      const edge = step === 0 || step === ARC_KINKS;
+      const sideways = edge ? 0 : (Math.random() - 0.5) * 2 * spread;
+      const x = from.x + (to.x - from.x) * travel + across.x * sideways;
+      const y = from.y + (to.y - from.y) * travel + across.y * sideways;
+      return `${x.toFixed(2)},${y.toFixed(2)}`;
+    }).join(" ");
+  };
+
+  const buildArcField = (artwork) => {
+    const ring = ringInUserUnits(artwork);
+    const field = document.createElementNS(SVG_NS, "g");
+    field.setAttribute("class", "sk-arc-field");
+
+    EXTREMITIES.forEach((extremity) => {
+      const { from, heading } = posedLimb(artwork, extremity);
+
+      for (let index = 0; index < ARCS_PER_LIMB; index += 1) {
+        const fan = ARCS_PER_LIMB === 1 ? 0 : (index / (ARCS_PER_LIMB - 1) - 0.5) * 2 * ARC_FAN;
+        const arc = document.createElementNS(SVG_NS, "polyline");
+        arc.setAttribute("class", "sk-arc");
+        arc.setAttribute("points", arcPoints(from, strikeRing(from, heading + fan, ring)));
+        arc.style.animationDuration = `${(5200 + Math.random() * 4000).toFixed(0)}ms`;
+        arc.style.animationDelay = `${(1200 + Math.random() * 4200).toFixed(0)}ms`;
+        field.append(arc);
+      }
+    });
+
+    artwork.append(field);
+  };
+
   const land = () => {
     const hero = document.querySelector(".hero");
     if (!hero) {
@@ -87,8 +201,9 @@
       return;
     }
 
+    const artwork = sidekick.querySelector("svg");
     sidekick.getAnimations().forEach((animation) => animation.cancel());
-    sidekick.querySelector("svg").getAnimations().forEach((animation) => animation.cancel());
+    artwork.getAnimations().forEach((animation) => animation.cancel());
     sidekick.removeAttribute("style");
     sidekick.style.setProperty("--sk-grow", growth().toFixed(6));
     sidekick.classList.remove("is-launching");
@@ -96,6 +211,8 @@
     sidekick.setAttribute("aria-hidden", "true");
     sidekick.inert = true;
     hero.append(sidekick);
+    hero.classList.add("is-charging");
+    buildArcField(artwork);
   };
 
   const fadeOut = async () => {

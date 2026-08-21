@@ -170,6 +170,9 @@ section {
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 14px var(--accent);
+  transition:
+    background 2.2s ease-in 0.6s,
+    box-shadow 2.2s ease-in 0.6s;
 }
 
 .star {
