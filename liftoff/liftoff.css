@@ -1,0 +1,68 @@
+.sidekick-atmo {
+  --sk-spring: linear(
+    0, 0.009 1%, 0.076 3.4%, 0.293 7.2%, 0.62 11.5%, 1.184 18.1%, 1.34 20.7%, 1.44 23.1%,
+    1.474 25.6%, 1.45 28.2%, 1.373 30.8%, 1.129 36.6%, 0.937 41.4%, 0.85 44.9%, 0.822 48.4%,
+    0.84 52.3%, 0.947 60.4%, 1.02 67.5%, 1.043 72.6%, 1.026 81%, 0.995 92.4%, 1
+  );
+  transition: scale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-timing-function: var(--sk-spring);
+}
+
+.sidekick-atmo.is-walking svg {
+  animation: none;
+}
+
+.sidekick-atmo.is-walking .sk-leg-l,
+.sidekick-atmo.is-walking .sk-leg-r,
+.sidekick-atmo.is-walking .sk-arm-l,
+.sidekick-atmo.is-walking .sk-arm-r {
+  transform-box: view-box;
+  animation-duration: var(--sk-step, 460ms);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.sidekick-atmo.is-walking .sk-leg-l {
+  transform-origin: 19.3px 29.5px;
+  animation-name: sk-stride;
+}
+
+.sidekick-atmo.is-walking .sk-leg-r {
+  transform-origin: 24.8px 29.5px;
+  animation-name: sk-stride;
+  animation-delay: calc(var(--sk-step, 460ms) / -2);
+}
+
+.sidekick-atmo.is-walking .sk-arm-r {
+  transform-origin: 28.3px 19px;
+  animation-name: sk-swing;
+}
+
+.sidekick-atmo.is-walking .sk-arm-l {
+  transform-origin: 18.5px 19.3px;
+  animation-name: sk-swing;
+  animation-delay: calc(var(--sk-step, 460ms) / -2);
+}
+
+@keyframes sk-stride {
+  0%, 100% { rotate: 24deg; }
+  50% { rotate: -24deg; }
+}
+
+@keyframes sk-swing {
+  0%, 100% { rotate: -15deg; }
+  50% { rotate: 15deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidekick-atmo {
+    transition: scale 0.15s ease-out;
+  }
+
+  .sidekick-atmo.is-walking .sk-leg-l,
+  .sidekick-atmo.is-walking .sk-leg-r,
+  .sidekick-atmo.is-walking .sk-arm-l,
+  .sidekick-atmo.is-walking .sk-arm-r {
+    animation: none;
+  }
+}

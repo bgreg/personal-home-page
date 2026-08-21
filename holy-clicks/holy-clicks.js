@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const triggerEls = document.querySelectorAll(".sidekick");
+  const triggerEls = document.querySelectorAll(".sidekick-corner");
 
   const WORDS = [
     "AIEEE!", "AIIEEE!", "ARRGH!", "ARRGGHH!", "AWK!", "AWKKKKKK!", "BAM!", "BANG!", "BANG-ETH!", "BIFF!",
@@ -87,9 +87,14 @@
         (event) => {
           if (armed) return;
           armed = true;
-          document.addEventListener("click", (e) => spawnBurst(...burstOrigin(e)), {
-            capture: true
-          });
+          document.addEventListener(
+            "click",
+            (e) => {
+              if (e.target instanceof Element && e.target.closest(".sidekick-atmo")) return;
+              spawnBurst(...burstOrigin(e));
+            },
+            { capture: true }
+          );
           spawnBurst(...burstOrigin(event, triggerEl));
         },
         { once: true }

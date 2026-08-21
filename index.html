@@ -19,6 +19,7 @@
     />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="holy-clicks/holy-clicks.css" />
+    <link rel="stylesheet" href="liftoff/liftoff.css" />
   </head>
   <body>
     <header>
@@ -38,12 +39,12 @@
         <g stroke="#0b0b12" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round">
           <path class="sk-cape" d="M18 15 C8 19 3 30 5 42 C12 35 16 27 20 21 Z" />
           <path class="sk-cape" d="M27 15 C33 20 36 27 35 34 C30 29 27 24 25 20 Z" />
-          <path class="sk-tights" d="M17.5 29 L15.5 42.5 L19.5 42.5 L21.2 30 Z" />
-          <path class="sk-tights" d="M23 30 L25.8 42.5 L29.4 41.8 L26.6 29 Z" />
-          <path class="sk-boot" d="M14.4 39.6 L20 39.6 L20.6 45 L13.8 45 Z" />
-          <path class="sk-boot" d="M24.8 39.4 L30 38.6 L31.4 43.8 L25.8 44.8 Z" />
-          <path class="sk-limb" d="M27 17.5 L34.5 10.5 L37.2 13.4 L29.6 20.6 Z" />
-          <path class="sk-limb" d="M17.4 17.5 L9.8 23.4 L12.2 26.4 L19.6 21.2 Z" />
+          <path class="sk-tights sk-leg-l" d="M17.5 29 L15.5 42.5 L19.5 42.5 L21.2 30 Z" />
+          <path class="sk-tights sk-leg-r" d="M23 30 L25.8 42.5 L29.4 41.8 L26.6 29 Z" />
+          <path class="sk-boot sk-leg-l" d="M14.4 39.6 L20 39.6 L20.6 45 L13.8 45 Z" />
+          <path class="sk-boot sk-leg-r" d="M24.8 39.4 L30 38.6 L31.4 43.8 L25.8 44.8 Z" />
+          <path class="sk-limb sk-arm-r" d="M27 17.5 L34.5 10.5 L37.2 13.4 L29.6 20.6 Z" />
+          <path class="sk-limb sk-arm-l" d="M17.4 17.5 L9.8 23.4 L12.2 26.4 L19.6 21.2 Z" />
           <path class="sk-tunic" d="M16.2 15.6 L27.8 15.6 L26.8 30.4 L17.2 30.4 Z" />
           <rect class="sk-belt" x="16.6" y="27.8" width="10.8" height="3" rx="1.2" />
           <circle class="sk-emblem" cx="22" cy="21" r="2.7" />
@@ -528,17 +529,17 @@
         <div class="planet-term"></div>
         <div class="planet-mottle"></div>
       </div>
-      <button class="sidekick sidekick-atmo" type="button" aria-label="Activate comic book click effects">
+      <button class="sidekick sidekick-atmo" type="button" aria-label="Sidekick, click repeatedly to send him on his way">
         <svg viewBox="0 0 44 50" role="img" aria-hidden="true" focusable="false">
           <g stroke="#0b0b12" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round">
             <path class="sk-cape" d="M18 15 C8 19 3 30 5 42 C12 35 16 27 20 21 Z" />
             <path class="sk-cape" d="M27 15 C33 20 36 27 35 34 C30 29 27 24 25 20 Z" />
-            <path class="sk-tights" d="M17.5 29 L15.5 42.5 L19.5 42.5 L21.2 30 Z" />
-            <path class="sk-tights" d="M23 30 L25.8 42.5 L29.4 41.8 L26.6 29 Z" />
-            <path class="sk-boot" d="M14.4 39.6 L20 39.6 L20.6 45 L13.8 45 Z" />
-            <path class="sk-boot" d="M24.8 39.4 L30 38.6 L31.4 43.8 L25.8 44.8 Z" />
-            <path class="sk-limb" d="M27 17.5 L34.5 10.5 L37.2 13.4 L29.6 20.6 Z" />
-            <path class="sk-limb" d="M17.4 17.5 L9.8 23.4 L12.2 26.4 L19.6 21.2 Z" />
+            <path class="sk-tights sk-leg-l" d="M17.5 29 L15.5 42.5 L19.5 42.5 L21.2 30 Z" />
+            <path class="sk-tights sk-leg-r" d="M23 30 L25.8 42.5 L29.4 41.8 L26.6 29 Z" />
+            <path class="sk-boot sk-leg-l" d="M14.4 39.6 L20 39.6 L20.6 45 L13.8 45 Z" />
+            <path class="sk-boot sk-leg-r" d="M24.8 39.4 L30 38.6 L31.4 43.8 L25.8 44.8 Z" />
+            <path class="sk-limb sk-arm-r" d="M27 17.5 L34.5 10.5 L37.2 13.4 L29.6 20.6 Z" />
+            <path class="sk-limb sk-arm-l" d="M17.4 17.5 L9.8 23.4 L12.2 26.4 L19.6 21.2 Z" />
             <path class="sk-tunic" d="M16.2 15.6 L27.8 15.6 L26.8 30.4 L17.2 30.4 Z" />
             <rect class="sk-belt" x="16.6" y="27.8" width="10.8" height="3" rx="1.2" />
             <circle class="sk-emblem" cx="22" cy="21" r="2.7" />
@@ -556,6 +557,7 @@
       </script>
     </footer>
     <script defer src="holy-clicks/holy-clicks.js"></script>
+    <script defer src="liftoff/liftoff.js"></script>
     <script>
       /* ---------- Games ----------
          Breakaway and Snake, drawn straight onto the page in the site palette.
