@@ -119,7 +119,21 @@
 .sidekick-atmo.is-landed {
   --sk-charge-eye: #ff2f2f;
   --sk-charge-core: #ff8a6a;
+  --sk-charge-pants: #a8232c;
   --sk-charge-arc: var(--accent, #67e8f9);
+}
+
+.sidekick-atmo.is-landed .sk-tights {
+  animation: sk-pants-ignite 2.2s ease-in 0.6s forwards;
+}
+
+@keyframes sk-pants-ignite {
+  from {
+    fill: var(--sk-tights);
+  }
+  to {
+    fill: var(--sk-charge-pants);
+  }
 }
 
 .sidekick-atmo.is-landed .sk-eye {
@@ -153,7 +167,7 @@
 }
 
 .sidekick-atmo.is-landed .sk-arc-field {
-  animation: sk-arc-drift 14s linear infinite;
+  animation: sk-arc-drift 34s linear infinite;
 }
 
 .sk-arc {
@@ -209,6 +223,11 @@
   .sidekick-atmo.is-landed .sk-eye {
     animation: none;
     fill: var(--sk-charge-eye);
+  }
+
+  .sidekick-atmo.is-landed .sk-tights {
+    animation: none;
+    fill: var(--sk-charge-pants);
   }
 
   .sidekick-atmo.is-landed .sk-arc-field {

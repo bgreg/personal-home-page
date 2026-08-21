@@ -18,10 +18,11 @@
   const SVG_NS = "http://www.w3.org/2000/svg";
   const ARC_COUNT = 12;
   const ARC_INNER = 18;
-  const ARC_OUTER = 34;
-  const ARC_KINKS = 4;
-  const ARC_SPREAD = 3.4;
+  const ARC_OUTER_FALLBACK = 34;
+  const ARC_KINKS = 7;
+  const ARC_WANDER = 0.07;
   const ARC_CENTRE = { x: 22, y: 25 };
+  const VIEWBOX_HEIGHT = 50;
   const LAUNCH_MS = 1100;
   const LAUNCH_CLEARANCE = 140;
   const LAUNCH_OVERSHOOT = 220;
@@ -87,15 +88,26 @@
     }
   ];
 
-  const arcPoints = (degrees) => {
+  const reachToRing = (artwork) => {
+    const ring = document.querySelector(".orbit");
+    const box = artwork.getBoundingClientRect();
+    if (!ring || !box.height) return ARC_OUTER_FALLBACK;
+
+    const pxPerUnit = box.height / VIEWBOX_HEIGHT;
+    const ringRadius = ring.getBoundingClientRect().width / 2;
+    return pxPerUnit ? ringRadius / pxPerUnit : ARC_OUTER_FALLBACK;
+  };
+
+  const arcPoints = (degrees, outer) => {
     const radians = (degrees * Math.PI) / 180;
     const along = { x: Math.cos(radians), y: Math.sin(radians) };
     const across = { x: -along.y, y: along.x };
+    const spread = (outer - ARC_INNER) * ARC_WANDER;
 
     return Array.from({ length: ARC_KINKS + 1 }, (_, step) => {
       const travel = step / ARC_KINKS;
-      const reach = ARC_INNER + (ARC_OUTER - ARC_INNER) * travel;
-      const sideways = step === 0 || step === ARC_KINKS ? 0 : (Math.random() - 0.5) * 2 * ARC_SPREAD;
+      const reach = ARC_INNER + (outer - ARC_INNER) * travel;
+      const sideways = step === 0 || step === ARC_KINKS ? 0 : (Math.random() - 0.5) * 2 * spread;
       const x = ARC_CENTRE.x + along.x * reach + across.x * sideways;
       const y = ARC_CENTRE.y + along.y * reach + across.y * sideways;
       return `${x.toFixed(2)},${y.toFixed(2)}`;
@@ -103,6 +115,7 @@
   };
 
   const buildArcField = (artwork) => {
+    const outer = reachToRing(artwork);
     const field = document.createElementNS(SVG_NS, "g");
     field.setAttribute("class", "sk-arc-field");
 
@@ -110,9 +123,9 @@
       const spoke = (360 / ARC_COUNT) * index + (Math.random() - 0.5) * 18;
       const arc = document.createElementNS(SVG_NS, "polyline");
       arc.setAttribute("class", "sk-arc");
-      arc.setAttribute("points", arcPoints(spoke));
-      arc.style.animationDuration = `${(700 + Math.random() * 900).toFixed(0)}ms`;
-      arc.style.animationDelay = `${(1200 + Math.random() * 1400).toFixed(0)}ms`;
+      arc.setAttribute("points", arcPoints(spoke, outer));
+      arc.style.animationDuration = `${(2400 + Math.random() * 1800).toFixed(0)}ms`;
+      arc.style.animationDelay = `${(1200 + Math.random() * 2600).toFixed(0)}ms`;
       field.append(arc);
     }
 
@@ -135,9 +148,9 @@
     sidekick.classList.add("is-landed");
     sidekick.setAttribute("aria-hidden", "true");
     sidekick.inert = true;
-    buildArcField(artwork);
     hero.append(sidekick);
     hero.classList.add("is-charging");
+    buildArcField(artwork);
   };
 
   const fadeOut = async () => {
