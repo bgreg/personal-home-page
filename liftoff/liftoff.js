@@ -24,10 +24,10 @@
   const ARCS_PER_LIMB = 3;
   const ARC_FAN = 15;
   const EXTREMITIES = [
-    { limb: ".sk-arm-l", tip: { x: 11, y: 24.9 } },
-    { limb: ".sk-arm-r", tip: { x: 35.85, y: 11.95 } },
-    { limb: ".sk-boot.sk-leg-l", tip: { x: 17.2, y: 45 } },
-    { limb: ".sk-boot.sk-leg-r", tip: { x: 28.6, y: 44.3 } }
+    { limb: ".sk-arm-l", root: { x: 18.5, y: 19.35 }, tip: { x: 11, y: 24.9 } },
+    { limb: ".sk-arm-r", root: { x: 28.3, y: 19.05 }, tip: { x: 35.85, y: 11.95 } },
+    { limb: ".sk-boot.sk-leg-l", root: { x: 19.35, y: 29.5 }, tip: { x: 17.2, y: 45 } },
+    { limb: ".sk-boot.sk-leg-r", root: { x: 24.8, y: 29.5 }, tip: { x: 28.6, y: 44.3 } }
   ];
   const LAUNCH_MS = 1100;
   const LAUNCH_CLEARANCE = 140;
@@ -104,23 +104,38 @@
     return pxPerUnit ? ringRadius / pxPerUnit : ARC_OUTER_FALLBACK;
   };
 
-  const posedTip = (artwork, limb, tip) => {
+  const posedLimb = (artwork, { limb, root, tip }) => {
     const node = artwork.querySelector(limb);
-    if (!node || !artwork.getScreenCTM) return tip;
+    if (!node || !artwork.getScreenCTM) return { from: tip, heading: 0 };
 
     const toViewBox = artwork.getScreenCTM().inverse().multiply(node.getScreenCTM());
-    const point = artwork.createSVGPoint();
-    point.x = tip.x;
-    point.y = tip.y;
-    return point.matrixTransform(toViewBox);
+    const place = ({ x, y }) => {
+      const point = artwork.createSVGPoint();
+      point.x = x;
+      point.y = y;
+      return point.matrixTransform(toViewBox);
+    };
+
+    const shoulder = place(root);
+    const hand = place(tip);
+    return {
+      from: hand,
+      heading: (Math.atan2(hand.y - shoulder.y, hand.x - shoulder.x) * 180) / Math.PI
+    };
   };
 
-  const arcPoints = (from, endAngle, outer) => {
-    const radians = (endAngle * Math.PI) / 180;
-    const to = {
-      x: ARC_CENTRE.x + Math.cos(radians) * outer,
-      y: ARC_CENTRE.y + Math.sin(radians) * outer
-    };
+  const strikeRing = (from, heading, outer) => {
+    const radians = (heading * Math.PI) / 180;
+    const step = { x: Math.cos(radians), y: Math.sin(radians) };
+    const offset = { x: from.x - ARC_CENTRE.x, y: from.y - ARC_CENTRE.y };
+    const along = 2 * (offset.x * step.x + offset.y * step.y);
+    const outside = offset.x ** 2 + offset.y ** 2 - outer ** 2;
+    const travel = (-along + Math.sqrt(Math.max(0, along ** 2 - 4 * outside))) / 2;
+
+    return { x: from.x + step.x * travel, y: from.y + step.y * travel };
+  };
+
+  const arcPoints = (from, to) => {
     const span = Math.hypot(to.x - from.x, to.y - from.y);
     const across = { x: -(to.y - from.y) / span, y: (to.x - from.x) / span };
     const spread = span * ARC_WANDER;
@@ -140,15 +155,14 @@
     const field = document.createElementNS(SVG_NS, "g");
     field.setAttribute("class", "sk-arc-field");
 
-    EXTREMITIES.forEach(({ limb, tip }) => {
-      const from = posedTip(artwork, limb, tip);
-      const outward = (Math.atan2(from.y - ARC_CENTRE.y, from.x - ARC_CENTRE.x) * 180) / Math.PI;
+    EXTREMITIES.forEach((extremity) => {
+      const { from, heading } = posedLimb(artwork, extremity);
 
       for (let index = 0; index < ARCS_PER_LIMB; index += 1) {
-        const offset = ARCS_PER_LIMB === 1 ? 0 : (index / (ARCS_PER_LIMB - 1) - 0.5) * 2 * ARC_FAN;
+        const fan = ARCS_PER_LIMB === 1 ? 0 : (index / (ARCS_PER_LIMB - 1) - 0.5) * 2 * ARC_FAN;
         const arc = document.createElementNS(SVG_NS, "polyline");
         arc.setAttribute("class", "sk-arc");
-        arc.setAttribute("points", arcPoints(from, outward + offset, outer));
+        arc.setAttribute("points", arcPoints(from, strikeRing(from, heading + fan, outer)));
         arc.style.animationDuration = `${(2400 + Math.random() * 1800).toFixed(0)}ms`;
         arc.style.animationDelay = `${(1200 + Math.random() * 2600).toFixed(0)}ms`;
         field.append(arc);
