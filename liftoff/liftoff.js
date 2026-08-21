@@ -14,6 +14,7 @@
   const BOB_HEIGHT = 2.5;
   const EDGE_MARGIN = 56;
   const CROUCH_MS = 190;
+  const CROUCH_DIP = 4;
   const LAUNCH_MS = 1100;
   const LAUNCH_CLEARANCE = 140;
   const LAUNCH_OVERSHOOT = 220;
@@ -25,7 +26,6 @@
   let departing = false;
 
   const growth = () => GROWTH_STEP ** Math.min(clicks, GROWTH_CLICKS);
-  const scaleValue = (x, y) => `${x.toFixed(4)} ${y.toFixed(4)}`;
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
   const readSurface = () => {
@@ -55,12 +55,11 @@
     });
   };
 
-  const launchFrames = ({ tilt, size, rise, drift }) => [
+  const launchFrames = ({ tilt, rise, drift }) => [
     {
       offset: 0,
-      translate: "0 0",
+      translate: `0 ${CROUCH_DIP}px`,
       rotate: `${tilt.toFixed(2)}deg`,
-      scale: scaleValue(size * 1.06, size * 0.76),
       opacity: 1,
       easing: "cubic-bezier(0.2, 0.85, 0.4, 1)"
     },
@@ -68,7 +67,6 @@
       offset: 0.18,
       translate: `${(drift * 0.05).toFixed(2)}px ${(rise * -0.11).toFixed(2)}px`,
       rotate: `${(tilt + 16).toFixed(2)}deg`,
-      scale: scaleValue(size * 0.94, size * 1.14),
       opacity: 1,
       easing: "cubic-bezier(0.4, 0, 0.75, 0.55)"
     },
@@ -76,7 +74,6 @@
       offset: 0.55,
       translate: `${(drift * 0.36).toFixed(2)}px ${(rise * -0.42).toFixed(2)}px`,
       rotate: `${(tilt + 44).toFixed(2)}deg`,
-      scale: scaleValue(size, size),
       opacity: 1,
       easing: "cubic-bezier(0.35, 0, 0.65, 1)"
     },
@@ -84,7 +81,6 @@
       offset: 1,
       translate: `${drift.toFixed(2)}px ${(-rise).toFixed(2)}px`,
       rotate: `${(tilt + 68).toFixed(2)}deg`,
-      scale: scaleValue(size * 0.45, size * 0.45),
       opacity: 0
     }
   ];
@@ -178,13 +174,13 @@
 
     await sidekick.animate(
       [
-        { scale: scaleValue(size, size) },
-        { scale: scaleValue(size * 1.06, size * 0.76) }
+        { translate: "0 0" },
+        { translate: `0 ${CROUCH_DIP}px` }
       ],
       { duration: CROUCH_MS, easing: "ease-out", fill: "forwards" }
     ).finished;
 
-    await sidekick.animate(launchFrames({ tilt, size, rise, drift }), {
+    await sidekick.animate(launchFrames({ tilt, rise, drift }), {
       duration: LAUNCH_MS,
       easing: "linear",
       fill: "forwards"
