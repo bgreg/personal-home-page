@@ -9,7 +9,8 @@
 }
 
 .sidekick-atmo.is-walking svg,
-.sidekick-atmo.is-launching svg {
+.sidekick-atmo.is-launching svg,
+.sidekick-atmo.is-landed svg {
   animation: none;
 }
 
@@ -208,12 +209,7 @@
 }
 
 .hero.is-charging {
-  --orbit-charged: rgba(255, 71, 71, 0.3);
   --orbit-sat-charged: #ff3b3b;
-}
-
-.hero.is-charging .orbit {
-  border-color: var(--orbit-charged);
 }
 
 .hero.is-charging .orbit-sat {
@@ -226,7 +222,7 @@
   position: absolute;
   inset: -3px;
   border-radius: 50%;
-  border: 1px solid var(--orbit-sat-charged);
+  border: 1px solid var(--accent, #67e8f9);
   opacity: 0;
   animation: sk-ring-charge 2.6s ease-in-out 1.2s infinite;
 }

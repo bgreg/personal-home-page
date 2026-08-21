@@ -156,7 +156,6 @@ section {
   border: 1px solid rgba(103, 232, 249, 0.13);
   border-radius: 50%;
   animation: spin 70s linear infinite;
-  transition: border-color 2.2s ease-in 0.6s;
   pointer-events: none;
   z-index: 0;
 }
