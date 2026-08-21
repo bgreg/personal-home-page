@@ -18,7 +18,6 @@
   const LAUNCH_MS = 1100;
   const LAUNCH_CLEARANCE = 140;
   const LAUNCH_OVERSHOOT = 220;
-  const RETURN_AFTER_MS = null;
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -60,49 +59,43 @@
       offset: 0,
       translate: `0 ${CROUCH_DIP}px`,
       rotate: `${tilt.toFixed(2)}deg`,
-      opacity: 1,
       easing: "cubic-bezier(0.2, 0.85, 0.4, 1)"
     },
     {
       offset: 0.18,
       translate: `${(drift * 0.05).toFixed(2)}px ${(rise * -0.11).toFixed(2)}px`,
       rotate: `${(tilt + 16).toFixed(2)}deg`,
-      opacity: 1,
       easing: "cubic-bezier(0.4, 0, 0.75, 0.55)"
     },
     {
       offset: 0.55,
       translate: `${(drift * 0.36).toFixed(2)}px ${(rise * -0.42).toFixed(2)}px`,
       rotate: `${(tilt + 44).toFixed(2)}deg`,
-      opacity: 1,
       easing: "cubic-bezier(0.35, 0, 0.65, 1)"
     },
     {
       offset: 1,
       translate: `${drift.toFixed(2)}px ${(-rise).toFixed(2)}px`,
-      rotate: `${(tilt + 68).toFixed(2)}deg`,
-      opacity: 0
+      rotate: `${(tilt + 68).toFixed(2)}deg`
     }
   ];
 
-  const scheduleReturn = () => {
-    if (typeof RETURN_AFTER_MS !== "number") return;
-    window.setTimeout(() => {
-      sidekick.getAnimations().forEach((animation) => animation.cancel());
-      sidekick.querySelector("svg").getAnimations().forEach((animation) => animation.cancel());
-      sidekick.classList.remove("is-launching");
-      sidekick.removeAttribute("style");
-      sidekick.hidden = false;
-      clicks = 0;
-      departing = false;
-      sidekick.animate(
-        [
-          { translate: "520px -520px", opacity: 0 },
-          { translate: "0 0", opacity: 1 }
-        ],
-        { duration: 800, easing: "cubic-bezier(0.2, 0.7, 0.2, 1)" }
-      );
-    }, RETURN_AFTER_MS);
+  const land = () => {
+    const hero = document.querySelector(".hero");
+    if (!hero) {
+      sidekick.hidden = true;
+      return;
+    }
+
+    sidekick.getAnimations().forEach((animation) => animation.cancel());
+    sidekick.querySelector("svg").getAnimations().forEach((animation) => animation.cancel());
+    sidekick.removeAttribute("style");
+    sidekick.style.setProperty("--sk-grow", growth().toFixed(6));
+    sidekick.classList.remove("is-launching");
+    sidekick.classList.add("is-landed");
+    sidekick.setAttribute("aria-hidden", "true");
+    sidekick.inert = true;
+    hero.append(sidekick);
   };
 
   const fadeOut = async () => {
@@ -120,8 +113,7 @@
 
     if (reducedMotion.matches) {
       await fadeOut();
-      sidekick.hidden = true;
-      scheduleReturn();
+      land();
       return;
     }
 
@@ -186,8 +178,7 @@
       fill: "forwards"
     }).finished;
 
-    sidekick.hidden = true;
-    scheduleReturn();
+    land();
   };
 
   sidekick.addEventListener("click", () => {
