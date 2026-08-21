@@ -20,7 +20,6 @@
   const ARC_KINKS = 7;
   const ARC_WANDER = 0.07;
   const ARC_CENTRE = { x: 22, y: 25 };
-  const VIEWBOX_HEIGHT = 50;
   const ARCS_PER_LIMB = 3;
   const ARC_FAN = 15;
   const EXTREMITIES = [
@@ -94,14 +93,27 @@
     }
   ];
 
-  const reachToRing = (artwork) => {
+  const ringInUserUnits = (artwork) => {
     const ring = document.querySelector(".orbit");
-    const box = artwork.getBoundingClientRect();
-    if (!ring || !box.height) return ARC_OUTER_FALLBACK;
+    if (!ring || !artwork.getScreenCTM) {
+      return { centre: ARC_CENTRE, radius: ARC_OUTER_FALLBACK };
+    }
 
-    const pxPerUnit = box.height / VIEWBOX_HEIGHT;
-    const ringRadius = ring.getBoundingClientRect().width / 2;
-    return pxPerUnit ? ringRadius / pxPerUnit : ARC_OUTER_FALLBACK;
+    const box = ring.getBoundingClientRect();
+    const inverse = artwork.getScreenCTM().inverse();
+    const place = (x, y) => {
+      const point = artwork.createSVGPoint();
+      point.x = x;
+      point.y = y;
+      return point.matrixTransform(inverse);
+    };
+
+    const centre = place(box.left + box.width / 2, box.top + box.height / 2);
+    const edge = place(box.right, box.top + box.height / 2);
+    const radius = Math.hypot(edge.x - centre.x, edge.y - centre.y);
+
+    if (!radius) return { centre: ARC_CENTRE, radius: ARC_OUTER_FALLBACK };
+    return { centre, radius };
   };
 
   const posedLimb = (artwork, { limb, root, tip }) => {
@@ -124,14 +136,22 @@
     };
   };
 
-  const strikeRing = (from, heading, outer) => {
+  const strikeRing = (from, heading, ring) => {
     const radians = (heading * Math.PI) / 180;
     const step = { x: Math.cos(radians), y: Math.sin(radians) };
-    const offset = { x: from.x - ARC_CENTRE.x, y: from.y - ARC_CENTRE.y };
+    const offset = { x: from.x - ring.centre.x, y: from.y - ring.centre.y };
     const along = 2 * (offset.x * step.x + offset.y * step.y);
-    const outside = offset.x ** 2 + offset.y ** 2 - outer ** 2;
-    const travel = (-along + Math.sqrt(Math.max(0, along ** 2 - 4 * outside))) / 2;
+    const outside = offset.x ** 2 + offset.y ** 2 - ring.radius ** 2;
+    const reach = along ** 2 - 4 * outside;
 
+    if (reach < 0) {
+      return {
+        x: ring.centre.x + step.x * ring.radius,
+        y: ring.centre.y + step.y * ring.radius
+      };
+    }
+
+    const travel = (-along + Math.sqrt(reach)) / 2;
     return { x: from.x + step.x * travel, y: from.y + step.y * travel };
   };
 
@@ -151,7 +171,7 @@
   };
 
   const buildArcField = (artwork) => {
-    const outer = reachToRing(artwork);
+    const ring = ringInUserUnits(artwork);
     const field = document.createElementNS(SVG_NS, "g");
     field.setAttribute("class", "sk-arc-field");
 
@@ -162,9 +182,9 @@
         const fan = ARCS_PER_LIMB === 1 ? 0 : (index / (ARCS_PER_LIMB - 1) - 0.5) * 2 * ARC_FAN;
         const arc = document.createElementNS(SVG_NS, "polyline");
         arc.setAttribute("class", "sk-arc");
-        arc.setAttribute("points", arcPoints(from, strikeRing(from, heading + fan, outer)));
-        arc.style.animationDuration = `${(2400 + Math.random() * 1800).toFixed(0)}ms`;
-        arc.style.animationDelay = `${(1200 + Math.random() * 2600).toFixed(0)}ms`;
+        arc.setAttribute("points", arcPoints(from, strikeRing(from, heading + fan, ring)));
+        arc.style.animationDuration = `${(5200 + Math.random() * 4000).toFixed(0)}ms`;
+        arc.style.animationDelay = `${(1200 + Math.random() * 4200).toFixed(0)}ms`;
         field.append(arc);
       }
     });
