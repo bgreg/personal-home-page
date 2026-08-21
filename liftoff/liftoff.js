@@ -6,7 +6,7 @@
   if (!sidekick || !planet) return;
 
   const GROWTH_CLICKS = 3;
-  const GROWTH_STEP = 1.05;
+  const GROWTH_STEP = 1.2;
   const WALK_SPEED = 220;
   const WALK_STEP_MS = 460;
   const WALK_SAMPLES = 60;
@@ -14,9 +14,9 @@
   const BOB_HEIGHT = 2.5;
   const EDGE_MARGIN = 56;
   const CROUCH_MS = 190;
-  const LAUNCH_MS = 950;
+  const LAUNCH_MS = 1100;
   const LAUNCH_CLEARANCE = 140;
-  const LAUNCH_DRIFT = 110;
+  const LAUNCH_OVERSHOOT = 220;
   const RETURN_AFTER_MS = null;
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -66,24 +66,24 @@
     },
     {
       offset: 0.18,
-      translate: `${(drift * -0.04).toFixed(2)}px ${(rise * -0.09).toFixed(2)}px`,
-      rotate: `${(tilt - 18).toFixed(2)}deg`,
+      translate: `${(drift * 0.05).toFixed(2)}px ${(rise * -0.11).toFixed(2)}px`,
+      rotate: `${(tilt + 16).toFixed(2)}deg`,
       scale: scaleValue(size * 0.94, size * 1.14),
       opacity: 1,
       easing: "cubic-bezier(0.4, 0, 0.75, 0.55)"
     },
     {
       offset: 0.55,
-      translate: `${(drift * -0.34).toFixed(2)}px ${(rise * -0.36).toFixed(2)}px`,
-      rotate: `${(tilt - 34).toFixed(2)}deg`,
+      translate: `${(drift * 0.36).toFixed(2)}px ${(rise * -0.42).toFixed(2)}px`,
+      rotate: `${(tilt + 44).toFixed(2)}deg`,
       scale: scaleValue(size, size),
       opacity: 1,
       easing: "cubic-bezier(0.35, 0, 0.65, 1)"
     },
     {
       offset: 1,
-      translate: `${(-drift).toFixed(2)}px ${(-rise).toFixed(2)}px`,
-      rotate: `${(tilt - 46).toFixed(2)}deg`,
+      translate: `${drift.toFixed(2)}px ${(-rise).toFixed(2)}px`,
+      rotate: `${(tilt + 68).toFixed(2)}deg`,
       scale: scaleValue(size * 0.45, size * 0.45),
       opacity: 0
     }
@@ -93,13 +93,15 @@
     if (typeof RETURN_AFTER_MS !== "number") return;
     window.setTimeout(() => {
       sidekick.getAnimations().forEach((animation) => animation.cancel());
+      sidekick.querySelector("svg").getAnimations().forEach((animation) => animation.cancel());
+      sidekick.classList.remove("is-launching");
       sidekick.removeAttribute("style");
       sidekick.hidden = false;
       clicks = 0;
       departing = false;
       sidekick.animate(
         [
-          { translate: `${-LAUNCH_DRIFT}px -520px`, opacity: 0 },
+          { translate: "520px -520px", opacity: 0 },
           { translate: "0 0", opacity: 1 }
         ],
         { duration: 800, easing: "cubic-bezier(0.2, 0.7, 0.2, 1)" }
@@ -162,7 +164,17 @@
     sidekick.style.bottom = "auto";
     sidekick.style.rotate = `${tilt.toFixed(2)}deg`;
 
-    const rise = sidekick.getBoundingClientRect().top + LAUNCH_CLEARANCE;
+    const perch = sidekick.getBoundingClientRect();
+    const rise = perch.top + LAUNCH_CLEARANCE;
+    const drift = window.innerWidth - perch.left + LAUNCH_OVERSHOOT;
+
+    sidekick.classList.add("is-launching");
+    const artwork = sidekick.querySelector("svg");
+    artwork.animate([{ scale: "-1 1" }, { scale: "1 1" }], {
+      duration: CROUCH_MS,
+      easing: "ease-in-out",
+      fill: "forwards"
+    });
 
     await sidekick.animate(
       [
@@ -172,7 +184,7 @@
       { duration: CROUCH_MS, easing: "ease-out", fill: "forwards" }
     ).finished;
 
-    await sidekick.animate(launchFrames({ tilt, size, rise, drift: LAUNCH_DRIFT }), {
+    await sidekick.animate(launchFrames({ tilt, size, rise, drift }), {
       duration: LAUNCH_MS,
       easing: "linear",
       fill: "forwards"
