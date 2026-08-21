@@ -108,8 +108,10 @@
       return point.matrixTransform(inverse);
     };
 
-    const centre = place(box.left + box.width / 2, box.top + box.height / 2);
-    const edge = place(box.right, box.top + box.height / 2);
+    const middle = { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+    const acrossPx = ring.offsetWidth / 2;
+    const centre = place(middle.x, middle.y);
+    const edge = place(middle.x + acrossPx, middle.y);
     const radius = Math.hypot(edge.x - centre.x, edge.y - centre.y);
 
     if (!radius) return { centre: ARC_CENTRE, radius: ARC_OUTER_FALLBACK };
