@@ -276,12 +276,6 @@ section {
   margin-bottom: 2.1rem;
 }
 
-.section-head .idx {
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  color: var(--accent);
-}
-
 h2 {
   font-family: var(--display);
   font-weight: 600;
