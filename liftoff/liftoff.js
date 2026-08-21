@@ -16,13 +16,19 @@
   const CROUCH_MS = 190;
   const CROUCH_DIP = 4;
   const SVG_NS = "http://www.w3.org/2000/svg";
-  const ARC_COUNT = 12;
-  const ARC_INNER = 18;
   const ARC_OUTER_FALLBACK = 34;
   const ARC_KINKS = 7;
   const ARC_WANDER = 0.07;
   const ARC_CENTRE = { x: 22, y: 25 };
   const VIEWBOX_HEIGHT = 50;
+  const ARCS_PER_LIMB = 3;
+  const ARC_FAN = 15;
+  const EXTREMITIES = [
+    { limb: ".sk-arm-l", tip: { x: 11, y: 24.9 } },
+    { limb: ".sk-arm-r", tip: { x: 35.85, y: 11.95 } },
+    { limb: ".sk-boot.sk-leg-l", tip: { x: 17.2, y: 45 } },
+    { limb: ".sk-boot.sk-leg-r", tip: { x: 28.6, y: 44.3 } }
+  ];
   const LAUNCH_MS = 1100;
   const LAUNCH_CLEARANCE = 140;
   const LAUNCH_OVERSHOOT = 220;
@@ -98,18 +104,33 @@
     return pxPerUnit ? ringRadius / pxPerUnit : ARC_OUTER_FALLBACK;
   };
 
-  const arcPoints = (degrees, outer) => {
-    const radians = (degrees * Math.PI) / 180;
-    const along = { x: Math.cos(radians), y: Math.sin(radians) };
-    const across = { x: -along.y, y: along.x };
-    const spread = (outer - ARC_INNER) * ARC_WANDER;
+  const posedTip = (artwork, limb, tip) => {
+    const node = artwork.querySelector(limb);
+    if (!node || !artwork.getScreenCTM) return tip;
+
+    const toViewBox = artwork.getScreenCTM().inverse().multiply(node.getScreenCTM());
+    const point = artwork.createSVGPoint();
+    point.x = tip.x;
+    point.y = tip.y;
+    return point.matrixTransform(toViewBox);
+  };
+
+  const arcPoints = (from, endAngle, outer) => {
+    const radians = (endAngle * Math.PI) / 180;
+    const to = {
+      x: ARC_CENTRE.x + Math.cos(radians) * outer,
+      y: ARC_CENTRE.y + Math.sin(radians) * outer
+    };
+    const span = Math.hypot(to.x - from.x, to.y - from.y);
+    const across = { x: -(to.y - from.y) / span, y: (to.x - from.x) / span };
+    const spread = span * ARC_WANDER;
 
     return Array.from({ length: ARC_KINKS + 1 }, (_, step) => {
       const travel = step / ARC_KINKS;
-      const reach = ARC_INNER + (outer - ARC_INNER) * travel;
-      const sideways = step === 0 || step === ARC_KINKS ? 0 : (Math.random() - 0.5) * 2 * spread;
-      const x = ARC_CENTRE.x + along.x * reach + across.x * sideways;
-      const y = ARC_CENTRE.y + along.y * reach + across.y * sideways;
+      const edge = step === 0 || step === ARC_KINKS;
+      const sideways = edge ? 0 : (Math.random() - 0.5) * 2 * spread;
+      const x = from.x + (to.x - from.x) * travel + across.x * sideways;
+      const y = from.y + (to.y - from.y) * travel + across.y * sideways;
       return `${x.toFixed(2)},${y.toFixed(2)}`;
     }).join(" ");
   };
@@ -119,15 +140,20 @@
     const field = document.createElementNS(SVG_NS, "g");
     field.setAttribute("class", "sk-arc-field");
 
-    for (let index = 0; index < ARC_COUNT; index += 1) {
-      const spoke = (360 / ARC_COUNT) * index + (Math.random() - 0.5) * 18;
-      const arc = document.createElementNS(SVG_NS, "polyline");
-      arc.setAttribute("class", "sk-arc");
-      arc.setAttribute("points", arcPoints(spoke, outer));
-      arc.style.animationDuration = `${(2400 + Math.random() * 1800).toFixed(0)}ms`;
-      arc.style.animationDelay = `${(1200 + Math.random() * 2600).toFixed(0)}ms`;
-      field.append(arc);
-    }
+    EXTREMITIES.forEach(({ limb, tip }) => {
+      const from = posedTip(artwork, limb, tip);
+      const outward = (Math.atan2(from.y - ARC_CENTRE.y, from.x - ARC_CENTRE.x) * 180) / Math.PI;
+
+      for (let index = 0; index < ARCS_PER_LIMB; index += 1) {
+        const offset = ARCS_PER_LIMB === 1 ? 0 : (index / (ARCS_PER_LIMB - 1) - 0.5) * 2 * ARC_FAN;
+        const arc = document.createElementNS(SVG_NS, "polyline");
+        arc.setAttribute("class", "sk-arc");
+        arc.setAttribute("points", arcPoints(from, outward + offset, outer));
+        arc.style.animationDuration = `${(2400 + Math.random() * 1800).toFixed(0)}ms`;
+        arc.style.animationDelay = `${(1200 + Math.random() * 2600).toFixed(0)}ms`;
+        field.append(arc);
+      }
+    });
 
     artwork.append(field);
   };

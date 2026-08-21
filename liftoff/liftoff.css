@@ -120,11 +120,25 @@
   --sk-charge-eye: #ff2f2f;
   --sk-charge-core: #ff8a6a;
   --sk-charge-pants: #c2454f;
+  --sk-charge-emblem: #ff8a8a;
   --sk-charge-arc: var(--green, #7ee0a8);
 }
 
 .sidekick-atmo.is-landed .sk-tights {
   animation: sk-pants-ignite 2.2s ease-in 0.6s forwards;
+}
+
+.sidekick-atmo.is-landed .sk-emblem {
+  animation: sk-emblem-ignite 2.2s ease-in 0.6s forwards;
+}
+
+@keyframes sk-emblem-ignite {
+  from {
+    fill: var(--sk-emblem);
+  }
+  to {
+    fill: var(--sk-charge-emblem);
+  }
 }
 
 @keyframes sk-pants-ignite {
@@ -166,10 +180,6 @@
   transform-origin: 22px 25px;
 }
 
-.sidekick-atmo.is-landed .sk-arc-field {
-  animation: sk-arc-drift 34s linear infinite;
-}
-
 .sk-arc {
   fill: none;
   stroke: var(--sk-charge-arc);
@@ -186,12 +196,6 @@
   animation-iteration-count: infinite;
 }
 
-@keyframes sk-arc-drift {
-  to {
-    rotate: 360deg;
-  }
-}
-
 @keyframes sk-arc-flicker {
   0% { opacity: 0; }
   4% { opacity: 0.95; }
@@ -203,12 +207,26 @@
   100% { opacity: 0; }
 }
 
+.hero.is-charging {
+  --orbit-charged: rgba(255, 71, 71, 0.3);
+  --orbit-sat-charged: #ff3b3b;
+}
+
+.hero.is-charging .orbit {
+  border-color: var(--orbit-charged);
+}
+
+.hero.is-charging .orbit-sat {
+  background: var(--orbit-sat-charged);
+  box-shadow: 0 0 14px var(--orbit-sat-charged);
+}
+
 .hero.is-charging .orbit::after {
   content: "";
   position: absolute;
   inset: -3px;
   border-radius: 50%;
-  border: 1px solid var(--accent, #67e8f9);
+  border: 1px solid var(--orbit-sat-charged);
   opacity: 0;
   animation: sk-ring-charge 2.6s ease-in-out 1.2s infinite;
 }
@@ -230,8 +248,9 @@
     fill: var(--sk-charge-pants);
   }
 
-  .sidekick-atmo.is-landed .sk-arc-field {
+  .sidekick-atmo.is-landed .sk-emblem {
     animation: none;
+    fill: var(--sk-charge-emblem);
   }
 
   .sidekick-atmo.is-landed .sk-arc {
@@ -242,5 +261,10 @@
   .hero.is-charging .orbit::after {
     animation: none;
     opacity: 0.35;
+  }
+
+  .orbit,
+  .orbit-sat {
+    transition: none;
   }
 }
