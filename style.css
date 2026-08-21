@@ -120,6 +120,9 @@ section {
 
 /* ---------- Hero ---------- */
 .hero {
+  --orbit-size: 320px;
+  --orbit-top: -60px;
+  --orbit-right: -40px;
   position: relative;
   isolation: isolate;
   min-height: 100vh;
@@ -146,10 +149,10 @@ section {
 
 .orbit {
   position: absolute;
-  top: -60px;
-  right: -40px;
-  width: 320px;
-  height: 320px;
+  top: var(--orbit-top);
+  right: var(--orbit-right);
+  width: var(--orbit-size);
+  height: var(--orbit-size);
   border: 1px solid rgba(103, 232, 249, 0.13);
   border-radius: 50%;
   animation: spin 70s linear infinite;
