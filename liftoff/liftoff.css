@@ -377,12 +377,21 @@ body.is-showdown .hero-inner {
   box-shadow: 0 0 26px 8px rgba(255, 62, 47, 0.85);
 }
 
-.sk-struck {
-  animation: sk-struck-flash 150ms steps(1, end) 2;
+.sk-struck-good {
+  animation: sk-struck-green 150ms steps(1, end) 2;
 }
 
-@keyframes sk-struck-flash {
-  0% { filter: brightness(3.2) saturate(0.4); }
+.sk-struck-evil {
+  animation: sk-struck-red 150ms steps(1, end) 2;
+}
+
+@keyframes sk-struck-green {
+  0% { filter: drop-shadow(0 0 7px #7ee0a8) drop-shadow(0 0 18px rgba(126, 224, 168, 0.85)); }
+  50% { filter: none; }
+}
+
+@keyframes sk-struck-red {
+  0% { filter: drop-shadow(0 0 7px #ff4b3a) drop-shadow(0 0 18px rgba(255, 62, 47, 0.85)); }
   50% { filter: none; }
 }
 
@@ -476,7 +485,8 @@ body.is-showdown.is-aftermath .hero-inner {
     animation-duration: 1ms;
   }
 
-  .sk-struck {
+  .sk-struck-good,
+  .sk-struck-evil {
     animation: none;
   }
 

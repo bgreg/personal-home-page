@@ -316,10 +316,11 @@
       { duration, easing: "linear", fill: "forwards" }
     );
 
+    const bruise = `sk-struck-${kind}`;
     await pause(duration * 0.34);
-    target.classList.add("sk-struck");
+    target.classList.add(bruise);
     await shot.finished.catch(() => {});
-    target.classList.remove("sk-struck");
+    target.classList.remove(bruise);
     beam.remove();
   };
 
