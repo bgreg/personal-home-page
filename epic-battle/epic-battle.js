@@ -1,14 +1,14 @@
 (() => {
   "use strict";
 
-  const sidekick = document.querySelector(".sidekick-atmo");
-  const champion = document.querySelector(".sidekick-corner");
-  const championHome = champion && {
-    parent: champion.parentElement,
-    next: champion.nextElementSibling
+  const villain = document.querySelector(".villain");
+  const heroine = document.querySelector(".heroine");
+  const heroineHome = heroine && {
+    parent: heroine.parentElement,
+    next: heroine.nextElementSibling
   };
   const planet = document.querySelector(".planet");
-  if (!sidekick || !planet) return;
+  if (!villain || !planet) return;
 
   const GROWTH_CLICKS = 3;
   const GROWTH_STEP = 1.2;
@@ -26,7 +26,7 @@
   const ARC_WANDER = 0.07;
   const ARC_CENTRE = { x: 22, y: 25 };
   const BLAST_CENTRE = { x: 22, y: 22 };
-  const HERO_HOME_MS = 1150;
+  const HEROINE_HOME_MS = 1150;
   const VIEWBOX_HEIGHT = 50;
   const ARCS_PER_LIMB = 3;
   const ARC_FAN = 15;
@@ -38,9 +38,9 @@
   ];
   const LAUNCH_MS = 1100;
   const LAUNCH_EXIT_MARGIN = 40;
-  const HERO_OVER_VILLAIN = 1.1;
-  const HERO_FLY_MS = 1500;
-  const HERO_STANDOFF = 26;
+  const HEROINE_OVER_VILLAIN = 1.1;
+  const HEROINE_FLY_MS = 1500;
+  const HEROINE_STANDOFF = 26;
   const EYE_HEIGHT = { atmo: 8.85, corner: 9.4 };
   const MUZZLE_CLEARANCE = 13;
   const LASER_ROUNDS = 3;
@@ -235,35 +235,35 @@
   const arriveInTheOrbitRing = () => {
     const hero = document.querySelector(".hero");
     if (!hero) {
-      sidekick.hidden = true;
+      villain.hidden = true;
       return;
     }
 
-    const artwork = sidekick.querySelector("svg");
-    sidekick.getAnimations().forEach((animation) => animation.cancel());
+    const artwork = villain.querySelector("svg");
+    villain.getAnimations().forEach((animation) => animation.cancel());
     artwork.getAnimations().forEach((animation) => animation.cancel());
-    sidekick.removeAttribute("style");
-    sidekick.style.setProperty("--sk-grow", grownScale().toFixed(6));
-    sidekick.classList.remove("is-launching");
-    sidekick.classList.add("is-landed");
-    sidekick.setAttribute("aria-label", "Send in the other sidekick");
-    hero.append(sidekick);
+    villain.removeAttribute("style");
+    villain.style.setProperty("--sk-grow", grownScale().toFixed(6));
+    villain.classList.remove("is-launching");
+    villain.classList.add("is-landed");
+    villain.setAttribute("aria-label", "Send in the other villain");
+    hero.append(villain);
     hero.classList.add("is-charging");
-    if (reducedMotion.matches) sidekick.classList.add("is-static-charge");
+    if (reducedMotion.matches) villain.classList.add("is-static-charge");
     drawLightningToTheRing(artwork);
 
-    if (champion) {
-      champion.style.setProperty("--sk-rally", grownScale().toFixed(6));
-      champion.classList.add("is-rallying");
+    if (heroine) {
+      heroine.style.setProperty("--sk-rally", grownScale().toFixed(6));
+      heroine.classList.add("is-rallying");
     }
   };
 
-  const sendTheHeroToTheStandoff = async (heroWins) => {
+  const sendTheHeroineToTheStandoff = async (heroineWins) => {
     const ring = document.querySelector(".orbit");
     const stage = document.querySelector(".hero");
-    if (!champion || !ring || !stage) return;
+    if (!heroine || !ring || !stage) return;
 
-    champion.getAnimations().forEach((animation) => {
+    heroine.getAnimations().forEach((animation) => {
       try {
         animation.finish();
       } catch (_) {
@@ -271,7 +271,7 @@
       }
     });
 
-    const start = champion.getBoundingClientRect();
+    const start = heroine.getBoundingClientRect();
     const ringBox = ring.getBoundingClientRect();
     const radius = ring.offsetWidth / 2;
     const ringCentre = {
@@ -279,24 +279,24 @@
       y: ringBox.top + ringBox.height / 2
     };
 
-    const size = grownScale() * HERO_OVER_VILLAIN;
-    const base = { width: champion.offsetWidth, height: champion.offsetHeight };
-    const rallied = champion.classList.contains("is-rallying") ? grownScale() : 1;
+    const size = grownScale() * HEROINE_OVER_VILLAIN;
+    const base = { width: heroine.offsetWidth, height: heroine.offsetHeight };
+    const rallied = heroine.classList.contains("is-rallying") ? grownScale() : 1;
     const spread = (base.width * size) / 2;
     const from = { x: start.left + start.width / 2, y: start.top + start.height / 2 };
     const shift = {
-      x: ringCentre.x - radius - HERO_STANDOFF - spread - from.x,
+      x: ringCentre.x - radius - HEROINE_STANDOFF - spread - from.x,
       y: ringCentre.y - from.y
     };
 
     document.body.classList.add("is-showdown");
-    champion.classList.add("is-summoned");
+    heroine.classList.add("is-summoned");
 
     if (reducedMotion.matches) {
-      champion.style.translate = `${shift.x.toFixed(2)}px ${shift.y.toFixed(2)}px`;
-      champion.style.scale = size.toFixed(4);
+      heroine.style.translate = `${shift.x.toFixed(2)}px ${shift.y.toFixed(2)}px`;
+      heroine.style.scale = size.toFixed(4);
     } else {
-      await champion.animate(
+      await heroine.animate(
         [
           { translate: "0 0", scale: "1", easing: "cubic-bezier(0.55, 0, 0.3, 1)" },
           {
@@ -310,33 +310,33 @@
             scale: size.toFixed(4)
           }
         ],
-        { duration: HERO_FLY_MS, easing: "linear", fill: "forwards" }
+        { duration: HEROINE_FLY_MS, easing: "linear", fill: "forwards" }
       ).finished;
     }
 
-    const settled = champion.getBoundingClientRect();
+    const settled = heroine.getBoundingClientRect();
     const stageBox = stage.getBoundingClientRect();
-    champion.getAnimations().forEach((animation) => animation.cancel());
-    champion.style.position = "absolute";
-    champion.style.left = `${(settled.left + settled.width / 2 - base.width / 2 - stageBox.left).toFixed(2)}px`;
-    champion.style.top = `${(settled.top + settled.height / 2 - base.height / 2 - stageBox.top).toFixed(2)}px`;
-    champion.style.right = "auto";
-    champion.style.bottom = "auto";
-    champion.style.translate = "none";
-    champion.style.transformOrigin = "50% 50%";
-    champion.style.scale = size.toFixed(4);
-    stage.append(champion);
+    heroine.getAnimations().forEach((animation) => animation.cancel());
+    heroine.style.position = "absolute";
+    heroine.style.left = `${(settled.left + settled.width / 2 - base.width / 2 - stageBox.left).toFixed(2)}px`;
+    heroine.style.top = `${(settled.top + settled.height / 2 - base.height / 2 - stageBox.top).toFixed(2)}px`;
+    heroine.style.right = "auto";
+    heroine.style.bottom = "auto";
+    heroine.style.translate = "none";
+    heroine.style.transformOrigin = "50% 50%";
+    heroine.style.scale = size.toFixed(4);
+    stage.append(heroine);
 
-    champion.classList.add("is-buff");
+    heroine.classList.add("is-buff");
     await pause(reducedMotion.matches ? 0 : 620);
-    await exchangeLaserFire(stage, heroWins);
+    await exchangeLaserFire(stage, heroineWins);
   };
 
   const pause = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
   const eyePosition = (el) => {
     const box = el.getBoundingClientRect();
-    const eyeY = el.matches(".sidekick-corner") ? EYE_HEIGHT.corner : EYE_HEIGHT.atmo;
+    const eyeY = el.matches(".heroine") ? EYE_HEIGHT.corner : EYE_HEIGHT.atmo;
     return { x: box.left + box.width / 2, y: box.top + (box.height * eyeY) / VIEWBOX_HEIGHT };
   };
 
@@ -407,11 +407,11 @@
 
   const restTheWreckageInTheFooter = () => {
     const footer = document.querySelector("footer");
-    const source = sidekick.querySelector("svg");
-    if (!footer || !source || document.querySelector(".sidekick-wreck")) return;
+    const source = villain.querySelector("svg");
+    if (!footer || !source || document.querySelector(".villain-wreck")) return;
 
     const wreck = document.createElement("div");
-    wreck.className = "sidekick-wreck";
+    wreck.className = "villain-wreck";
     wreck.setAttribute("aria-hidden", "true");
     wreck.style.setProperty("--sk-grow", grownScale().toFixed(6));
 
@@ -424,17 +424,17 @@
     poseTheWreckage(artwork);
   };
 
-  const returnTheHeroToHerCorner = async () => {
-    if (!champion || !championHome) return;
+  const returnTheHeroineToHerCorner = async () => {
+    if (!heroine || !heroineHome) return;
 
-    const from = champion.getBoundingClientRect();
+    const from = heroine.getBoundingClientRect();
 
-    champion.getAnimations().forEach((animation) => animation.cancel());
-    champion.classList.remove("is-summoned", "is-buff", "is-rallying");
-    champion.removeAttribute("style");
-    championHome.parent.insertBefore(champion, championHome.next);
+    heroine.getAnimations().forEach((animation) => animation.cancel());
+    heroine.classList.remove("is-summoned", "is-buff", "is-rallying");
+    heroine.removeAttribute("style");
+    heroineHome.parent.insertBefore(heroine, heroineHome.next);
 
-    const home = champion.getBoundingClientRect();
+    const home = heroine.getBoundingClientRect();
     if (!home.width || reducedMotion.matches) return;
 
     const shift = {
@@ -442,7 +442,7 @@
       y: from.top + from.height / 2 - (home.top + home.height / 2)
     };
 
-    await champion.animate(
+    await heroine.animate(
       [
         {
           translate: `${shift.x.toFixed(2)}px ${shift.y.toFixed(2)}px`,
@@ -451,15 +451,15 @@
         },
         { translate: "0 0", scale: "1" }
       ],
-      { duration: HERO_HOME_MS }
+      { duration: HEROINE_HOME_MS }
     ).finished;
   };
 
   const destroyTheVillain = async (stage) => {
-    const artwork = sidekick.querySelector("svg");
+    const artwork = villain.querySelector("svg");
 
     if (!reducedMotion.matches && artwork) {
-      await fireLaserBeam(stage, champion, sidekick, "good", FINISHER_MS, true);
+      await fireLaserBeam(stage, heroine, villain, "good", FINISHER_MS, true);
 
       artwork.querySelectorAll(".sk-arc-field").forEach((field) => field.remove());
 
@@ -513,20 +513,20 @@
       );
     }
 
-    sidekick.hidden = true;
+    villain.hidden = true;
     stage.classList.remove("is-charging");
     document.body.classList.remove("is-showdown");
     document.body.classList.add("is-victory");
     restTheWreckageInTheFooter();
-    await returnTheHeroToHerCorner();
+    await returnTheHeroineToHerCorner();
   };
 
-  const defeatTheHero = async (stage) => {
+  const defeatTheHeroine = async (stage) => {
     if (!reducedMotion.matches) {
-      await fireLaserBeam(stage, sidekick, champion, "evil", FINISHER_MS, true);
+      await fireLaserBeam(stage, villain, heroine, "evil", FINISHER_MS, true);
 
-      const knocked = champion.getBoundingClientRect();
-      await champion.animate(
+      const knocked = heroine.getBoundingClientRect();
+      await heroine.animate(
         [
           { translate: "0 0", rotate: "0deg", opacity: 1 },
           { offset: 0.35, translate: `${(-knocked.width * 1.1).toFixed(1)}px 14px`, rotate: "-34deg", opacity: 1 },
@@ -536,7 +536,7 @@
       ).finished;
     }
 
-    champion.hidden = true;
+    heroine.hidden = true;
     burnThePageDown();
   };
 
@@ -552,23 +552,23 @@
     document.body.append(blaze);
   };
 
-  const exchangeLaserFire = async (stage, heroWins) => {
+  const exchangeLaserFire = async (stage, heroineWins) => {
     if (reducedMotion.matches) {
       await pause(200);
     } else {
       for (let round = 0; round < LASER_ROUNDS; round += 1) {
-        await fireLaserBeam(stage, champion, sidekick, "good", BEAM_MS, false);
+        await fireLaserBeam(stage, heroine, villain, "good", BEAM_MS, false);
         await pause(BEAM_GAP);
-        await fireLaserBeam(stage, sidekick, champion, "evil", BEAM_MS, false);
+        await fireLaserBeam(stage, villain, heroine, "evil", BEAM_MS, false);
         await pause(ROUND_GAP);
       }
     }
 
-    await (heroWins ? destroyTheVillain : defeatTheHero)(stage);
+    await (heroineWins ? destroyTheVillain : defeatTheHeroine)(stage);
   };
 
   const fadeOut = async () => {
-    await sidekick.animate(
+    await villain.animate(
       [
         { translate: "0 0", opacity: 1 },
         { translate: "0 -40px", opacity: 0 }
@@ -587,41 +587,41 @@
     }
 
     const surface = readPlanetSurface();
-    const box = sidekick.getBoundingClientRect();
+    const box = villain.getBoundingClientRect();
     const startX = box.left + box.width / 2;
     const targetX = EDGE_MARGIN + box.width / 2;
     const distance = Math.max(0, startX - targetX);
     const duration = Math.max(600, (distance / WALK_SPEED) * 1000);
     const bobCount = Math.max(2, Math.round((2 * duration) / WALK_STEP_MS));
 
-    sidekick.style.setProperty("--sk-step", `${((2 * duration) / bobCount).toFixed(0)}ms`);
-    sidekick.classList.add("is-walking");
+    villain.style.setProperty("--sk-step", `${((2 * duration) / bobCount).toFixed(0)}ms`);
+    villain.classList.add("is-walking");
 
-    const walk = sidekick.animate(walkAlongSurfaceFrames(surface, startX, targetX, bobCount), {
+    const walk = villain.animate(walkAlongSurfaceFrames(surface, startX, targetX, bobCount), {
       duration,
       easing: "linear",
       fill: "forwards"
     });
     await walk.finished;
 
-    sidekick.classList.remove("is-walking");
+    villain.classList.remove("is-walking");
 
     const tilt = surface.angleAt(targetX);
     const drop = surface.heightAt(targetX) - surface.heightAt(startX);
 
     walk.cancel();
-    const rest = sidekick.getBoundingClientRect();
+    const rest = villain.getBoundingClientRect();
     const boxWidth = rest.width / size;
     const boxHeight = rest.height / size;
 
-    sidekick.style.position = "fixed";
-    sidekick.style.left = `${(targetX - boxWidth / 2).toFixed(2)}px`;
-    sidekick.style.top = `${(rest.bottom - boxHeight + drop).toFixed(2)}px`;
-    sidekick.style.right = "auto";
-    sidekick.style.bottom = "auto";
-    sidekick.style.rotate = `${tilt.toFixed(2)}deg`;
+    villain.style.position = "fixed";
+    villain.style.left = `${(targetX - boxWidth / 2).toFixed(2)}px`;
+    villain.style.top = `${(rest.bottom - boxHeight + drop).toFixed(2)}px`;
+    villain.style.right = "auto";
+    villain.style.bottom = "auto";
+    villain.style.rotate = `${tilt.toFixed(2)}deg`;
 
-    const perch = sidekick.getBoundingClientRect();
+    const perch = villain.getBoundingClientRect();
     const beacon = document.querySelector(".orbit");
     const beaconBox = beacon ? beacon.getBoundingClientRect() : null;
     const cornerX = beaconBox
@@ -631,15 +631,15 @@
     const drift = cornerX - (perch.left + perch.width / 2);
 
     document.dispatchEvent(new CustomEvent("holyclicks:disable"));
-    sidekick.classList.add("is-launching");
-    const artwork = sidekick.querySelector("svg");
+    villain.classList.add("is-launching");
+    const artwork = villain.querySelector("svg");
     artwork.animate([{ scale: "-1 1" }, { scale: "1 1" }], {
       duration: CROUCH_MS,
       easing: "ease-in-out",
       fill: "forwards"
     });
 
-    await sidekick.animate(
+    await villain.animate(
       [
         { translate: "0 0" },
         { translate: `0 ${CROUCH_DIP}px` }
@@ -647,7 +647,7 @@
       { duration: CROUCH_MS, easing: "ease-out", fill: "forwards" }
     ).finished;
 
-    await sidekick.animate(launchArcFrames({ tilt, rise, drift }), {
+    await villain.animate(launchArcFrames({ tilt, rise, drift }), {
       duration: LAUNCH_MS,
       easing: "linear",
       fill: "forwards"
@@ -656,23 +656,23 @@
     arriveInTheOrbitRing();
   };
 
-  const beginTheShowdown = (heroWins) => {
+  const beginTheShowdown = (heroineWins) => {
     if (summoned) return;
     summoned = true;
-    sendTheHeroToTheStandoff(heroWins).catch(() => {
+    sendTheHeroineToTheStandoff(heroineWins).catch(() => {
       summoned = false;
     });
   };
 
-  if (champion) {
-    champion.addEventListener("click", () => {
-      if (!champion.classList.contains("is-rallying")) return;
+  if (heroine) {
+    heroine.addEventListener("click", () => {
+      if (!heroine.classList.contains("is-rallying")) return;
       beginTheShowdown(true);
     });
   }
 
-  sidekick.addEventListener("click", () => {
-    if (sidekick.classList.contains("is-landed")) {
+  villain.addEventListener("click", () => {
+    if (villain.classList.contains("is-landed")) {
       beginTheShowdown(false);
       return;
     }
@@ -681,7 +681,7 @@
     clicks += 1;
 
     if (clicks <= GROWTH_CLICKS) {
-      sidekick.style.setProperty("--sk-grow", grownScale().toFixed(6));
+      villain.style.setProperty("--sk-grow", grownScale().toFixed(6));
       return;
     }
 

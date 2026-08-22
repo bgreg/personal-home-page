@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const triggerEls = document.querySelectorAll(".sidekick-corner");
+  const triggerEls = document.querySelectorAll(".heroine");
 
   const WORDS = [
     "AIEEE!", "AIIEEE!", "ARRGH!", "ARRGGHH!", "AWK!", "AWKKKKKK!", "BAM!", "BANG!", "BANG-ETH!", "BIFF!",
@@ -83,7 +83,7 @@
     let locked = false;
 
     const burstOnClick = (event) => {
-      if (event.target instanceof Element && event.target.closest(".sidekick")) return;
+      if (event.target instanceof Element && event.target.closest(".fighter")) return;
       spawnBurst(...burstOrigin(event));
     };
 
