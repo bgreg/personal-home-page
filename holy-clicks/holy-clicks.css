@@ -12,7 +12,6 @@
   --sk-boot: #3d4854;
   --sk-limb: #45596e;
   --sk-skin: #b8c6d8;
-  --sk-hair: #565f69;
   --sk-mask: #060910;
   --sk-plate: #37485a;
   --sk-ridge: #55697e;
@@ -66,7 +65,8 @@
   z-index: 101;
 }
 
-.sidekick-atmo {
+.sidekick-atmo,
+.sidekick-wreck {
   position: absolute;
   right: 17%;
   bottom: max(24px, calc(175px - 4.83vw));
@@ -100,11 +100,15 @@
   stroke: var(--sk-line);
 }
 
-.sidekick svg {
+.sidekick svg,
+.sidekick-wreck svg {
   display: block;
   height: 40px;
   width: auto;
   overflow: visible;
+}
+
+.sidekick svg {
   animation: sidekick-float 3.6s ease-in-out infinite alternate;
 }
 
@@ -115,7 +119,6 @@
 .sk-limb { fill: var(--sk-limb); }
 .sk-belt { fill: var(--sk-cape); }
 .sk-skin { fill: var(--sk-skin); }
-.sk-hair { fill: var(--sk-hair); }
 .sk-mask { fill: var(--sk-mask); }
 .sk-emblem { fill: var(--sk-emblem); }
 .sk-plate { fill: var(--sk-plate); }
@@ -130,7 +133,7 @@
 
 .lt-hair { fill: var(--lt-hair); }
 .lt-skin { fill: var(--lt-skin); }
-.lt-arm { fill: var(--lt-suit); }
+.lt-arm,
 .lt-torso { fill: var(--lt-suit); }
 .lt-lower { fill: var(--lt-lower); }
 .lt-shoulder { fill: var(--lt-shoulder); }
@@ -161,8 +164,8 @@
 }
 
 @keyframes sidekick-float {
-  from { translate: 0 -4px; }
-  to { translate: 0 4px; }
+  from { translate: 0 calc(var(--sk-float, 4px) * -1); }
+  to { translate: 0 var(--sk-float, 4px); }
 }
 
 .pow {

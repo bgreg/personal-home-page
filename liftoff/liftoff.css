@@ -1,3 +1,4 @@
+/* ---------- Sidekick spring easing ---------------------- */
 .sidekick-atmo {
   --sk-spring: linear(
     0, 0.009 1%, 0.076 3.4%, 0.293 7.2%, 0.62 11.5%, 1.184 18.1%, 1.34 20.7%, 1.44 23.1%,
@@ -8,6 +9,7 @@
   transition-timing-function: var(--sk-spring);
 }
 
+/* ---------- Beat 1: walking the planet arc -------------- */
 .sidekick-atmo.is-walking svg,
 .sidekick-atmo.is-launching svg,
 .sidekick-atmo.is-landed svg {
@@ -69,6 +71,7 @@
   }
 }
 
+/* ---------- Beat 2: arriving at the centre of the orbit ring ---- */
 .sidekick-atmo.is-landed {
   position: absolute;
   top: calc(var(--orbit-top) + var(--orbit-size) / 2);
@@ -116,7 +119,8 @@
   rotate: 43.2deg;
 }
 
-.sidekick-atmo.is-landed {
+/* ---------- Beat 3: charging up, the corrupted palette ---- */
+:root {
   --sk-charge-eye: #ff2f2f;
   --sk-charge-core: #ff8a6a;
   --sk-charge-suit: #a22b24;
@@ -246,6 +250,7 @@
   }
 }
 
+/* ---------- Beat 4: lightning from his hands and feet to the ring ---- */
 .sk-arc-field {
   transform-box: view-box;
   transform-origin: 22px 25px;
@@ -278,6 +283,7 @@
   100% { opacity: 0; }
 }
 
+/* ---------- Beat 5: the ring answers the charge --------- */
 .hero.is-charging {
   --orbit-sat-charged: #ff3b3b;
 }
@@ -303,48 +309,45 @@
   50% { opacity: 0.5; }
 }
 
+/* ---------- Charged palette without animation: reduced motion, and the wreckage ---- */
+.sidekick-wreck,
+.sidekick-atmo.is-static-charge {
+  --sk-tunic: var(--sk-charge-suit);
+  --sk-limb: var(--sk-charge-suit);
+  --sk-cape: var(--sk-charge-suit);
+  --sk-tights: var(--sk-charge-pants);
+  --sk-boot: var(--sk-charge-boot);
+  --sk-plate: var(--sk-charge-plate);
+  --sk-ridge: var(--sk-charge-ridge);
+  --sk-jaw: var(--sk-charge-jaw);
+  --sk-skin: var(--sk-charge-helmet);
+  --sk-eye: var(--sk-charge-eye);
+  --sk-emblem: var(--sk-charge-emblem);
+}
+
+.sidekick-wreck {
+  line-height: 0;
+  pointer-events: none;
+}
+
+.sidekick-atmo.is-wrecked .sk-arc-field {
+  display: none;
+}
+
+.sidekick-wreck .sk-belt,
+.sidekick-atmo.is-static-charge .sk-belt {
+  fill: var(--sk-charge-belt);
+}
+
+.sidekick-atmo.is-static-charge g > * {
+  animation: none;
+}
+
+.sidekick-atmo.is-static-charge .sk-arc {
+  opacity: 0.4;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .sidekick-atmo.is-landed .sk-eye {
-    animation: none;
-    fill: var(--sk-charge-eye);
-  }
-
-  .sidekick-atmo.is-landed .sk-tights {
-    animation: none;
-    fill: var(--sk-charge-pants);
-  }
-
-  .sidekick-atmo.is-landed .sk-emblem {
-    animation: none;
-    fill: var(--sk-charge-emblem);
-  }
-
-  .sidekick-atmo.is-landed .sk-tunic,
-  .sidekick-atmo.is-landed .sk-limb {
-    animation: none;
-    fill: var(--sk-charge-suit);
-  }
-
-  .sidekick-atmo.is-landed .sk-boot {
-    animation: none;
-    fill: var(--sk-charge-boot);
-  }
-
-  .sidekick-atmo.is-landed .sk-belt {
-    animation: none;
-    fill: var(--sk-charge-belt);
-  }
-
-  .sidekick-atmo.is-landed .sk-skin {
-    animation: none;
-    fill: var(--sk-charge-helmet);
-  }
-
-  .sidekick-atmo.is-landed .sk-arc {
-    animation: none;
-    opacity: 0.4;
-  }
-
   .hero.is-charging .orbit::after {
     animation: none;
     opacity: 0.35;
@@ -357,13 +360,14 @@
 }
 
 
+/* ---------- Beat 6: the hero powers up in her corner ---- */
 .sidekick-corner.is-rallying {
   top: 30px;
   left: 34px;
   transform-origin: 50% 50%;
   scale: var(--sk-rally, 1);
-  filter: drop-shadow(0 0 14px rgba(126, 224, 168, 0.75))
-    drop-shadow(0 0 30px rgba(126, 224, 168, 0.35));
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--green, #7ee0a8) 75%, transparent))
+    drop-shadow(0 0 30px color-mix(in srgb, var(--green, #7ee0a8) 35%, transparent));
   transition:
     top 900ms cubic-bezier(0.34, 1.56, 0.64, 1),
     left 900ms cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -373,8 +377,8 @@
 
 .sidekick-corner.is-rallying:hover,
 .sidekick-corner.is-rallying:focus-visible {
-  filter: drop-shadow(0 0 18px rgba(126, 224, 168, 0.95))
-    drop-shadow(0 0 38px rgba(126, 224, 168, 0.5));
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--green, #7ee0a8) 95%, transparent))
+    drop-shadow(0 0 38px color-mix(in srgb, var(--green, #7ee0a8) 50%, transparent));
 }
 
 .sidekick-corner.is-rallying::before {
@@ -384,9 +388,9 @@
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(126, 224, 168, 0.6),
-    rgba(126, 224, 168, 0.26) 42%,
-    rgba(126, 224, 168, 0) 68%
+    color-mix(in srgb, var(--green, #7ee0a8) 60%, transparent),
+    color-mix(in srgb, var(--green, #7ee0a8) 26%, transparent) 42%,
+    transparent 68%
   );
   animation: sk-rally-glow 2.4s ease-in-out infinite alternate;
   pointer-events: none;
@@ -394,11 +398,8 @@
 }
 
 .sidekick-corner.is-rallying svg {
-  animation: sk-rally-float 1.5s ease-in-out infinite alternate;
-}
-
-.sidekick-corner.is-summoned {
-  transition: none;
+  --sk-float: 7px;
+  animation-duration: 1.5s;
 }
 
 @media (max-width: 680px) {
@@ -413,11 +414,6 @@
   to { opacity: 1; scale: 1.08; }
 }
 
-@keyframes sk-rally-float {
-  from { translate: 0 -7px; }
-  to { translate: 0 7px; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .sidekick-corner.is-rallying {
     transition: none;
@@ -429,8 +425,10 @@
   }
 }
 
+/* ---------- Beat 7: the hero flies in and grows comic-book muscles ---- */
 .sidekick-corner.is-summoned {
   z-index: 2;
+  transition: none;
 }
 
 .sidekick-corner.is-summoned svg {
@@ -494,6 +492,7 @@
   }
 }
 
+/* ---------- Beat 8: the page clears for the showdown ---- */
 body.is-showdown > header,
 body.is-showdown .hero-inner {
   animation: sk-clear-stage 900ms ease forwards;
@@ -511,6 +510,7 @@ body.is-showdown .hero-inner {
   }
 }
 
+/* ---------- Beat 9: laser fire -------------------------- */
 .sk-beam {
   position: absolute;
   height: 3px;
@@ -553,6 +553,7 @@ body.is-showdown .hero-inner {
   50% { filter: none; }
 }
 
+/* ---------- Ending A: the hero loses and the page burns ---- */
 .inferno {
   position: fixed;
   inset: 0;
@@ -654,6 +655,7 @@ body.is-showdown.is-aftermath .hero-inner {
   }
 }
 
+/* ---------- Ending A: the planet collapses into a black hole ---- */
 html.is-inferno .planet {
   background: radial-gradient(120% 92% at 50% 3%, #04060a 0%, #010204 38%, #000 70%);
   box-shadow:
@@ -685,37 +687,6 @@ html.is-inferno .planet-mottle {
     radial-gradient(7% 1.4% at 33% 0.45%, rgba(255, 255, 255, 0.6), transparent 70%),
     radial-gradient(5% 1.1% at 45% 0.6%, rgba(255, 205, 180, 0.45), transparent 70%),
     radial-gradient(4% 0.9% at 62% 0.8%, var(--gold, #ff9b3d), transparent 70%);
-}
-
-.sidekick-wreck {
-  position: absolute;
-  right: 17%;
-  bottom: max(24px, calc(175px - 4.83vw));
-  z-index: 1;
-  line-height: 0;
-  pointer-events: none;
-  transform-origin: 50% 100%;
-  scale: var(--sk-grow, 1);
-}
-
-.sidekick-wreck svg {
-  display: block;
-  height: 40px;
-  width: auto;
-  overflow: visible;
-}
-
-.sidekick-atmo.is-wrecked svg {
-  animation: none;
-}
-
-.sidekick-atmo.is-wrecked .sk-arc-field {
-  display: none;
-}
-
-body.is-victory .hero.is-charging .orbit::after {
-  animation: none;
-  opacity: 0;
 }
 
 html.is-inferno footer {

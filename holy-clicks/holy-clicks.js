@@ -101,13 +101,13 @@
     triggerEls.forEach((triggerEl) => {
       triggerEl.addEventListener("click", (event) => {
         if (locked) return;
-        armed = !armed;
 
-        if (!armed) {
-          document.removeEventListener("click", burstOnClick, { capture: true });
+        if (armed) {
+          disarm();
           return;
         }
 
+        armed = true;
         document.addEventListener("click", burstOnClick, { capture: true });
         spawnBurst(...burstOrigin(event, triggerEl));
       });
