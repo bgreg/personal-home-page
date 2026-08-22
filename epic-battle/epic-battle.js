@@ -27,6 +27,7 @@
   const ARC_CENTRE = { x: 22, y: 25 };
   const BLAST_CENTRE = { x: 22, y: 22 };
   const HEROINE_HOME_MS = 1150;
+  const VILLAIN_CHARGE_MS = 2900;
   const VIEWBOX_HEIGHT = 50;
   const ARCS_PER_LIMB = 3;
   const ARC_FAN = 15;
@@ -43,6 +44,7 @@
   const HEROINE_STANDOFF = 26;
   const EYE_HEIGHT = { atmo: 8.85, corner: 9.4 };
   const MUZZLE_CLEARANCE = 13;
+  const HEROINE_FIRING_HAND = ".lt-glove.lt-arm-r";
   const LASER_ROUNDS = 3;
   const WRECK_BURST_MS = 460;
   const WRECK_FALL_MS = 2600;
@@ -254,7 +256,10 @@
 
     if (heroine) {
       heroine.style.setProperty("--sk-rally", grownScale().toFixed(6));
-      heroine.classList.add("is-rallying");
+      window.setTimeout(
+        () => heroine.classList.add("is-rallying"),
+        reducedMotion.matches ? 0 : VILLAIN_CHARGE_MS
+      );
     }
   };
 
@@ -340,8 +345,16 @@
     return { x: box.left + box.width / 2, y: box.top + (box.height * eyeY) / VIEWBOX_HEIGHT };
   };
 
+  const muzzlePosition = (el) => {
+    const hand = el.matches(".heroine") ? el.querySelector(HEROINE_FIRING_HAND) : null;
+    if (!hand) return eyePosition(el);
+
+    const box = hand.getBoundingClientRect();
+    return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+  };
+
   const fireLaserBeam = async (stage, shooter, target, kind, duration, finisher) => {
-    const eye = eyePosition(shooter);
+    const eye = muzzlePosition(shooter);
     const to = eyePosition(target);
     const span = Math.hypot(to.x - eye.x, to.y - eye.y) || 1;
     const step = { x: (to.x - eye.x) / span, y: (to.y - eye.y) / span };
