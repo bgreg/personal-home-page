@@ -335,41 +335,38 @@
   animation: none;
 }
 
-.sidekick-corner.is-buff .sk-arm-l,
-.sidekick-corner.is-buff .sk-arm-r,
-.sidekick-corner.is-buff .sk-tunic,
-.sidekick-corner.is-buff .sk-belt,
-.sidekick-corner.is-buff .sk-cape {
+.sidekick-corner.is-buff .lt-arm-l,
+.sidekick-corner.is-buff .lt-arm-r,
+.sidekick-corner.is-buff .lt-torso,
+.sidekick-corner.is-buff .lt-shoulder,
+.sidekick-corner.is-buff .lt-collar,
+.sidekick-corner.is-buff .lt-belt {
   transform-box: view-box;
   animation-duration: 760ms;
   animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   animation-fill-mode: forwards;
 }
 
-.sidekick-corner.is-buff .sk-arm-l {
-  transform-origin: 18.5px 19.35px;
+.sidekick-corner.is-buff .lt-arm-l {
+  transform-origin: 18.45px 17.4px;
   animation-name: sk-buff-limb;
 }
 
-.sidekick-corner.is-buff .sk-arm-r {
-  transform-origin: 28.3px 19.05px;
+.sidekick-corner.is-buff .lt-arm-r {
+  transform-origin: 25.55px 17.4px;
   animation-name: sk-buff-limb;
 }
 
-.sidekick-corner.is-buff .sk-tunic {
-  transform-origin: 22px 30.4px;
+.sidekick-corner.is-buff .lt-torso,
+.sidekick-corner.is-buff .lt-shoulder,
+.sidekick-corner.is-buff .lt-collar {
+  transform-origin: 22px 24.6px;
   animation-name: sk-buff-torso;
 }
 
-.sidekick-corner.is-buff .sk-belt {
-  transform-origin: 22px 29.3px;
+.sidekick-corner.is-buff .lt-belt {
+  transform-origin: 22px 24.4px;
   animation-name: sk-buff-belt;
-}
-
-.sidekick-corner.is-buff .sk-cape {
-  transform-origin: 22px 16px;
-  animation-name: sk-buff-cape;
-  animation-delay: 90ms;
 }
 
 @keyframes sk-buff-limb {
@@ -377,23 +374,20 @@
 }
 
 @keyframes sk-buff-torso {
-  to { scale: 1.5 1.14; }
+  to { scale: 1.42 1.05; }
 }
 
 @keyframes sk-buff-belt {
-  to { scale: 1.5 1; }
-}
-
-@keyframes sk-buff-cape {
-  to { scale: 1.32; }
+  to { scale: 1.42 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sidekick-corner.is-buff .sk-arm-l,
-  .sidekick-corner.is-buff .sk-arm-r,
-  .sidekick-corner.is-buff .sk-tunic,
-  .sidekick-corner.is-buff .sk-belt,
-  .sidekick-corner.is-buff .sk-cape {
+  .sidekick-corner.is-buff .lt-arm-l,
+  .sidekick-corner.is-buff .lt-arm-r,
+  .sidekick-corner.is-buff .lt-torso,
+  .sidekick-corner.is-buff .lt-shoulder,
+  .sidekick-corner.is-buff .lt-collar,
+  .sidekick-corner.is-buff .lt-belt {
     animation-duration: 1ms;
   }
 }

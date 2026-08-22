@@ -36,6 +36,7 @@
   const HERO_FLY_MS = 1500;
   const HERO_STANDOFF = 26;
   const EYE_RATIO = 8.6 / 50;
+  const EYE_RATIO_CORNER = 9.4 / 50;
   const MUZZLE_CLEARANCE = 13;
   const LASER_ROUNDS = 3;
   const BEAM_MS = 230;
@@ -290,7 +291,8 @@
 
   const eyeLine = (el) => {
     const box = el.getBoundingClientRect();
-    return { x: box.left + box.width / 2, y: box.top + box.height * EYE_RATIO };
+    const ratio = el.matches(".sidekick-corner") ? EYE_RATIO_CORNER : EYE_RATIO;
+    return { x: box.left + box.width / 2, y: box.top + box.height * ratio };
   };
 
   const fireBeam = async (stage, shooter, target, kind, duration, finisher) => {

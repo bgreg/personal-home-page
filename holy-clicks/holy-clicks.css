@@ -16,6 +16,20 @@
   --sk-mask: #060910;
   --sk-eye: var(--green, #7ee0a8);
   --sk-emblem: var(--green, #7ee0a8);
+  --lt-skin: #8a5a3c;
+  --lt-nose: #70452c;
+  --lt-lips: #4f2755;
+  --lt-hair: #1a1310;
+  --lt-shoulder: #1b5340;
+  --lt-suit: #123a2c;
+  --lt-lower: #0e2f24;
+  --lt-boot: #0a2019;
+  --lt-belt: var(--green, #7ee0a8);
+  --lt-eye: #ffffff;
+  --lt-iris: #6b4423;
+  --lt-pupil: #000000;
+  --lt-lash: #120c08;
+  --lt-line: #04070c;
   --sk-line: #060910;
 }
 
@@ -101,6 +115,38 @@
 .sk-hair { fill: var(--sk-hair); }
 .sk-mask { fill: var(--sk-mask); }
 .sk-emblem { fill: var(--sk-emblem); }
+
+.sidekick-corner svg g {
+  stroke: var(--lt-line);
+  stroke-width: 1.05;
+}
+
+.lt-hair { fill: var(--lt-hair); }
+.lt-skin { fill: var(--lt-skin); }
+.lt-arm { fill: var(--lt-suit); }
+.lt-torso { fill: var(--lt-suit); }
+.lt-lower { fill: var(--lt-lower); }
+.lt-shoulder { fill: var(--lt-shoulder); }
+.lt-boot { fill: var(--lt-boot); }
+.lt-glove,
+.lt-cuff,
+.lt-collar,
+.lt-belt,
+.lt-emblem { fill: var(--lt-belt); }
+.lt-bar { fill: var(--lt-line); }
+
+.lt-eye { fill: var(--lt-eye); stroke: none; }
+.lt-iris { fill: var(--lt-iris); stroke: none; }
+.lt-pupil { fill: var(--lt-pupil); stroke: none; }
+.lt-nose { fill: var(--lt-nose); stroke: none; }
+.lt-lips { fill: var(--lt-lips); stroke: none; }
+
+.lt-lash {
+  fill: none;
+  stroke: var(--lt-lash);
+  stroke-width: 0.34;
+  stroke-linecap: round;
+}
 
 .sk-eye {
   fill: var(--sk-eye);
