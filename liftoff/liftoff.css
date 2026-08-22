@@ -125,6 +125,9 @@
   --sk-charge-belt: #ff2f2f;
   --sk-charge-helmet: #98a4b2;
   --sk-charge-emblem: #ff5a3c;
+  --sk-charge-plate: #7d2019;
+  --sk-charge-ridge: #b8382e;
+  --sk-charge-jaw: #7c8794;
   --sk-charge-arc: var(--green, #7ee0a8);
 }
 
@@ -143,6 +146,33 @@
 
 .sidekick-atmo.is-landed .sk-skin {
   animation: sk-helmet-ignite 2.2s ease-in 0.6s forwards;
+}
+
+.sidekick-atmo.is-landed .sk-plate {
+  animation: sk-plate-ignite 2.2s ease-in 0.6s forwards;
+}
+
+.sidekick-atmo.is-landed .sk-ridge {
+  animation: sk-ridge-ignite 2.2s ease-in 0.6s forwards;
+}
+
+.sidekick-atmo.is-landed .sk-jaw {
+  animation: sk-jaw-ignite 2.2s ease-in 0.6s forwards;
+}
+
+@keyframes sk-plate-ignite {
+  from { fill: var(--sk-plate); }
+  to { fill: var(--sk-charge-plate); }
+}
+
+@keyframes sk-ridge-ignite {
+  from { fill: var(--sk-ridge); }
+  to { fill: var(--sk-charge-ridge); }
+}
+
+@keyframes sk-jaw-ignite {
+  from { fill: var(--sk-jaw); }
+  to { fill: var(--sk-charge-jaw); }
 }
 
 @keyframes sk-suit-ignite {
@@ -326,6 +356,78 @@
   }
 }
 
+
+.sidekick-corner.is-rallying {
+  top: 30px;
+  left: 34px;
+  transform-origin: 50% 50%;
+  scale: var(--sk-rally, 1);
+  filter: drop-shadow(0 0 14px rgba(126, 224, 168, 0.75))
+    drop-shadow(0 0 30px rgba(126, 224, 168, 0.35));
+  transition:
+    top 900ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    left 900ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    scale 900ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    filter 900ms ease;
+}
+
+.sidekick-corner.is-rallying:hover,
+.sidekick-corner.is-rallying:focus-visible {
+  filter: drop-shadow(0 0 18px rgba(126, 224, 168, 0.95))
+    drop-shadow(0 0 38px rgba(126, 224, 168, 0.5));
+}
+
+.sidekick-corner.is-rallying::before {
+  content: "";
+  position: absolute;
+  inset: -34%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(126, 224, 168, 0.6),
+    rgba(126, 224, 168, 0.26) 42%,
+    rgba(126, 224, 168, 0) 68%
+  );
+  animation: sk-rally-glow 2.4s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.sidekick-corner.is-rallying svg {
+  animation: sk-rally-float 1.5s ease-in-out infinite alternate;
+}
+
+.sidekick-corner.is-summoned {
+  transition: none;
+}
+
+@media (max-width: 680px) {
+  .sidekick-corner.is-rallying {
+    top: 96px;
+    left: 26px;
+  }
+}
+
+@keyframes sk-rally-glow {
+  from { opacity: 0.45; scale: 0.9; }
+  to { opacity: 1; scale: 1.08; }
+}
+
+@keyframes sk-rally-float {
+  from { translate: 0 -7px; }
+  to { translate: 0 7px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidekick-corner.is-rallying {
+    transition: none;
+  }
+
+  .sidekick-corner.is-rallying::before,
+  .sidekick-corner.is-rallying svg {
+    animation: none;
+  }
+}
 
 .sidekick-corner.is-summoned {
   z-index: 2;

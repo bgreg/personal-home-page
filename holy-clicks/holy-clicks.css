@@ -14,6 +14,9 @@
   --sk-skin: #b8c6d8;
   --sk-hair: #565f69;
   --sk-mask: #060910;
+  --sk-plate: #37485a;
+  --sk-ridge: #55697e;
+  --sk-jaw: #8d9aab;
   --sk-eye: var(--green, #7ee0a8);
   --sk-emblem: var(--green, #7ee0a8);
   --lt-skin: #8a5a3c;
@@ -115,6 +118,10 @@
 .sk-hair { fill: var(--sk-hair); }
 .sk-mask { fill: var(--sk-mask); }
 .sk-emblem { fill: var(--sk-emblem); }
+.sk-plate { fill: var(--sk-plate); }
+.sk-ridge { fill: var(--sk-ridge); }
+.sk-jaw { fill: var(--sk-jaw); }
+.sk-seg { fill: var(--sk-mask); stroke: none; }
 
 .sidekick-corner svg g {
   stroke: var(--lt-line);

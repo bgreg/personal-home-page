@@ -30,8 +30,7 @@
     { limb: ".sk-boot.sk-leg-r", root: { x: 24.8, y: 29.5 }, tip: { x: 28.6, y: 44.3 } }
   ];
   const LAUNCH_MS = 1100;
-  const LAUNCH_CLEARANCE = 140;
-  const LAUNCH_OVERSHOOT = 220;
+  const LAUNCH_EXIT_MARGIN = 40;
   const HERO_OVER_VILLAIN = 1.1;
   const HERO_FLY_MS = 1500;
   const HERO_STANDOFF = 26;
@@ -220,6 +219,12 @@
     hero.append(sidekick);
     hero.classList.add("is-charging");
     buildArcField(artwork);
+
+    const champion = document.querySelector(".sidekick-corner");
+    if (champion) {
+      champion.style.setProperty("--sk-rally", growth().toFixed(6));
+      champion.classList.add("is-rallying");
+    }
   };
 
   const summonHero = async () => {
@@ -227,6 +232,14 @@
     const ring = document.querySelector(".orbit");
     const stage = document.querySelector(".hero");
     if (!champion || !ring || !stage) return;
+
+    champion.getAnimations().forEach((animation) => {
+      try {
+        animation.finish();
+      } catch (_) {
+        animation.cancel();
+      }
+    });
 
     const start = champion.getBoundingClientRect();
     const ringBox = ring.getBoundingClientRect();
@@ -237,7 +250,9 @@
     };
 
     const size = growth() * HERO_OVER_VILLAIN;
-    const spread = (start.width * size) / 2;
+    const base = { width: champion.offsetWidth, height: champion.offsetHeight };
+    const rallied = champion.classList.contains("is-rallying") ? growth() : 1;
+    const spread = (base.width * size) / 2;
     const from = { x: start.left + start.width / 2, y: start.top + start.height / 2 };
     const shift = {
       x: ringCentre.x - radius - HERO_STANDOFF - spread - from.x,
@@ -257,7 +272,7 @@
           {
             offset: 0.28,
             translate: `${(shift.x * 0.14).toFixed(2)}px ${(shift.y * 0.2 - 30).toFixed(2)}px`,
-            scale: (1 + (size - 1) * 0.28).toFixed(4),
+            scale: (rallied + (size - rallied) * 0.28).toFixed(4),
             easing: "cubic-bezier(0.3, 0, 0.2, 1)"
           },
           {
@@ -273,8 +288,8 @@
     const stageBox = stage.getBoundingClientRect();
     champion.getAnimations().forEach((animation) => animation.cancel());
     champion.style.position = "absolute";
-    champion.style.left = `${(settled.left + settled.width / 2 - start.width / 2 - stageBox.left).toFixed(2)}px`;
-    champion.style.top = `${(settled.top + settled.height / 2 - start.height / 2 - stageBox.top).toFixed(2)}px`;
+    champion.style.left = `${(settled.left + settled.width / 2 - base.width / 2 - stageBox.left).toFixed(2)}px`;
+    champion.style.top = `${(settled.top + settled.height / 2 - base.height / 2 - stageBox.top).toFixed(2)}px`;
     champion.style.right = "auto";
     champion.style.bottom = "auto";
     champion.style.translate = "none";
@@ -424,8 +439,13 @@
     sidekick.style.rotate = `${tilt.toFixed(2)}deg`;
 
     const perch = sidekick.getBoundingClientRect();
-    const rise = perch.top + LAUNCH_CLEARANCE;
-    const drift = window.innerWidth - perch.left + LAUNCH_OVERSHOOT;
+    const beacon = document.querySelector(".orbit");
+    const beaconBox = beacon ? beacon.getBoundingClientRect() : null;
+    const cornerX = beaconBox
+      ? beaconBox.left + beaconBox.width / 2
+      : window.innerWidth - EDGE_MARGIN;
+    const rise = perch.top + perch.height + LAUNCH_EXIT_MARGIN;
+    const drift = cornerX - (perch.left + perch.width / 2);
 
     sidekick.classList.add("is-launching");
     const artwork = sidekick.querySelector("svg");
