@@ -36,6 +36,7 @@
   const HERO_FLY_MS = 1500;
   const HERO_STANDOFF = 26;
   const EYE_RATIO = 8.6 / 50;
+  const MUZZLE_CLEARANCE = 13;
   const LASER_ROUNDS = 3;
   const BEAM_MS = 230;
   const BEAM_GAP = 190;
@@ -293,8 +294,14 @@
   };
 
   const fireBeam = async (stage, shooter, target, kind, duration, finisher) => {
-    const from = eyeLine(shooter);
+    const eye = eyeLine(shooter);
     const to = eyeLine(target);
+    const span = Math.hypot(to.x - eye.x, to.y - eye.y) || 1;
+    const step = { x: (to.x - eye.x) / span, y: (to.y - eye.y) / span };
+    const from = {
+      x: eye.x + step.x * MUZZLE_CLEARANCE,
+      y: eye.y + step.y * MUZZLE_CLEARANCE
+    };
     const stageBox = stage.getBoundingClientRect();
     const reach = Math.hypot(to.x - from.x, to.y - from.y);
 

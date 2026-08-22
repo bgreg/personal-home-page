@@ -363,18 +363,18 @@ body.is-showdown .hero-inner {
 }
 
 .sk-beam-good {
-  background: linear-gradient(90deg, #ecfff5, #7ee0a8 30%, #4bd08a);
-  box-shadow: 0 0 12px 3px rgba(126, 224, 168, 0.7);
+  background: linear-gradient(90deg, #8ae8b6, #5fd699 55%, #3fc482);
+  box-shadow: 0 0 8px 1px rgba(126, 224, 168, 0.55);
 }
 
 .sk-beam-evil {
-  background: linear-gradient(90deg, #fff0ec, #ff4b3a 30%, #d81f14);
-  box-shadow: 0 0 12px 3px rgba(255, 62, 47, 0.7);
+  background: linear-gradient(90deg, #ff6a58, #f03626 55%, #cf1a10);
+  box-shadow: 0 0 8px 1px rgba(255, 62, 47, 0.55);
 }
 
 .sk-beam-finisher {
   height: 7px;
-  box-shadow: 0 0 26px 8px rgba(255, 62, 47, 0.85);
+  box-shadow: 0 0 18px 4px rgba(255, 62, 47, 0.7);
 }
 
 .sk-struck-good {
