@@ -20,6 +20,7 @@
   const ARC_KINKS = 7;
   const ARC_WANDER = 0.07;
   const ARC_CENTRE = { x: 22, y: 25 };
+  const VIEWBOX_HEIGHT = 50;
   const ARCS_PER_LIMB = 3;
   const ARC_FAN = 15;
   const EXTREMITIES = [
@@ -99,24 +100,18 @@
 
   const ringInUserUnits = (artwork) => {
     const ring = document.querySelector(".orbit");
-    if (!ring || !artwork.getScreenCTM) {
-      return { centre: ARC_CENTRE, radius: ARC_OUTER_FALLBACK };
-    }
+    if (!ring) return { centre: ARC_CENTRE, radius: ARC_OUTER_FALLBACK };
 
     const box = ring.getBoundingClientRect();
-    const inverse = artwork.getScreenCTM().inverse();
-    const place = (x, y) => {
-      const point = artwork.createSVGPoint();
-      point.x = x;
-      point.y = y;
-      return point.matrixTransform(inverse);
-    };
+    const drawn = artwork.getBoundingClientRect();
+    const pxPerUnit = drawn.height / VIEWBOX_HEIGHT;
+    if (!pxPerUnit) return { centre: ARC_CENTRE, radius: ARC_OUTER_FALLBACK };
 
-    const middle = { x: box.left + box.width / 2, y: box.top + box.height / 2 };
-    const acrossPx = ring.offsetWidth / 2;
-    const centre = place(middle.x, middle.y);
-    const edge = place(middle.x + acrossPx, middle.y);
-    const radius = Math.hypot(edge.x - centre.x, edge.y - centre.y);
+    const centre = {
+      x: (box.left + box.width / 2 - drawn.left) / pxPerUnit,
+      y: (box.top + box.height / 2 - drawn.top) / pxPerUnit
+    };
+    const radius = ring.offsetWidth / 2 / pxPerUnit;
 
     if (!radius) return { centre: ARC_CENTRE, radius: ARC_OUTER_FALLBACK };
     return { centre, radius };
