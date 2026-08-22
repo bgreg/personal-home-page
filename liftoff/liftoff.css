@@ -119,9 +119,50 @@
 .sidekick-atmo.is-landed {
   --sk-charge-eye: #ff2f2f;
   --sk-charge-core: #ff8a6a;
-  --sk-charge-pants: #c2454f;
-  --sk-charge-emblem: #ff8a8a;
+  --sk-charge-suit: #a22b24;
+  --sk-charge-pants: #88342c;
+  --sk-charge-boot: #4a1b18;
+  --sk-charge-belt: #ff2f2f;
+  --sk-charge-helmet: #98a4b2;
+  --sk-charge-emblem: #ff5a3c;
   --sk-charge-arc: var(--green, #7ee0a8);
+}
+
+.sidekick-atmo.is-landed .sk-tunic,
+.sidekick-atmo.is-landed .sk-limb {
+  animation: sk-suit-ignite 2.2s ease-in 0.6s forwards;
+}
+
+.sidekick-atmo.is-landed .sk-boot {
+  animation: sk-boot-ignite 2.2s ease-in 0.6s forwards;
+}
+
+.sidekick-atmo.is-landed .sk-belt {
+  animation: sk-belt-ignite 2.2s ease-in 0.6s forwards;
+}
+
+.sidekick-atmo.is-landed .sk-skin {
+  animation: sk-helmet-ignite 2.2s ease-in 0.6s forwards;
+}
+
+@keyframes sk-suit-ignite {
+  from { fill: var(--sk-tunic); }
+  to { fill: var(--sk-charge-suit); }
+}
+
+@keyframes sk-boot-ignite {
+  from { fill: var(--sk-boot); }
+  to { fill: var(--sk-charge-boot); }
+}
+
+@keyframes sk-belt-ignite {
+  from { fill: var(--sk-cape); }
+  to { fill: var(--sk-charge-belt); }
+}
+
+@keyframes sk-helmet-ignite {
+  from { fill: var(--sk-skin); }
+  to { fill: var(--sk-charge-helmet); }
 }
 
 .sidekick-atmo.is-landed .sk-tights {
@@ -246,6 +287,27 @@
   .sidekick-atmo.is-landed .sk-emblem {
     animation: none;
     fill: var(--sk-charge-emblem);
+  }
+
+  .sidekick-atmo.is-landed .sk-tunic,
+  .sidekick-atmo.is-landed .sk-limb {
+    animation: none;
+    fill: var(--sk-charge-suit);
+  }
+
+  .sidekick-atmo.is-landed .sk-boot {
+    animation: none;
+    fill: var(--sk-charge-boot);
+  }
+
+  .sidekick-atmo.is-landed .sk-belt {
+    animation: none;
+    fill: var(--sk-charge-belt);
+  }
+
+  .sidekick-atmo.is-landed .sk-skin {
+    animation: none;
+    fill: var(--sk-charge-helmet);
   }
 
   .sidekick-atmo.is-landed .sk-arc {
