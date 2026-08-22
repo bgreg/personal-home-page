@@ -687,6 +687,41 @@ html.is-inferno .planet-mottle {
     radial-gradient(4% 0.9% at 62% 0.8%, var(--gold, #ff9b3d), transparent 70%);
 }
 
+.sidekick-wreck {
+  position: absolute;
+  right: 17%;
+  bottom: max(24px, calc(175px - 4.83vw));
+  z-index: 1;
+  line-height: 0;
+  pointer-events: none;
+  transform-origin: 50% 100%;
+  scale: var(--sk-grow, 1);
+}
+
+.sidekick-wreck svg {
+  display: block;
+  height: 40px;
+  width: auto;
+  overflow: visible;
+}
+
+.sidekick-atmo.is-wrecked svg {
+  animation: none;
+}
+
+.sidekick-atmo.is-wrecked .sk-arc-field {
+  display: none;
+}
+
+body.is-victory .hero.is-charging .orbit::after {
+  animation: none;
+  opacity: 0;
+}
+
+html.is-inferno footer {
+  padding-top: 26rem;
+}
+
 html.is-inferno .atmo {
   background: radial-gradient(130% 100% at 50% 100%, rgba(255, 90, 45, 0.18), rgba(255, 90, 45, 0) 66%);
 }

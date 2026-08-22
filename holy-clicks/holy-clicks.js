@@ -80,14 +80,27 @@
 
   if (triggerEls.length && colors.length && burstFills.length) {
     let armed = false;
+    let locked = false;
 
     const burstOnClick = (event) => {
       if (event.target instanceof Element && event.target.closest(".sidekick")) return;
       spawnBurst(...burstOrigin(event));
     };
 
+    const disarm = () => {
+      if (!armed) return;
+      armed = false;
+      document.removeEventListener("click", burstOnClick, { capture: true });
+    };
+
+    document.addEventListener("holyclicks:disable", () => {
+      locked = true;
+      disarm();
+    });
+
     triggerEls.forEach((triggerEl) => {
       triggerEl.addEventListener("click", (event) => {
+        if (locked) return;
         armed = !armed;
 
         if (!armed) {

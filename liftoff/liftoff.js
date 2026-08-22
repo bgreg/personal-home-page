@@ -2,6 +2,7 @@
   "use strict";
 
   const sidekick = document.querySelector(".sidekick-atmo");
+  const champion = document.querySelector(".sidekick-corner");
   const planet = document.querySelector(".planet");
   if (!sidekick || !planet) return;
 
@@ -38,6 +39,19 @@
   const EYE_RATIO_CORNER = 9.4 / 50;
   const MUZZLE_CLEARANCE = 13;
   const LASER_ROUNDS = 3;
+  const WRECK_BURST_MS = 460;
+  const WRECK_FALL_MS = 2600;
+  const WRECK_STAGGER = 26;
+  const WRECK_PIECES = [
+    { sel: ".sk-cape", pick: 0, pivot: { x: 12, y: 28 }, to: { x: 9.4, y: 43.2 }, spin: 104 },
+    { sel: ".sk-cape", pick: 1, pivot: { x: 30, y: 25 }, to: { x: 35.4, y: 43.6 }, spin: -98 },
+    { sel: ".sk-tunic, .sk-ridge, .sk-seg, .sk-belt, .sk-emblem", pivot: { x: 22, y: 22.6 }, to: { x: 22.4, y: 43.4 }, spin: 86 },
+    { sel: ".sk-arm-l", pivot: { x: 15, y: 22 }, to: { x: 9.6, y: 46.4 }, spin: 72 },
+    { sel: ".sk-arm-r", pivot: { x: 32, y: 15 }, to: { x: 34.4, y: 46.6 }, spin: -116 },
+    { sel: ".sk-leg-l", pivot: { x: 17.5, y: 36 }, to: { x: 14.2, y: 47.6 }, spin: 102 },
+    { sel: ".sk-leg-r", pivot: { x: 27, y: 36 }, to: { x: 28.8, y: 47.8 }, spin: -82 },
+    { sel: ".sk-skin, .sk-mask, .sk-jaw, .sk-eye", pivot: { x: 22, y: 9 }, to: { x: 20.4, y: 38.6 }, spin: 22 }
+  ];
   const BEAM_MS = 230;
   const BEAM_GAP = 190;
   const ROUND_GAP = 330;
@@ -220,15 +234,13 @@
     hero.classList.add("is-charging");
     buildArcField(artwork);
 
-    const champion = document.querySelector(".sidekick-corner");
     if (champion) {
       champion.style.setProperty("--sk-rally", growth().toFixed(6));
       champion.classList.add("is-rallying");
     }
   };
 
-  const summonHero = async () => {
-    const champion = document.querySelector(".sidekick-corner");
+  const summonHero = async (heroWins) => {
     const ring = document.querySelector(".orbit");
     const stage = document.querySelector(".hero");
     if (!champion || !ring || !stage) return;
@@ -299,7 +311,7 @@
 
     champion.classList.add("is-buff");
     await pause(reducedMotion.matches ? 0 : 620);
-    await fight(stage, champion, sidekick);
+    await fight(stage, champion, sidekick, heroWins);
   };
 
   const pause = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
@@ -348,17 +360,146 @@
     beam.remove();
   };
 
-  const fight = async (stage, champion, villain) => {
-    if (reducedMotion.matches) {
-      await pause(200);
-    } else {
+  const layOutWreck = (artwork) => {
+    const claimed = new Set();
+
+    WRECK_PIECES.forEach(({ sel, pick, pivot, to, spin }) => {
+      const matches = [...artwork.querySelectorAll(sel)];
+      const chosen = pick === undefined ? matches : matches.filter((_, index) => index === pick);
+
+      chosen.forEach((part) => {
+        if (claimed.has(part)) return;
+        claimed.add(part);
+        part.style.transformBox = "view-box";
+        part.style.transformOrigin = `${pivot.x}px ${pivot.y}px`;
+        part.style.translate = `${(to.x - pivot.x).toFixed(2)}px ${(to.y - pivot.y).toFixed(2)}px`;
+        part.style.rotate = `${spin}deg`;
+      });
+    });
+
+    let loose = 0;
+
+    artwork.querySelectorAll("g > *").forEach((part) => {
+      if (claimed.has(part)) return;
+      const box = part.getBBox();
+      const cx = box.x + box.width / 2;
+      const cy = box.y + box.height / 2;
+      const lean = loose % 2 === 0 ? 1 : -1;
+      const restX = 12.8 + (loose % 5) * 4.5;
+      const restY = 45.4 + (loose % 3) * 0.9;
+      part.style.transformBox = "view-box";
+      part.style.transformOrigin = `${cx}px ${cy}px`;
+      part.style.translate = `${(restX - cx).toFixed(2)}px ${(restY - cy).toFixed(2)}px`;
+      part.style.rotate = `${lean * (36 + loose * 23)}deg`;
+      loose += 1;
+    });
+  };
+
+  const buildWreck = () => {
+    const footer = document.querySelector("footer");
+    const source = sidekick.querySelector("svg");
+    if (!footer || !source || document.querySelector(".sidekick-wreck")) return;
+
+    const wreck = document.createElement("div");
+    wreck.className = "sidekick-wreck";
+    wreck.setAttribute("aria-hidden", "true");
+    wreck.style.setProperty("--sk-grow", growth().toFixed(6));
+
+    const artwork = source.cloneNode(true);
+    artwork.removeAttribute("role");
+    artwork.querySelectorAll(".sk-arc-field").forEach((field) => field.remove());
+
+    wreck.append(artwork);
+    footer.append(wreck);
+    layOutWreck(artwork);
+  };
+
+  const heroVictory = async (stage, champion, villain) => {
+    const artwork = villain.querySelector("svg");
+
+    if (!reducedMotion.matches && artwork) {
+      await fireBeam(stage, champion, villain, "good", FINISHER_MS, true);
+
+      const pxPerUnit = artwork.getBoundingClientRect().height / VIEWBOX_HEIGHT || 1;
+      const drop = (stage.getBoundingClientRect().bottom - artwork.getBoundingClientRect().top) / pxPerUnit + 60;
+      const parts = [...artwork.querySelectorAll("g > *")];
+
+      villain.classList.add("is-wrecked");
+
+      await Promise.all(
+        parts.map((part, index) => {
+          const box = part.getBBox();
+          const cx = box.x + box.width / 2;
+          const cy = box.y + box.height / 2;
+          const away = { x: cx - ARC_CENTRE.x, y: cy - ARC_CENTRE.y };
+          const span = Math.hypot(away.x, away.y) || 1;
+          const kick = 9 + Math.random() * 10;
+          const spin = (Math.random() - 0.5) * 940;
+          const sway = (Math.random() - 0.5) * 28;
+          const burst = {
+            x: (away.x / span) * kick,
+            y: (away.y / span) * kick - 7
+          };
+
+          part.style.transformBox = "view-box";
+          part.style.transformOrigin = `${cx}px ${cy}px`;
+
+          return part.animate(
+            [
+              {
+                translate: "0 0",
+                rotate: "0deg",
+                opacity: 1,
+                easing: "cubic-bezier(0.05, 0.8, 0.3, 1)"
+              },
+              {
+                offset: WRECK_BURST_MS / (WRECK_BURST_MS + WRECK_FALL_MS),
+                translate: `${burst.x.toFixed(2)}px ${burst.y.toFixed(2)}px`,
+                rotate: `${(spin * 0.17).toFixed(1)}deg`,
+                opacity: 1,
+                easing: "cubic-bezier(0.42, 0, 0.9, 0.72)"
+              },
+              {
+                translate: `${(burst.x + sway).toFixed(2)}px ${drop.toFixed(2)}px`,
+                rotate: `${spin.toFixed(1)}deg`,
+                opacity: 0
+              }
+            ],
+            {
+              duration: WRECK_BURST_MS + WRECK_FALL_MS,
+              delay: index * WRECK_STAGGER,
+              easing: "linear",
+              fill: "forwards"
+            }
+          ).finished;
+        })
+      );
+    }
+
+    villain.hidden = true;
+    document.body.classList.remove("is-showdown");
+    document.body.classList.add("is-victory");
+    buildWreck();
+  };
+
+  const fight = async (stage, champion, villain, heroWins) => {
+    if (!reducedMotion.matches) {
       for (let round = 0; round < LASER_ROUNDS; round += 1) {
         await fireBeam(stage, champion, villain, "good", BEAM_MS, false);
         await pause(BEAM_GAP);
         await fireBeam(stage, villain, champion, "evil", BEAM_MS, false);
         await pause(ROUND_GAP);
       }
+    } else {
+      await pause(200);
+    }
 
+    if (heroWins) {
+      await heroVictory(stage, champion, villain);
+      return;
+    }
+
+    if (!reducedMotion.matches) {
       await fireBeam(stage, villain, champion, "evil", FINISHER_MS, true);
 
       const knocked = champion.getBoundingClientRect();
@@ -447,6 +588,7 @@
     const rise = perch.top + perch.height + LAUNCH_EXIT_MARGIN;
     const drift = cornerX - (perch.left + perch.width / 2);
 
+    document.dispatchEvent(new CustomEvent("holyclicks:disable"));
     sidekick.classList.add("is-launching");
     const artwork = sidekick.querySelector("svg");
     artwork.animate([{ scale: "-1 1" }, { scale: "1 1" }], {
@@ -472,13 +614,24 @@
     land();
   };
 
+  const callTheHero = (heroWins) => {
+    if (summoned) return;
+    summoned = true;
+    summonHero(heroWins).catch(() => {
+      summoned = false;
+    });
+  };
+
+  if (champion) {
+    champion.addEventListener("click", () => {
+      if (!champion.classList.contains("is-rallying")) return;
+      callTheHero(true);
+    });
+  }
+
   sidekick.addEventListener("click", () => {
     if (sidekick.classList.contains("is-landed")) {
-      if (summoned) return;
-      summoned = true;
-      summonHero().catch(() => {
-        summoned = false;
-      });
+      callTheHero(false);
       return;
     }
 
