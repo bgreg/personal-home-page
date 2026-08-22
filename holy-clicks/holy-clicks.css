@@ -35,7 +35,7 @@
   --sk-line: #060910;
 }
 
-.sidekick {
+.fighter {
   appearance: none;
   padding: 0;
   border: 0;
@@ -46,27 +46,27 @@
   transition: filter 0.3s ease;
 }
 
-.sidekick::after {
+.fighter::after {
   content: "";
   position: absolute;
   inset: -12px;
   cursor: pointer;
 }
 
-.sidekick svg,
-.sidekick svg * {
+.fighter svg,
+.fighter svg * {
   cursor: pointer;
 }
 
-.sidekick-corner {
+.heroine {
   position: fixed;
   top: 6px;
   left: 12px;
   z-index: 101;
 }
 
-.sidekick-atmo,
-.sidekick-wreck {
+.villain,
+.villain-wreck {
   position: absolute;
   right: 17%;
   bottom: max(24px, calc(175px - 4.83vw));
@@ -75,41 +75,41 @@
   scale: var(--sk-grow, 1);
 }
 
-.sidekick-atmo svg {
+.villain svg {
   scale: -1 1;
 }
 
 @media (max-width: 680px) {
-  .sidekick-corner {
+  .heroine {
     position: absolute;
     top: 78px;
     z-index: 1;
   }
 
-  .sidekick-corner::after {
+  .heroine::after {
     inset: -8px;
   }
 }
 
-.sidekick:hover,
-.sidekick:focus-visible {
+.fighter:hover,
+.fighter:focus-visible {
   filter: drop-shadow(0 0 16px var(--accent-glow, rgba(103, 232, 249, 0.55)));
 }
 
-.sidekick svg g {
+.fighter svg g {
   stroke: var(--sk-line);
 }
 
-.sidekick svg,
-.sidekick-wreck svg {
+.fighter svg,
+.villain-wreck svg {
   display: block;
   height: 40px;
   width: auto;
   overflow: visible;
 }
 
-.sidekick svg {
-  animation: sidekick-float 3.6s ease-in-out infinite alternate;
+.fighter svg {
+  animation: fighter-float 3.6s ease-in-out infinite alternate;
 }
 
 .sk-cape { fill: var(--sk-cape); }
@@ -126,7 +126,7 @@
 .sk-jaw { fill: var(--sk-jaw); }
 .sk-seg { fill: var(--sk-mask); stroke: none; }
 
-.sidekick-corner svg g {
+.heroine svg g {
   stroke: var(--lt-line);
   stroke-width: 1.05;
 }
@@ -163,7 +163,7 @@
   stroke: none;
 }
 
-@keyframes sidekick-float {
+@keyframes fighter-float {
   from { translate: 0 calc(var(--sk-float, 4px) * -1); }
   to { translate: 0 var(--sk-float, 4px); }
 }
