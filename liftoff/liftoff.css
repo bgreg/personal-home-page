@@ -116,7 +116,7 @@
   rotate: 43.2deg;
 }
 
-.sidekick-atmo.is-landed {
+:root {
   --sk-charge-eye: #ff2f2f;
   --sk-charge-core: #ff8a6a;
   --sk-charge-suit: #a22b24;
@@ -303,48 +303,35 @@
   50% { opacity: 0.5; }
 }
 
+.sidekick-wreck,
+.sidekick-atmo.is-static-charge {
+  --sk-tunic: var(--sk-charge-suit);
+  --sk-limb: var(--sk-charge-suit);
+  --sk-cape: var(--sk-charge-suit);
+  --sk-tights: var(--sk-charge-pants);
+  --sk-boot: var(--sk-charge-boot);
+  --sk-plate: var(--sk-charge-plate);
+  --sk-ridge: var(--sk-charge-ridge);
+  --sk-jaw: var(--sk-charge-jaw);
+  --sk-skin: var(--sk-charge-helmet);
+  --sk-eye: var(--sk-charge-eye);
+  --sk-emblem: var(--sk-charge-emblem);
+}
+
+.sidekick-wreck .sk-belt,
+.sidekick-atmo.is-static-charge .sk-belt {
+  fill: var(--sk-charge-belt);
+}
+
+.sidekick-atmo.is-static-charge g > * {
+  animation: none;
+}
+
+.sidekick-atmo.is-static-charge .sk-arc {
+  opacity: 0.4;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .sidekick-atmo.is-landed .sk-eye {
-    animation: none;
-    fill: var(--sk-charge-eye);
-  }
-
-  .sidekick-atmo.is-landed .sk-tights {
-    animation: none;
-    fill: var(--sk-charge-pants);
-  }
-
-  .sidekick-atmo.is-landed .sk-emblem {
-    animation: none;
-    fill: var(--sk-charge-emblem);
-  }
-
-  .sidekick-atmo.is-landed .sk-tunic,
-  .sidekick-atmo.is-landed .sk-limb {
-    animation: none;
-    fill: var(--sk-charge-suit);
-  }
-
-  .sidekick-atmo.is-landed .sk-boot {
-    animation: none;
-    fill: var(--sk-charge-boot);
-  }
-
-  .sidekick-atmo.is-landed .sk-belt {
-    animation: none;
-    fill: var(--sk-charge-belt);
-  }
-
-  .sidekick-atmo.is-landed .sk-skin {
-    animation: none;
-    fill: var(--sk-charge-helmet);
-  }
-
-  .sidekick-atmo.is-landed .sk-arc {
-    animation: none;
-    opacity: 0.4;
-  }
-
   .hero.is-charging .orbit::after {
     animation: none;
     opacity: 0.35;
@@ -362,8 +349,8 @@
   left: 34px;
   transform-origin: 50% 50%;
   scale: var(--sk-rally, 1);
-  filter: drop-shadow(0 0 14px rgba(126, 224, 168, 0.75))
-    drop-shadow(0 0 30px rgba(126, 224, 168, 0.35));
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--green, #7ee0a8) 75%, transparent))
+    drop-shadow(0 0 30px color-mix(in srgb, var(--green, #7ee0a8) 35%, transparent));
   transition:
     top 900ms cubic-bezier(0.34, 1.56, 0.64, 1),
     left 900ms cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -373,8 +360,8 @@
 
 .sidekick-corner.is-rallying:hover,
 .sidekick-corner.is-rallying:focus-visible {
-  filter: drop-shadow(0 0 18px rgba(126, 224, 168, 0.95))
-    drop-shadow(0 0 38px rgba(126, 224, 168, 0.5));
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--green, #7ee0a8) 95%, transparent))
+    drop-shadow(0 0 38px color-mix(in srgb, var(--green, #7ee0a8) 50%, transparent));
 }
 
 .sidekick-corner.is-rallying::before {
@@ -384,9 +371,9 @@
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(126, 224, 168, 0.6),
-    rgba(126, 224, 168, 0.26) 42%,
-    rgba(126, 224, 168, 0) 68%
+    color-mix(in srgb, var(--green, #7ee0a8) 60%, transparent),
+    color-mix(in srgb, var(--green, #7ee0a8) 26%, transparent) 42%,
+    transparent 68%
   );
   animation: sk-rally-glow 2.4s ease-in-out infinite alternate;
   pointer-events: none;
@@ -394,11 +381,8 @@
 }
 
 .sidekick-corner.is-rallying svg {
-  animation: sk-rally-float 1.5s ease-in-out infinite alternate;
-}
-
-.sidekick-corner.is-summoned {
-  transition: none;
+  --sk-float: 7px;
+  animation-duration: 1.5s;
 }
 
 @media (max-width: 680px) {
@@ -411,11 +395,6 @@
 @keyframes sk-rally-glow {
   from { opacity: 0.45; scale: 0.9; }
   to { opacity: 1; scale: 1.08; }
-}
-
-@keyframes sk-rally-float {
-  from { translate: 0 -7px; }
-  to { translate: 0 7px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -431,6 +410,7 @@
 
 .sidekick-corner.is-summoned {
   z-index: 2;
+  transition: none;
 }
 
 .sidekick-corner.is-summoned svg {
@@ -688,34 +668,12 @@ html.is-inferno .planet-mottle {
 }
 
 .sidekick-wreck {
-  position: absolute;
-  right: 17%;
-  bottom: max(24px, calc(175px - 4.83vw));
-  z-index: 1;
   line-height: 0;
   pointer-events: none;
-  transform-origin: 50% 100%;
-  scale: var(--sk-grow, 1);
-}
-
-.sidekick-wreck svg {
-  display: block;
-  height: 40px;
-  width: auto;
-  overflow: visible;
-}
-
-.sidekick-atmo.is-wrecked svg {
-  animation: none;
 }
 
 .sidekick-atmo.is-wrecked .sk-arc-field {
   display: none;
-}
-
-body.is-victory .hero.is-charging .orbit::after {
-  animation: none;
-  opacity: 0;
 }
 
 html.is-inferno footer {

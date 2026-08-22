@@ -3,6 +3,10 @@
 
   const sidekick = document.querySelector(".sidekick-atmo");
   const champion = document.querySelector(".sidekick-corner");
+  const championHome = champion && {
+    parent: champion.parentElement,
+    next: champion.nextElementSibling
+  };
   const planet = document.querySelector(".planet");
   if (!sidekick || !planet) return;
 
@@ -21,6 +25,8 @@
   const ARC_KINKS = 7;
   const ARC_WANDER = 0.07;
   const ARC_CENTRE = { x: 22, y: 25 };
+  const BLAST_CENTRE = { x: 22, y: 22 };
+  const HERO_HOME_MS = 1150;
   const VIEWBOX_HEIGHT = 50;
   const ARCS_PER_LIMB = 3;
   const ARC_FAN = 15;
@@ -35,22 +41,21 @@
   const HERO_OVER_VILLAIN = 1.1;
   const HERO_FLY_MS = 1500;
   const HERO_STANDOFF = 26;
-  const EYE_RATIO = 8.6 / 50;
-  const EYE_RATIO_CORNER = 9.4 / 50;
+  const EYE_HEIGHT = { atmo: 8.85, corner: 9.4 };
   const MUZZLE_CLEARANCE = 13;
   const LASER_ROUNDS = 3;
   const WRECK_BURST_MS = 460;
   const WRECK_FALL_MS = 2600;
   const WRECK_STAGGER = 26;
   const WRECK_PIECES = [
-    { sel: ".sk-cape", pick: 0, pivot: { x: 12, y: 28 }, to: { x: 9.4, y: 43.2 }, spin: 104 },
-    { sel: ".sk-cape", pick: 1, pivot: { x: 30, y: 25 }, to: { x: 35.4, y: 43.6 }, spin: -98 },
-    { sel: ".sk-tunic, .sk-ridge, .sk-seg, .sk-belt, .sk-emblem", pivot: { x: 22, y: 22.6 }, to: { x: 22.4, y: 43.4 }, spin: 86 },
+    { sel: ".sk-cape-l", pivot: { x: 12, y: 28 }, to: { x: 9.4, y: 43.2 }, spin: 104 },
+    { sel: ".sk-cape-r", pivot: { x: 30, y: 25 }, to: { x: 35.4, y: 43.6 }, spin: -98 },
+    { sel: ".sk-tunic, .sk-ridge:not(.sk-gorget), .sk-seg, .sk-belt, .sk-emblem", pivot: { x: 22, y: 22.6 }, to: { x: 22.4, y: 43.4 }, spin: 86 },
     { sel: ".sk-arm-l", pivot: { x: 15, y: 22 }, to: { x: 9.6, y: 46.4 }, spin: 72 },
     { sel: ".sk-arm-r", pivot: { x: 32, y: 15 }, to: { x: 34.4, y: 46.6 }, spin: -116 },
     { sel: ".sk-leg-l", pivot: { x: 17.5, y: 36 }, to: { x: 14.2, y: 47.6 }, spin: 102 },
     { sel: ".sk-leg-r", pivot: { x: 27, y: 36 }, to: { x: 28.8, y: 47.8 }, spin: -82 },
-    { sel: ".sk-skin, .sk-mask, .sk-jaw, .sk-eye", pivot: { x: 22, y: 9 }, to: { x: 20.4, y: 38.6 }, spin: 22 }
+    { sel: ".sk-skin, .sk-mask, .sk-jaw, .sk-gorget, .sk-eye", pivot: { x: 22, y: 9 }, to: { x: 20.4, y: 38.6 }, spin: 22 }
   ];
   const BEAM_MS = 230;
   const BEAM_GAP = 190;
@@ -126,17 +131,29 @@
 
     const box = ring.getBoundingClientRect();
     const drawn = artwork.getBoundingClientRect();
-    const pxPerUnit = drawn.height / VIEWBOX_HEIGHT;
-    if (!pxPerUnit) return { centre: ARC_CENTRE, radius: ARC_OUTER_FALLBACK };
+    const perUnit = pxPerUnit(artwork);
 
     const centre = {
-      x: (box.left + box.width / 2 - drawn.left) / pxPerUnit,
-      y: (box.top + box.height / 2 - drawn.top) / pxPerUnit
+      x: (box.left + box.width / 2 - drawn.left) / perUnit,
+      y: (box.top + box.height / 2 - drawn.top) / perUnit
     };
-    const radius = ring.offsetWidth / 2 / pxPerUnit;
+    const radius = ring.offsetWidth / 2 / perUnit;
 
     if (!radius) return { centre: ARC_CENTRE, radius: ARC_OUTER_FALLBACK };
     return { centre, radius };
+  };
+
+  const bodyParts = (artwork) => [...artwork.querySelectorAll("g > *")];
+
+  const pxPerUnit = (artwork) =>
+    artwork.getBoundingClientRect().height / VIEWBOX_HEIGHT || 1;
+
+  const pinToCentre = (part) => {
+    const box = part.getBBox();
+    const centre = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+    part.style.transformBox = "view-box";
+    part.style.transformOrigin = `${centre.x}px ${centre.y}px`;
+    return centre;
   };
 
   const posedLimb = (artwork, { limb, root, tip }) => {
@@ -232,6 +249,7 @@
     sidekick.setAttribute("aria-label", "Send in the other sidekick");
     hero.append(sidekick);
     hero.classList.add("is-charging");
+    if (reducedMotion.matches) sidekick.classList.add("is-static-charge");
     buildArcField(artwork);
 
     if (champion) {
@@ -318,8 +336,8 @@
 
   const eyeLine = (el) => {
     const box = el.getBoundingClientRect();
-    const ratio = el.matches(".sidekick-corner") ? EYE_RATIO_CORNER : EYE_RATIO;
-    return { x: box.left + box.width / 2, y: box.top + box.height * ratio };
+    const eyeY = el.matches(".sidekick-corner") ? EYE_HEIGHT.corner : EYE_HEIGHT.atmo;
+    return { x: box.left + box.width / 2, y: box.top + (box.height * eyeY) / VIEWBOX_HEIGHT };
   };
 
   const fireBeam = async (stage, shooter, target, kind, duration, finisher) => {
@@ -363,12 +381,8 @@
   const layOutWreck = (artwork) => {
     const claimed = new Set();
 
-    WRECK_PIECES.forEach(({ sel, pick, pivot, to, spin }) => {
-      const matches = [...artwork.querySelectorAll(sel)];
-      const chosen = pick === undefined ? matches : matches.filter((_, index) => index === pick);
-
-      chosen.forEach((part) => {
-        if (claimed.has(part)) return;
+    WRECK_PIECES.forEach(({ sel, pivot, to, spin }) => {
+      artwork.querySelectorAll(sel).forEach((part) => {
         claimed.add(part);
         part.style.transformBox = "view-box";
         part.style.transformOrigin = `${pivot.x}px ${pivot.y}px`;
@@ -379,16 +393,12 @@
 
     let loose = 0;
 
-    artwork.querySelectorAll("g > *").forEach((part) => {
+    bodyParts(artwork).forEach((part) => {
       if (claimed.has(part)) return;
-      const box = part.getBBox();
-      const cx = box.x + box.width / 2;
-      const cy = box.y + box.height / 2;
+      const { x: cx, y: cy } = pinToCentre(part);
       const lean = loose % 2 === 0 ? 1 : -1;
       const restX = 12.8 + (loose % 5) * 4.5;
       const restY = 45.4 + (loose % 3) * 0.9;
-      part.style.transformBox = "view-box";
-      part.style.transformOrigin = `${cx}px ${cy}px`;
       part.style.translate = `${(restX - cx).toFixed(2)}px ${(restY - cy).toFixed(2)}px`;
       part.style.rotate = `${lean * (36 + loose * 23)}deg`;
       loose += 1;
@@ -414,24 +424,54 @@
     layOutWreck(artwork);
   };
 
-  const heroVictory = async (stage, champion, villain) => {
-    const artwork = villain.querySelector("svg");
+  const sendHeroHome = async () => {
+    if (!champion || !championHome) return;
+
+    const from = champion.getBoundingClientRect();
+
+    champion.getAnimations().forEach((animation) => animation.cancel());
+    champion.classList.remove("is-summoned", "is-buff", "is-rallying");
+    champion.removeAttribute("style");
+    championHome.parent.insertBefore(champion, championHome.next);
+
+    const home = champion.getBoundingClientRect();
+    if (!home.width || reducedMotion.matches) return;
+
+    const shift = {
+      x: from.left + from.width / 2 - (home.left + home.width / 2),
+      y: from.top + from.height / 2 - (home.top + home.height / 2)
+    };
+
+    await champion.animate(
+      [
+        {
+          translate: `${shift.x.toFixed(2)}px ${shift.y.toFixed(2)}px`,
+          scale: (from.width / home.width).toFixed(4),
+          easing: "cubic-bezier(0.5, 0, 0.2, 1)"
+        },
+        { translate: "0 0", scale: "1" }
+      ],
+      { duration: HERO_HOME_MS }
+    ).finished;
+  };
+
+  const heroVictory = async (stage) => {
+    const artwork = sidekick.querySelector("svg");
 
     if (!reducedMotion.matches && artwork) {
-      await fireBeam(stage, champion, villain, "good", FINISHER_MS, true);
+      await fireBeam(stage, champion, sidekick, "good", FINISHER_MS, true);
 
-      const pxPerUnit = artwork.getBoundingClientRect().height / VIEWBOX_HEIGHT || 1;
-      const drop = (stage.getBoundingClientRect().bottom - artwork.getBoundingClientRect().top) / pxPerUnit + 60;
-      const parts = [...artwork.querySelectorAll("g > *")];
+      artwork.querySelectorAll(".sk-arc-field").forEach((field) => field.remove());
 
-      villain.classList.add("is-wrecked");
+      const artworkBox = artwork.getBoundingClientRect();
+      const drop = (stage.getBoundingClientRect().bottom - artworkBox.top) / pxPerUnit(artwork) + 60;
+      const parts = bodyParts(artwork);
+      const centres = parts.map(pinToCentre);
 
       await Promise.all(
         parts.map((part, index) => {
-          const box = part.getBBox();
-          const cx = box.x + box.width / 2;
-          const cy = box.y + box.height / 2;
-          const away = { x: cx - ARC_CENTRE.x, y: cy - ARC_CENTRE.y };
+          const { x: cx, y: cy } = centres[index];
+          const away = { x: cx - BLAST_CENTRE.x, y: cy - BLAST_CENTRE.y };
           const span = Math.hypot(away.x, away.y) || 1;
           const kick = 9 + Math.random() * 10;
           const spin = (Math.random() - 0.5) * 940;
@@ -440,9 +480,6 @@
             x: (away.x / span) * kick,
             y: (away.y / span) * kick - 7
           };
-
-          part.style.transformBox = "view-box";
-          part.style.transformOrigin = `${cx}px ${cy}px`;
 
           return part.animate(
             [
@@ -476,10 +513,12 @@
       );
     }
 
-    villain.hidden = true;
+    sidekick.hidden = true;
+    stage.classList.remove("is-charging");
     document.body.classList.remove("is-showdown");
     document.body.classList.add("is-victory");
     buildWreck();
+    await sendHeroHome();
   };
 
   const fight = async (stage, champion, villain, heroWins) => {
@@ -495,7 +534,7 @@
     }
 
     if (heroWins) {
-      await heroVictory(stage, champion, villain);
+      await heroVictory(stage);
       return;
     }
 
