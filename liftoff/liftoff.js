@@ -69,10 +69,10 @@
   let departing = false;
   let summoned = false;
 
-  const growth = () => GROWTH_STEP ** Math.min(clicks, GROWTH_CLICKS);
+  const grownScale = () => GROWTH_STEP ** Math.min(clicks, GROWTH_CLICKS);
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
-  const readSurface = () => {
+  const readPlanetSurface = () => {
     const box = planet.getBoundingClientRect();
     const radius = box.width / 2;
     const centreX = box.left + box.width / 2;
@@ -83,7 +83,7 @@
     };
   };
 
-  const walkFrames = (surface, startX, targetX, bobCount) => {
+  const walkAlongSurfaceFrames = (surface, startX, targetX, bobCount) => {
     const startY = surface.heightAt(startX);
     return Array.from({ length: WALK_SAMPLES + 1 }, (_, index) => {
       const progress = index / WALK_SAMPLES;
@@ -99,7 +99,7 @@
     });
   };
 
-  const launchFrames = ({ tilt, rise, drift }) => [
+  const launchArcFrames = ({ tilt, rise, drift }) => [
     {
       offset: 0,
       translate: `0 ${CROUCH_DIP}px`,
@@ -125,7 +125,7 @@
     }
   ];
 
-  const ringInUserUnits = (artwork) => {
+  const orbitRingInUserUnits = (artwork) => {
     const ring = document.querySelector(".orbit");
     if (!ring) return { centre: ARC_CENTRE, radius: ARC_OUTER_FALLBACK };
 
@@ -156,7 +156,7 @@
     return centre;
   };
 
-  const posedLimb = (artwork, { limb, root, tip }) => {
+  const aimAlongPosedLimb = (artwork, { limb, root, tip }) => {
     const node = artwork.querySelector(limb);
     if (!node || !artwork.getScreenCTM) return { from: tip, heading: 0 };
 
@@ -176,7 +176,7 @@
     };
   };
 
-  const strikeRing = (from, heading, ring) => {
+  const whereBoltMeetsRing = (from, heading, ring) => {
     const radians = (heading * Math.PI) / 180;
     const step = { x: Math.cos(radians), y: Math.sin(radians) };
     const offset = { x: from.x - ring.centre.x, y: from.y - ring.centre.y };
@@ -195,7 +195,7 @@
     return { x: from.x + step.x * travel, y: from.y + step.y * travel };
   };
 
-  const arcPoints = (from, to) => {
+  const jaggedBoltPoints = (from, to) => {
     const span = Math.hypot(to.x - from.x, to.y - from.y);
     const across = { x: -(to.y - from.y) / span, y: (to.x - from.x) / span };
     const spread = span * ARC_WANDER;
@@ -210,19 +210,19 @@
     }).join(" ");
   };
 
-  const buildArcField = (artwork) => {
-    const ring = ringInUserUnits(artwork);
+  const drawLightningToTheRing = (artwork) => {
+    const ring = orbitRingInUserUnits(artwork);
     const field = document.createElementNS(SVG_NS, "g");
     field.setAttribute("class", "sk-arc-field");
 
     EXTREMITIES.forEach((extremity) => {
-      const { from, heading } = posedLimb(artwork, extremity);
+      const { from, heading } = aimAlongPosedLimb(artwork, extremity);
 
       for (let index = 0; index < ARCS_PER_LIMB; index += 1) {
         const fan = ARCS_PER_LIMB === 1 ? 0 : (index / (ARCS_PER_LIMB - 1) - 0.5) * 2 * ARC_FAN;
         const arc = document.createElementNS(SVG_NS, "polyline");
         arc.setAttribute("class", "sk-arc");
-        arc.setAttribute("points", arcPoints(from, strikeRing(from, heading + fan, ring)));
+        arc.setAttribute("points", jaggedBoltPoints(from, whereBoltMeetsRing(from, heading + fan, ring)));
         arc.style.animationDuration = `${(5200 + Math.random() * 4000).toFixed(0)}ms`;
         arc.style.animationDelay = `${(1200 + Math.random() * 4200).toFixed(0)}ms`;
         field.append(arc);
@@ -232,7 +232,7 @@
     artwork.append(field);
   };
 
-  const land = () => {
+  const arriveInTheOrbitRing = () => {
     const hero = document.querySelector(".hero");
     if (!hero) {
       sidekick.hidden = true;
@@ -243,22 +243,22 @@
     sidekick.getAnimations().forEach((animation) => animation.cancel());
     artwork.getAnimations().forEach((animation) => animation.cancel());
     sidekick.removeAttribute("style");
-    sidekick.style.setProperty("--sk-grow", growth().toFixed(6));
+    sidekick.style.setProperty("--sk-grow", grownScale().toFixed(6));
     sidekick.classList.remove("is-launching");
     sidekick.classList.add("is-landed");
     sidekick.setAttribute("aria-label", "Send in the other sidekick");
     hero.append(sidekick);
     hero.classList.add("is-charging");
     if (reducedMotion.matches) sidekick.classList.add("is-static-charge");
-    buildArcField(artwork);
+    drawLightningToTheRing(artwork);
 
     if (champion) {
-      champion.style.setProperty("--sk-rally", growth().toFixed(6));
+      champion.style.setProperty("--sk-rally", grownScale().toFixed(6));
       champion.classList.add("is-rallying");
     }
   };
 
-  const summonHero = async (heroWins) => {
+  const sendTheHeroToTheStandoff = async (heroWins) => {
     const ring = document.querySelector(".orbit");
     const stage = document.querySelector(".hero");
     if (!champion || !ring || !stage) return;
@@ -279,9 +279,9 @@
       y: ringBox.top + ringBox.height / 2
     };
 
-    const size = growth() * HERO_OVER_VILLAIN;
+    const size = grownScale() * HERO_OVER_VILLAIN;
     const base = { width: champion.offsetWidth, height: champion.offsetHeight };
-    const rallied = champion.classList.contains("is-rallying") ? growth() : 1;
+    const rallied = champion.classList.contains("is-rallying") ? grownScale() : 1;
     const spread = (base.width * size) / 2;
     const from = { x: start.left + start.width / 2, y: start.top + start.height / 2 };
     const shift = {
@@ -329,20 +329,20 @@
 
     champion.classList.add("is-buff");
     await pause(reducedMotion.matches ? 0 : 620);
-    await fight(stage, champion, sidekick, heroWins);
+    await exchangeLaserFire(stage, heroWins);
   };
 
   const pause = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
-  const eyeLine = (el) => {
+  const eyePosition = (el) => {
     const box = el.getBoundingClientRect();
     const eyeY = el.matches(".sidekick-corner") ? EYE_HEIGHT.corner : EYE_HEIGHT.atmo;
     return { x: box.left + box.width / 2, y: box.top + (box.height * eyeY) / VIEWBOX_HEIGHT };
   };
 
-  const fireBeam = async (stage, shooter, target, kind, duration, finisher) => {
-    const eye = eyeLine(shooter);
-    const to = eyeLine(target);
+  const fireLaserBeam = async (stage, shooter, target, kind, duration, finisher) => {
+    const eye = eyePosition(shooter);
+    const to = eyePosition(target);
     const span = Math.hypot(to.x - eye.x, to.y - eye.y) || 1;
     const step = { x: (to.x - eye.x) / span, y: (to.y - eye.y) / span };
     const from = {
@@ -378,7 +378,7 @@
     beam.remove();
   };
 
-  const layOutWreck = (artwork) => {
+  const poseTheWreckage = (artwork) => {
     const claimed = new Set();
 
     WRECK_PIECES.forEach(({ sel, pivot, to, spin }) => {
@@ -405,7 +405,7 @@
     });
   };
 
-  const buildWreck = () => {
+  const restTheWreckageInTheFooter = () => {
     const footer = document.querySelector("footer");
     const source = sidekick.querySelector("svg");
     if (!footer || !source || document.querySelector(".sidekick-wreck")) return;
@@ -413,7 +413,7 @@
     const wreck = document.createElement("div");
     wreck.className = "sidekick-wreck";
     wreck.setAttribute("aria-hidden", "true");
-    wreck.style.setProperty("--sk-grow", growth().toFixed(6));
+    wreck.style.setProperty("--sk-grow", grownScale().toFixed(6));
 
     const artwork = source.cloneNode(true);
     artwork.removeAttribute("role");
@@ -421,10 +421,10 @@
 
     wreck.append(artwork);
     footer.append(wreck);
-    layOutWreck(artwork);
+    poseTheWreckage(artwork);
   };
 
-  const sendHeroHome = async () => {
+  const returnTheHeroToHerCorner = async () => {
     if (!champion || !championHome) return;
 
     const from = champion.getBoundingClientRect();
@@ -455,11 +455,11 @@
     ).finished;
   };
 
-  const heroVictory = async (stage) => {
+  const destroyTheVillain = async (stage) => {
     const artwork = sidekick.querySelector("svg");
 
     if (!reducedMotion.matches && artwork) {
-      await fireBeam(stage, champion, sidekick, "good", FINISHER_MS, true);
+      await fireLaserBeam(stage, champion, sidekick, "good", FINISHER_MS, true);
 
       artwork.querySelectorAll(".sk-arc-field").forEach((field) => field.remove());
 
@@ -517,29 +517,13 @@
     stage.classList.remove("is-charging");
     document.body.classList.remove("is-showdown");
     document.body.classList.add("is-victory");
-    buildWreck();
-    await sendHeroHome();
+    restTheWreckageInTheFooter();
+    await returnTheHeroToHerCorner();
   };
 
-  const fight = async (stage, champion, villain, heroWins) => {
+  const defeatTheHero = async (stage) => {
     if (!reducedMotion.matches) {
-      for (let round = 0; round < LASER_ROUNDS; round += 1) {
-        await fireBeam(stage, champion, villain, "good", BEAM_MS, false);
-        await pause(BEAM_GAP);
-        await fireBeam(stage, villain, champion, "evil", BEAM_MS, false);
-        await pause(ROUND_GAP);
-      }
-    } else {
-      await pause(200);
-    }
-
-    if (heroWins) {
-      await heroVictory(stage);
-      return;
-    }
-
-    if (!reducedMotion.matches) {
-      await fireBeam(stage, villain, champion, "evil", FINISHER_MS, true);
+      await fireLaserBeam(stage, sidekick, champion, "evil", FINISHER_MS, true);
 
       const knocked = champion.getBoundingClientRect();
       await champion.animate(
@@ -553,15 +537,34 @@
     }
 
     champion.hidden = true;
+    burnThePageDown();
+  };
+
+  const burnThePageDown = () => {
     document.body.classList.add("is-aftermath");
     document.documentElement.classList.add("is-inferno");
 
-    if (!document.querySelector(".inferno")) {
-      const blaze = document.createElement("div");
-      blaze.className = "inferno";
-      blaze.setAttribute("aria-hidden", "true");
-      document.body.append(blaze);
+    if (document.querySelector(".inferno")) return;
+
+    const blaze = document.createElement("div");
+    blaze.className = "inferno";
+    blaze.setAttribute("aria-hidden", "true");
+    document.body.append(blaze);
+  };
+
+  const exchangeLaserFire = async (stage, heroWins) => {
+    if (reducedMotion.matches) {
+      await pause(200);
+    } else {
+      for (let round = 0; round < LASER_ROUNDS; round += 1) {
+        await fireLaserBeam(stage, champion, sidekick, "good", BEAM_MS, false);
+        await pause(BEAM_GAP);
+        await fireLaserBeam(stage, sidekick, champion, "evil", BEAM_MS, false);
+        await pause(ROUND_GAP);
+      }
     }
+
+    await (heroWins ? destroyTheVillain : defeatTheHero)(stage);
   };
 
   const fadeOut = async () => {
@@ -574,16 +577,16 @@
     ).finished;
   };
 
-  const depart = async () => {
-    const size = growth();
+  const walkTheArcAndLaunch = async () => {
+    const size = grownScale();
 
     if (reducedMotion.matches) {
       await fadeOut();
-      land();
+      arriveInTheOrbitRing();
       return;
     }
 
-    const surface = readSurface();
+    const surface = readPlanetSurface();
     const box = sidekick.getBoundingClientRect();
     const startX = box.left + box.width / 2;
     const targetX = EDGE_MARGIN + box.width / 2;
@@ -594,7 +597,7 @@
     sidekick.style.setProperty("--sk-step", `${((2 * duration) / bobCount).toFixed(0)}ms`);
     sidekick.classList.add("is-walking");
 
-    const walk = sidekick.animate(walkFrames(surface, startX, targetX, bobCount), {
+    const walk = sidekick.animate(walkAlongSurfaceFrames(surface, startX, targetX, bobCount), {
       duration,
       easing: "linear",
       fill: "forwards"
@@ -644,19 +647,19 @@
       { duration: CROUCH_MS, easing: "ease-out", fill: "forwards" }
     ).finished;
 
-    await sidekick.animate(launchFrames({ tilt, rise, drift }), {
+    await sidekick.animate(launchArcFrames({ tilt, rise, drift }), {
       duration: LAUNCH_MS,
       easing: "linear",
       fill: "forwards"
     }).finished;
 
-    land();
+    arriveInTheOrbitRing();
   };
 
-  const callTheHero = (heroWins) => {
+  const beginTheShowdown = (heroWins) => {
     if (summoned) return;
     summoned = true;
-    summonHero(heroWins).catch(() => {
+    sendTheHeroToTheStandoff(heroWins).catch(() => {
       summoned = false;
     });
   };
@@ -664,13 +667,13 @@
   if (champion) {
     champion.addEventListener("click", () => {
       if (!champion.classList.contains("is-rallying")) return;
-      callTheHero(true);
+      beginTheShowdown(true);
     });
   }
 
   sidekick.addEventListener("click", () => {
     if (sidekick.classList.contains("is-landed")) {
-      callTheHero(false);
+      beginTheShowdown(false);
       return;
     }
 
@@ -678,12 +681,12 @@
     clicks += 1;
 
     if (clicks <= GROWTH_CLICKS) {
-      sidekick.style.setProperty("--sk-grow", growth().toFixed(6));
+      sidekick.style.setProperty("--sk-grow", grownScale().toFixed(6));
       return;
     }
 
     departing = true;
-    depart().catch(() => {
+    walkTheArcAndLaunch().catch(() => {
       departing = false;
     });
   });
