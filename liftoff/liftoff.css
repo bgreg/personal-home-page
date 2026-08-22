@@ -352,3 +352,136 @@ body.is-showdown .hero-inner {
     animation-duration: 1ms;
   }
 }
+
+.sk-beam {
+  position: absolute;
+  height: 3px;
+  transform-origin: 0 50%;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.sk-beam-good {
+  background: linear-gradient(90deg, #ecfff5, #7ee0a8 30%, #4bd08a);
+  box-shadow: 0 0 12px 3px rgba(126, 224, 168, 0.7);
+}
+
+.sk-beam-evil {
+  background: linear-gradient(90deg, #fff0ec, #ff4b3a 30%, #d81f14);
+  box-shadow: 0 0 12px 3px rgba(255, 62, 47, 0.7);
+}
+
+.sk-beam-finisher {
+  height: 7px;
+  box-shadow: 0 0 26px 8px rgba(255, 62, 47, 0.85);
+}
+
+.sk-struck {
+  animation: sk-struck-flash 150ms steps(1, end) 2;
+}
+
+@keyframes sk-struck-flash {
+  0% { filter: brightness(3.2) saturate(0.4); }
+  50% { filter: none; }
+}
+
+.inferno {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  background: radial-gradient(150% 80% at 50% 120%, rgba(255, 95, 34, 0.55) 0%, rgba(150, 18, 9, 0.5) 28%, rgba(45, 8, 5, 0.6) 56%, #14060a 82%);
+  animation: sk-inferno-in 1600ms ease forwards;
+}
+
+.inferno::before,
+.inferno::after {
+  content: "";
+  position: absolute;
+  inset: -34% -12% -30%;
+  background-repeat: no-repeat;
+  filter: blur(6px);
+  opacity: 0.42;
+}
+
+.inferno::before {
+  background-image:
+    radial-gradient(closest-side, rgba(255, 186, 56, 0.9), transparent 72%),
+    radial-gradient(closest-side, rgba(255, 108, 26, 0.85), transparent 72%),
+    radial-gradient(closest-side, rgba(214, 38, 16, 0.8), transparent 74%),
+    radial-gradient(closest-side, rgba(255, 156, 44, 0.75), transparent 72%);
+  background-size: 30% 82%, 24% 96%, 36% 70%, 21% 88%;
+  background-position: 7% 100%, 33% 100%, 63% 100%, 90% 100%;
+  animation: sk-lick-a 3.4s ease-in-out infinite alternate;
+}
+
+.inferno::after {
+  background-image:
+    radial-gradient(closest-side, rgba(255, 214, 92, 0.8), transparent 70%),
+    radial-gradient(closest-side, rgba(255, 88, 20, 0.75), transparent 72%),
+    radial-gradient(closest-side, rgba(255, 140, 32, 0.7), transparent 72%);
+  background-size: 19% 68%, 28% 88%, 23% 74%;
+  background-position: 19% 100%, 50% 100%, 78% 100%;
+  animation: sk-lick-b 2.6s ease-in-out infinite alternate;
+}
+
+@keyframes sk-inferno-in {
+  to { opacity: 1; }
+}
+
+@keyframes sk-lick-a {
+  from { translate: -1.5% 4%; scale: 1 0.94; }
+  to { translate: 1.5% -3%; scale: 1.04 1.06; }
+}
+
+@keyframes sk-lick-b {
+  from { translate: 2% 3%; scale: 1.05 1.02; }
+  to { translate: -2% -4%; scale: 0.97 1.1; }
+}
+
+html.is-inferno {
+  --bg: #14060a;
+  --surface: rgba(52, 13, 9, 0.62);
+  --surface-solid: #26090a;
+  --border: #5e1c14;
+  --border-strong: #8a2a1c;
+  --text: #ffdcd2;
+  --secondary: #ffa48c;
+  --muted: #cf6a52;
+  --dim: #9c4a38;
+  --accent: #ff4b2b;
+  --accent-glow: rgba(255, 75, 43, 0.55);
+  --gold: #ff9b3d;
+  --green: #ff6a45;
+}
+
+body.is-showdown.is-aftermath > header,
+body.is-showdown.is-aftermath .hero-inner {
+  animation: sk-restore-stage 1400ms ease forwards;
+  pointer-events: auto;
+}
+
+@keyframes sk-restore-stage {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inferno,
+  .inferno::before,
+  .inferno::after {
+    animation-duration: 1ms;
+  }
+
+  .sk-struck {
+    animation: none;
+  }
+
+  body.is-showdown.is-aftermath > header,
+  body.is-showdown.is-aftermath .hero-inner {
+    animation-duration: 1ms;
+  }
+}

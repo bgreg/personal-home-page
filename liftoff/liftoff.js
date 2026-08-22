@@ -35,6 +35,13 @@
   const HERO_OVER_VILLAIN = 1.1;
   const HERO_FLY_MS = 1500;
   const HERO_STANDOFF = 26;
+  const EYE_RATIO = 8.6 / 50;
+  const LASER_ROUNDS = 3;
+  const BEAM_MS = 230;
+  const BEAM_GAP = 190;
+  const ROUND_GAP = 330;
+  const FINISHER_MS = 520;
+  const DEFEAT_MS = 1100;
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -274,6 +281,82 @@
     stage.append(champion);
 
     champion.classList.add("is-buff");
+    await pause(reducedMotion.matches ? 0 : 620);
+    await fight(stage, champion, sidekick);
+  };
+
+  const pause = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+
+  const eyeLine = (el) => {
+    const box = el.getBoundingClientRect();
+    return { x: box.left + box.width / 2, y: box.top + box.height * EYE_RATIO };
+  };
+
+  const fireBeam = async (stage, shooter, target, kind, duration, finisher) => {
+    const from = eyeLine(shooter);
+    const to = eyeLine(target);
+    const stageBox = stage.getBoundingClientRect();
+    const reach = Math.hypot(to.x - from.x, to.y - from.y);
+
+    const beam = document.createElement("div");
+    beam.className = `sk-beam sk-beam-${kind}${finisher ? " sk-beam-finisher" : ""}`;
+    beam.style.left = `${(from.x - stageBox.left).toFixed(2)}px`;
+    beam.style.top = `${(from.y - stageBox.top).toFixed(2)}px`;
+    beam.style.width = `${reach.toFixed(2)}px`;
+    beam.style.rotate = `${((Math.atan2(to.y - from.y, to.x - from.x) * 180) / Math.PI).toFixed(2)}deg`;
+    stage.append(beam);
+
+    const shot = beam.animate(
+      [
+        { scale: "0 1", opacity: 1, easing: "cubic-bezier(0.2, 0.8, 0.3, 1)" },
+        { offset: 0.3, scale: "1 1", opacity: 1 },
+        { offset: 0.62, scale: "1 1.6", opacity: 1 },
+        { scale: "1 1", opacity: 0 }
+      ],
+      { duration, easing: "linear", fill: "forwards" }
+    );
+
+    await pause(duration * 0.34);
+    target.classList.add("sk-struck");
+    await shot.finished.catch(() => {});
+    target.classList.remove("sk-struck");
+    beam.remove();
+  };
+
+  const fight = async (stage, champion, villain) => {
+    if (reducedMotion.matches) {
+      await pause(200);
+    } else {
+      for (let round = 0; round < LASER_ROUNDS; round += 1) {
+        await fireBeam(stage, champion, villain, "good", BEAM_MS, false);
+        await pause(BEAM_GAP);
+        await fireBeam(stage, villain, champion, "evil", BEAM_MS, false);
+        await pause(ROUND_GAP);
+      }
+
+      await fireBeam(stage, villain, champion, "evil", FINISHER_MS, true);
+
+      const knocked = champion.getBoundingClientRect();
+      await champion.animate(
+        [
+          { translate: "0 0", rotate: "0deg", opacity: 1 },
+          { offset: 0.35, translate: `${(-knocked.width * 1.1).toFixed(1)}px 14px`, rotate: "-34deg", opacity: 1 },
+          { translate: `${(-knocked.width * 3.4).toFixed(1)}px 210px`, rotate: "-150deg", opacity: 0 }
+        ],
+        { duration: DEFEAT_MS, easing: "cubic-bezier(0.3, 0, 0.7, 1)", fill: "forwards" }
+      ).finished;
+    }
+
+    champion.hidden = true;
+    document.body.classList.add("is-aftermath");
+    document.documentElement.classList.add("is-inferno");
+
+    if (!document.querySelector(".inferno")) {
+      const blaze = document.createElement("div");
+      blaze.className = "inferno";
+      blaze.setAttribute("aria-hidden", "true");
+      document.body.append(blaze);
+    }
   };
 
   const fadeOut = async () => {
