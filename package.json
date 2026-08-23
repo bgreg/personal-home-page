@@ -1,0 +1,13 @@
+{
+  "name": "personal-home-page",
+  "private": true,
+  "description": "Static personal site. Playwright is a dev-only dependency for tests; the site itself ships no dependencies.",
+  "scripts": {
+    "test": "playwright test",
+    "test:coverage": "playwright test --reporter=list",
+    "serve": "python3 -m http.server 8000"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
+  }
+}

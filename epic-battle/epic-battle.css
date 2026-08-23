@@ -413,7 +413,7 @@
 
 .heroine.is-buff .lt-arm-r {
   transform-origin: 25.55px 17.4px;
-  animation-name: sk-buff-limb;
+  animation-name: heroine-take-aim;
 }
 
 .heroine.is-buff .lt-torso,
@@ -430,6 +430,13 @@
 
 @keyframes sk-buff-limb {
   to { scale: 1.55; }
+}
+
+@keyframes heroine-take-aim {
+  to {
+    rotate: -58deg;
+    scale: 1.55;
+  }
 }
 
 @keyframes sk-buff-torso {
