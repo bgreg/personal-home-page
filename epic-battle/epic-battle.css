@@ -58,18 +58,6 @@
   50% { rotate: 15deg; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .villain {
-    transition: scale 0.15s ease-out;
-  }
-
-  .villain.is-walking .sk-leg-l,
-  .villain.is-walking .sk-leg-r,
-  .villain.is-walking .sk-arm-l,
-  .villain.is-walking .sk-arm-r {
-    animation: none;
-  }
-}
 
 /* ---------- Beat 2: arriving at the centre of the orbit ring ---- */
 .villain.is-landed {
@@ -310,8 +298,7 @@
 }
 
 /* ---------- Charged palette without animation: reduced motion, and the wreckage ---- */
-.villain-wreck,
-.villain.is-static-charge {
+.villain-wreck {
   --sk-tunic: var(--sk-charge-suit);
   --sk-limb: var(--sk-charge-suit);
   --sk-cape: var(--sk-charge-suit);
@@ -334,30 +321,12 @@
   display: none;
 }
 
-.villain-wreck .sk-belt,
-.villain.is-static-charge .sk-belt {
+.villain-wreck .sk-belt {
   fill: var(--sk-charge-belt);
 }
 
-.villain.is-static-charge g > * {
-  animation: none;
-}
 
-.villain.is-static-charge .sk-arc {
-  opacity: 0.4;
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .hero.is-charging .orbit::after {
-    animation: none;
-    opacity: 0.35;
-  }
-
-  .orbit,
-  .orbit-sat {
-    transition: none;
-  }
-}
 
 
 /* ---------- Beat 6: the hero powers up in her corner ---- */
@@ -366,8 +335,8 @@
   left: 34px;
   transform-origin: 50% 50%;
   scale: var(--sk-rally, 1);
-  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--green, #7ee0a8) 75%, transparent))
-    drop-shadow(0 0 30px color-mix(in srgb, var(--green, #7ee0a8) 35%, transparent));
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--green, #7ee0a8) 56%, transparent))
+    drop-shadow(0 0 30px color-mix(in srgb, var(--green, #7ee0a8) 26%, transparent));
   transition:
     top 900ms cubic-bezier(0.34, 1.56, 0.64, 1),
     left 900ms cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -377,8 +346,8 @@
 
 .heroine.is-rallying:hover,
 .heroine.is-rallying:focus-visible {
-  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--green, #7ee0a8) 95%, transparent))
-    drop-shadow(0 0 38px color-mix(in srgb, var(--green, #7ee0a8) 50%, transparent));
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--green, #7ee0a8) 71%, transparent))
+    drop-shadow(0 0 38px color-mix(in srgb, var(--green, #7ee0a8) 38%, transparent));
 }
 
 .heroine.is-rallying::before {
@@ -388,8 +357,8 @@
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    color-mix(in srgb, var(--green, #7ee0a8) 60%, transparent),
-    color-mix(in srgb, var(--green, #7ee0a8) 26%, transparent) 42%,
+    color-mix(in srgb, var(--green, #7ee0a8) 45%, transparent),
+    color-mix(in srgb, var(--green, #7ee0a8) 20%, transparent) 42%,
     transparent 68%
   );
   animation: sk-rally-glow 2.4s ease-in-out infinite alternate;
@@ -414,16 +383,6 @@
   to { opacity: 1; scale: 1.08; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .heroine.is-rallying {
-    transition: none;
-  }
-
-  .heroine.is-rallying::before,
-  .heroine.is-rallying svg {
-    animation: none;
-  }
-}
 
 /* ---------- Beat 7: the hero flies in and grows comic-book muscles ---- */
 .heroine.is-summoned {
@@ -481,16 +440,6 @@
   to { scale: 1.42 1; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .heroine.is-buff .lt-arm-l,
-  .heroine.is-buff .lt-arm-r,
-  .heroine.is-buff .lt-torso,
-  .heroine.is-buff .lt-shoulder,
-  .heroine.is-buff .lt-collar,
-  .heroine.is-buff .lt-belt {
-    animation-duration: 1ms;
-  }
-}
 
 /* ---------- Beat 8: the page clears for the showdown ---- */
 body.is-showdown > header,
@@ -503,12 +452,6 @@ body.is-showdown .hero-inner {
   to { opacity: 0; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  body.is-showdown > header,
-  body.is-showdown .hero-inner {
-    animation-duration: 1ms;
-  }
-}
 
 /* ---------- Beat 9: laser fire -------------------------- */
 .sk-beam {
@@ -637,23 +580,6 @@ body.is-showdown.is-aftermath .hero-inner {
   to { opacity: 1; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .inferno,
-  .inferno::before,
-  .inferno::after {
-    animation-duration: 1ms;
-  }
-
-  .sk-struck-good,
-  .sk-struck-evil {
-    animation: none;
-  }
-
-  body.is-showdown.is-aftermath > header,
-  body.is-showdown.is-aftermath .hero-inner {
-    animation-duration: 1ms;
-  }
-}
 
 /* ---------- Ending A: the planet collapses into a black hole ---- */
 html.is-inferno .planet {

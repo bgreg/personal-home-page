@@ -27,6 +27,7 @@
   const ARC_CENTRE = { x: 22, y: 25 };
   const BLAST_CENTRE = { x: 22, y: 22 };
   const HEROINE_HOME_MS = 1150;
+  const VILLAIN_CHARGE_MS = 2900;
   const VIEWBOX_HEIGHT = 50;
   const ARCS_PER_LIMB = 3;
   const ARC_FAN = 15;
@@ -43,6 +44,7 @@
   const HEROINE_STANDOFF = 26;
   const EYE_HEIGHT = { atmo: 8.85, corner: 9.4 };
   const MUZZLE_CLEARANCE = 13;
+  const HEROINE_FIRING_HAND = ".lt-glove.lt-arm-r";
   const LASER_ROUNDS = 3;
   const WRECK_BURST_MS = 460;
   const WRECK_FALL_MS = 2600;
@@ -249,12 +251,11 @@
     villain.setAttribute("aria-label", "Send in the other villain");
     hero.append(villain);
     hero.classList.add("is-charging");
-    if (reducedMotion.matches) villain.classList.add("is-static-charge");
     drawLightningToTheRing(artwork);
 
     if (heroine) {
       heroine.style.setProperty("--sk-rally", grownScale().toFixed(6));
-      heroine.classList.add("is-rallying");
+      window.setTimeout(() => heroine.classList.add("is-rallying"), VILLAIN_CHARGE_MS);
     }
   };
 
@@ -292,27 +293,26 @@
     document.body.classList.add("is-showdown");
     heroine.classList.add("is-summoned");
 
-    if (reducedMotion.matches) {
-      heroine.style.translate = `${shift.x.toFixed(2)}px ${shift.y.toFixed(2)}px`;
-      heroine.style.scale = size.toFixed(4);
-    } else {
-      await heroine.animate(
-        [
-          { translate: "0 0", scale: "1", easing: "cubic-bezier(0.55, 0, 0.3, 1)" },
-          {
-            offset: 0.28,
-            translate: `${(shift.x * 0.14).toFixed(2)}px ${(shift.y * 0.2 - 30).toFixed(2)}px`,
-            scale: (rallied + (size - rallied) * 0.28).toFixed(4),
-            easing: "cubic-bezier(0.3, 0, 0.2, 1)"
-          },
-          {
-            translate: `${shift.x.toFixed(2)}px ${shift.y.toFixed(2)}px`,
-            scale: size.toFixed(4)
-          }
-        ],
-        { duration: HEROINE_FLY_MS, easing: "linear", fill: "forwards" }
-      ).finished;
-    }
+    await heroine.animate(
+      [
+        {
+          translate: "0 0",
+          scale: rallied.toFixed(4),
+          easing: "cubic-bezier(0.55, 0, 0.3, 1)"
+        },
+        {
+          offset: 0.28,
+          translate: `${(shift.x * 0.14).toFixed(2)}px ${(shift.y * 0.2 - 30).toFixed(2)}px`,
+          scale: (rallied + (size - rallied) * 0.28).toFixed(4),
+          easing: "cubic-bezier(0.3, 0, 0.2, 1)"
+        },
+        {
+          translate: `${shift.x.toFixed(2)}px ${shift.y.toFixed(2)}px`,
+          scale: size.toFixed(4)
+        }
+      ],
+      { duration: HEROINE_FLY_MS, easing: "linear", fill: "forwards" }
+    ).finished;
 
     const settled = heroine.getBoundingClientRect();
     const stageBox = stage.getBoundingClientRect();
@@ -328,7 +328,7 @@
     stage.append(heroine);
 
     heroine.classList.add("is-buff");
-    await pause(reducedMotion.matches ? 0 : 620);
+    await pause(620);
     await exchangeLaserFire(stage, heroineWins);
   };
 
@@ -340,8 +340,16 @@
     return { x: box.left + box.width / 2, y: box.top + (box.height * eyeY) / VIEWBOX_HEIGHT };
   };
 
+  const muzzlePosition = (el) => {
+    const hand = el.matches(".heroine") ? el.querySelector(HEROINE_FIRING_HAND) : null;
+    if (!hand) return eyePosition(el);
+
+    const box = hand.getBoundingClientRect();
+    return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+  };
+
   const fireLaserBeam = async (stage, shooter, target, kind, duration, finisher) => {
-    const eye = eyePosition(shooter);
+    const eye = muzzlePosition(shooter);
     const to = eyePosition(target);
     const span = Math.hypot(to.x - eye.x, to.y - eye.y) || 1;
     const step = { x: (to.x - eye.x) / span, y: (to.y - eye.y) / span };
@@ -435,7 +443,7 @@
     heroineHome.parent.insertBefore(heroine, heroineHome.next);
 
     const home = heroine.getBoundingClientRect();
-    if (!home.width || reducedMotion.matches) return;
+    if (!home.width) return;
 
     const shift = {
       x: from.left + from.width / 2 - (home.left + home.width / 2),
@@ -458,7 +466,7 @@
   const destroyTheVillain = async (stage) => {
     const artwork = villain.querySelector("svg");
 
-    if (!reducedMotion.matches && artwork) {
+    if (artwork) {
       await fireLaserBeam(stage, heroine, villain, "good", FINISHER_MS, true);
 
       artwork.querySelectorAll(".sk-arc-field").forEach((field) => field.remove());
@@ -522,19 +530,17 @@
   };
 
   const defeatTheHeroine = async (stage) => {
-    if (!reducedMotion.matches) {
-      await fireLaserBeam(stage, villain, heroine, "evil", FINISHER_MS, true);
+    await fireLaserBeam(stage, villain, heroine, "evil", FINISHER_MS, true);
 
-      const knocked = heroine.getBoundingClientRect();
-      await heroine.animate(
-        [
-          { translate: "0 0", rotate: "0deg", opacity: 1 },
-          { offset: 0.35, translate: `${(-knocked.width * 1.1).toFixed(1)}px 14px`, rotate: "-34deg", opacity: 1 },
-          { translate: `${(-knocked.width * 3.4).toFixed(1)}px 210px`, rotate: "-150deg", opacity: 0 }
-        ],
-        { duration: DEFEAT_MS, easing: "cubic-bezier(0.3, 0, 0.7, 1)", fill: "forwards" }
-      ).finished;
-    }
+    const knocked = heroine.getBoundingClientRect();
+    await heroine.animate(
+      [
+        { translate: "0 0", rotate: "0deg", opacity: 1 },
+        { offset: 0.35, translate: `${(-knocked.width * 1.1).toFixed(1)}px 14px`, rotate: "-34deg", opacity: 1 },
+        { translate: `${(-knocked.width * 3.4).toFixed(1)}px 210px`, rotate: "-150deg", opacity: 0 }
+      ],
+      { duration: DEFEAT_MS, easing: "cubic-bezier(0.3, 0, 0.7, 1)", fill: "forwards" }
+    ).finished;
 
     heroine.hidden = true;
     burnThePageDown();
@@ -553,15 +559,11 @@
   };
 
   const exchangeLaserFire = async (stage, heroineWins) => {
-    if (reducedMotion.matches) {
-      await pause(200);
-    } else {
-      for (let round = 0; round < LASER_ROUNDS; round += 1) {
-        await fireLaserBeam(stage, heroine, villain, "good", BEAM_MS, false);
-        await pause(BEAM_GAP);
-        await fireLaserBeam(stage, villain, heroine, "evil", BEAM_MS, false);
-        await pause(ROUND_GAP);
-      }
+    for (let round = 0; round < LASER_ROUNDS; round += 1) {
+      await fireLaserBeam(stage, heroine, villain, "good", BEAM_MS, false);
+      await pause(BEAM_GAP);
+      await fireLaserBeam(stage, villain, heroine, "evil", BEAM_MS, false);
+      await pause(ROUND_GAP);
     }
 
     await (heroineWins ? destroyTheVillain : defeatTheHeroine)(stage);
@@ -579,12 +581,6 @@
 
   const walkTheArcAndLaunch = async () => {
     const size = grownScale();
-
-    if (reducedMotion.matches) {
-      await fadeOut();
-      arriveInTheOrbitRing();
-      return;
-    }
 
     const surface = readPlanetSurface();
     const box = villain.getBoundingClientRect();
@@ -666,12 +662,15 @@
 
   if (heroine) {
     heroine.addEventListener("click", () => {
+      if (reducedMotion.matches) return;
       if (!heroine.classList.contains("is-rallying")) return;
       beginTheShowdown(true);
     });
   }
 
   villain.addEventListener("click", () => {
+    if (reducedMotion.matches) return;
+
     if (villain.classList.contains("is-landed")) {
       beginTheShowdown(false);
       return;
