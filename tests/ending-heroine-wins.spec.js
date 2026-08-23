@@ -66,7 +66,7 @@ test("she blows him apart and the page turns to victory", async ({ page }) => {
   expect(leftoverBolts, "his lightning should be gone before he bursts").toBe(0);
 });
 
-test("the orbit dot cools back to the colour it started", async ({ page }) => {
+test("the orbit dot stops burning and takes the victory accent", async ({ page }) => {
   test.setTimeout(120_000);
 
   await openSite(page);
@@ -76,11 +76,36 @@ test("the orbit dot cools back to the colour it started", async ({ page }) => {
   );
 
   await driveToStandoff(page);
+  const charged = await page.evaluate(
+    (selector) => getComputedStyle(document.querySelector(selector)).backgroundColor,
+    SELECTORS.ringDot
+  );
+  expect(charged, "he should have corrupted the dot while charging").not.toBe(calm);
+
   await settleAfterVictory(page);
 
-  await expect(page.locator(SELECTORS.ringDot)).toHaveCSS("background-color", calm, {
-    timeout: 20_000
-  });
+  const readDot = () =>
+    page.evaluate((selector) => {
+      const probe = document.createElement("div");
+      probe.style.backgroundColor = "var(--accent)";
+      document.body.append(probe);
+      const accent = getComputedStyle(probe).backgroundColor;
+      probe.remove();
+      return {
+        dot: getComputedStyle(document.querySelector(selector)).backgroundColor,
+        accent
+      };
+    }, SELECTORS.ringDot);
+
+  await expect
+    .poll(async () => {
+      const reading = await readDot();
+      return reading.dot === reading.accent;
+    }, { timeout: 20_000 })
+    .toBe(true);
+
+  const settled = await readDot();
+  expect(settled.dot, "the dot should no longer be burning").not.toBe(charged);
 });
 
 test("his wreck rests where he stood, in his charged colours", async ({ page }) => {

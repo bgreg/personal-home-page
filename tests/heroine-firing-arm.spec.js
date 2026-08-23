@@ -36,13 +36,22 @@ test("the heroine's firing arm reaches toward the villain", async ({ page }) => 
 test("her green laser leaves her hand, not her head", async ({ page }) => {
   await driveToStandoff(page);
 
-  const beam = page.locator(SELECTORS.goodBeam).first();
-  await expect(beam).toBeVisible({ timeout: 20_000 });
+  const origin = await page.evaluate(async (selector) => {
+    const deadline = performance.now() + 20000;
+    while (performance.now() < deadline) {
+      const beam = document.querySelector(selector);
+      if (beam) {
+        const box = beam.getBoundingClientRect();
+        if (box.width > 0) return { x: box.x, y: box.y + box.height / 2 };
+      }
+      await new Promise((settle) => requestAnimationFrame(settle));
+    }
+    return null;
+  }, SELECTORS.goodBeam);
 
-  const beamBox = await beam.boundingBox();
+  expect(origin, "a green beam should have been fired").not.toBeNull();
+
   const aim = await measureAim(page);
-
-  const origin = { x: beamBox.x, y: beamBox.y + beamBox.height / 2 };
   const toHand = Math.hypot(origin.x - aim.hand.x, origin.y - aim.hand.y);
   const toHead = Math.hypot(origin.x - aim.head.x, origin.y - aim.head.y);
 

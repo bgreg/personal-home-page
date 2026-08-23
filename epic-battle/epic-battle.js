@@ -528,6 +528,7 @@
     document.body.classList.remove("is-showdown");
     document.body.classList.add("is-victory");
     restTheWreckageInTheFooter();
+    bringTheWorldBack();
     await returnTheHeroineToHerCorner();
   };
 
@@ -546,6 +547,17 @@
 
     heroine.hidden = true;
     burnThePageDown();
+  };
+
+  const bringTheWorldBack = () => {
+    document.documentElement.classList.add("is-triumph");
+
+    if (document.querySelector(".aurora")) return;
+
+    const dawn = document.createElement("div");
+    dawn.className = "aurora";
+    dawn.setAttribute("aria-hidden", "true");
+    document.body.append(dawn);
   };
 
   const burnThePageDown = () => {
