@@ -445,6 +445,57 @@
 }
 
 
+/* ---------- Beat 7b: she takes the field and his lightning dies ---- */
+.villain .sk-arc-field {
+  transition: opacity 600ms ease;
+}
+
+body.is-showdown .villain .sk-arc-field {
+  opacity: 0;
+}
+
+.heroine.is-summoned {
+  filter: none;
+}
+
+.heroine.is-summoned::before {
+  inset: -62%;
+  background:
+    radial-gradient(
+      circle,
+      transparent 52%,
+      color-mix(in srgb, var(--green, #7ee0a8) 22%, transparent) 66%,
+      color-mix(in srgb, var(--green, #7ee0a8) 46%, transparent) 78%,
+      transparent 88%
+    ),
+    radial-gradient(
+      circle,
+      color-mix(in srgb, var(--green, #7ee0a8) 20%, transparent) 0%,
+      transparent 62%
+    );
+  animation: sk-forcefield 2.6s ease-in-out infinite alternate;
+}
+
+.heroine.is-summoned .lt-iris {
+  fill: var(--green, #7ee0a8);
+}
+
+.heroine.is-summoned .lt-eye,
+.heroine.is-summoned .lt-iris,
+.heroine.is-summoned .lt-pupil {
+  filter: drop-shadow(0 0 1.4px var(--green, #7ee0a8))
+    drop-shadow(0 0 3px color-mix(in srgb, var(--green, #7ee0a8) 70%, transparent));
+}
+
+.heroine.is-summoned .lt-pupil {
+  fill: color-mix(in srgb, var(--green, #7ee0a8) 35%, #000);
+}
+
+@keyframes sk-forcefield {
+  from { opacity: 0.72; scale: 0.97; }
+  to { opacity: 1; scale: 1.05; }
+}
+
 /* ---------- Beat 8: the page clears for the showdown ---- */
 body.is-showdown > header,
 body.is-showdown .hero-inner {

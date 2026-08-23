@@ -65,8 +65,8 @@ body::before {
 }
 
 ::selection {
-  background: rgba(103, 232, 249, 0.28);
-  color: #fff;
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+  color: var(--text);
 }
 
 :focus-visible {
@@ -498,7 +498,7 @@ h2 {
 .tag {
   font-family: var(--mono);
   font-size: 0.66rem;
-  color: #7f93ab;
+  color: color-mix(in srgb, var(--secondary) 70%, var(--muted));
   border: 1px solid var(--border);
   padding: 0.19rem 0.5rem;
   border-radius: 5px;
