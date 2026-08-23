@@ -27,6 +27,7 @@
   const ARC_CENTRE = { x: 22, y: 25 };
   const BLAST_CENTRE = { x: 22, y: 22 };
   const HEROINE_HOME_MS = 1150;
+  const BEAT_BEFORE_FIRE = 220;
   const VILLAIN_CHARGE_MS = 2900;
   const VIEWBOX_HEIGHT = 50;
   const ARCS_PER_LIMB = 3;
@@ -328,7 +329,8 @@
     stage.append(heroine);
 
     heroine.classList.add("is-buff");
-    await pause(620);
+    await settleHeroinePose();
+    await pause(BEAT_BEFORE_FIRE);
     await exchangeLaserFire(stage, heroineWins);
   };
 
@@ -558,6 +560,18 @@
     document.body.append(blaze);
   };
 
+  const settleHeroinePose = async () => {
+    const posing = heroine
+      .getAnimations({ subtree: true })
+      .filter((animation) => {
+        const timing = animation.effect && animation.effect.getTiming();
+        return timing && timing.iterations !== Infinity;
+      })
+      .map((animation) => animation.finished.catch(() => {}));
+
+    await Promise.all(posing);
+  };
+
   const exchangeLaserFire = async (stage, heroineWins) => {
     for (let round = 0; round < LASER_ROUNDS; round += 1) {
       await fireLaserBeam(stage, heroine, villain, "good", BEAM_MS, false);
@@ -567,16 +581,6 @@
     }
 
     await (heroineWins ? destroyTheVillain : defeatTheHeroine)(stage);
-  };
-
-  const fadeOut = async () => {
-    await villain.animate(
-      [
-        { translate: "0 0", opacity: 1 },
-        { translate: "0 -40px", opacity: 0 }
-      ],
-      { duration: 300, easing: "ease-out", fill: "forwards" }
-    ).finished;
   };
 
   const walkTheArcAndLaunch = async () => {

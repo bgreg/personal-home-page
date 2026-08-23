@@ -317,9 +317,6 @@
   pointer-events: none;
 }
 
-.villain.is-wrecked .sk-arc-field {
-  display: none;
-}
 
 .villain-wreck .sk-belt {
   fill: var(--sk-charge-belt);
