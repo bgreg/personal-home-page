@@ -2,6 +2,7 @@
   "use strict";
 
   const triggerEls = document.querySelectorAll(".heroine");
+  const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const WORDS = [
     "AIEEE!", "AIIEEE!", "ARRGH!", "ARRGGHH!", "AWK!", "AWKKKKKK!", "BAM!", "BANG!", "BANG-ETH!", "BIFF!",
@@ -83,6 +84,7 @@
     let locked = false;
 
     const burstOnClick = (event) => {
+      if (calmMotion.matches) return;
       if (event.target instanceof Element && event.target.closest(".fighter")) return;
       spawnBurst(...burstOrigin(event));
     };
@@ -100,7 +102,7 @@
 
     triggerEls.forEach((triggerEl) => {
       triggerEl.addEventListener("click", (event) => {
-        if (locked) return;
+        if (locked || calmMotion.matches) return;
 
         if (armed) {
           disarm();

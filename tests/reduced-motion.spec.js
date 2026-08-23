@@ -83,13 +83,15 @@ test("the page is never rebuilt for a fight that cannot start", async ({ page })
   await expect(page.locator(SELECTORS.stage)).not.toHaveClass(new RegExp(MARKERS.charging));
 });
 
-test("the comic book click effects are not held back by reduced motion", async ({ page }) => {
+test("the comic book click effects stay silent under reduced motion", async ({ page }) => {
   await openSite(page);
 
   await clickHeroine(page);
+  await page.locator(SELECTORS.stage).dispatchEvent("click");
+  await page.locator(SELECTORS.stageContent).dispatchEvent("click");
 
   expect(
     await page.locator(SELECTORS.burst).count(),
-    "the click effects have no reduced-motion gate of their own"
-  ).toBe(1);
+    "neither arming the effects nor clicking the page should spawn one"
+  ).toBe(0);
 });

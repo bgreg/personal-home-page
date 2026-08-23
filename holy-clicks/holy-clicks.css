@@ -187,7 +187,6 @@
     -1px 1px 0 #000;
   white-space: nowrap;
   animation: pow-pop 900ms ease-out forwards;
-  --animation-reduced: pow-fade 700ms ease-out forwards;
 }
 
 .pow svg {
@@ -213,7 +212,5 @@
   to { opacity: 0; scale: 2; }
 }
 
-@keyframes pow-fade {
-  from { opacity: 1; }
   to { opacity: 0; }
 }
