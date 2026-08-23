@@ -110,6 +110,72 @@ nav a:hover {
   color: var(--accent);
 }
 
+.nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.55rem;
+  margin-inline-start: auto;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #1d2839;
+  border-radius: 8px;
+  background: none;
+  color: var(--secondary);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.nav-toggle:hover,
+.nav-toggle[aria-expanded="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  display: block;
+  width: 16px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: translate 0.2s ease, rotate 0.2s ease, opacity 0.15s ease;
+}
+
+.nav-toggle-bars {
+  position: relative;
+}
+
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.nav-toggle-bars::before {
+  translate: 0 -5px;
+}
+
+.nav-toggle-bars::after {
+  translate: 0 5px;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars {
+  background: transparent;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::before {
+  translate: 0 0;
+  rotate: 45deg;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::after {
+  translate: 0 0;
+  rotate: -45deg;
+}
+
 /* ---------- Layout ---------- */
 section {
   max-width: 940px;
@@ -390,9 +456,28 @@ h2 {
   text-wrap: balance;
 }
 
-.project-card h3::before {
-  content: "// ";
+.project-card h3::after {
+  content: "\2192";
   color: var(--accent);
+  display: inline-block;
+  margin-left: 0.5rem;
+  translate: -4px 0;
+  opacity: 0;
+  transition:
+    translate 0.22s ease,
+    opacity 0.22s ease;
+}
+
+.project-card:hover h3::after,
+.project-card:focus-visible h3::after {
+  translate: 0 0;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card h3::after {
+    transition: none;
+  }
 }
 
 .project-card p {
@@ -872,9 +957,43 @@ footer p {
     padding: 0.4rem 1rem;
   }
 
+  nav {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
   nav ul {
-    justify-content: center;
-    gap: 0.25rem 1rem;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.35rem 1rem 0.75rem;
+    background: var(--bg);
+    border-bottom: 1px solid #131c2b;
+    box-shadow: 0 18px 30px -22px rgba(0, 0, 0, 0.9);
+    display: none;
+  }
+
+  nav[data-menu="open"] ul {
+    display: flex;
+  }
+
+  nav ul a {
+    display: block;
+    padding: 0.7rem 0.2rem;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #101827;
+  }
+
+  nav ul li:last-child a {
+    border-bottom: 0;
   }
 }
 
@@ -885,9 +1004,50 @@ footer p {
     padding-right: 1.25rem;
   }
 
+  .hero {
+    min-height: 78svh;
+    padding-top: 4.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
   .timeline-entry {
     grid-template-columns: 1fr;
     gap: 0.5rem;
+  }
+
+  .project-card {
+    padding: 1rem 1.1rem;
+  }
+
+  .project-card p {
+    margin-bottom: 0.75rem;
+  }
+
+  .pills {
+    gap: 0.4rem;
+  }
+
+  .pill {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.72rem;
+  }
+
+  .cta-row {
+    gap: 0.6rem;
+  }
+
+  .tags {
+    gap: 0.3rem;
+  }
+
+  .tag {
+    padding: 0.2rem 0.45rem;
+    font-size: 0.66rem;
   }
 }
 
