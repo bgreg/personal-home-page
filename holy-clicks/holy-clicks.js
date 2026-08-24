@@ -1,10 +1,10 @@
 (() => {
   "use strict";
 
-  const triggerEls = document.querySelectorAll(".heroine");
-  const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const armSwitches = document.querySelectorAll(".heroine");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  const WORDS = [
+  const SOUND_EFFECTS = [
     "AIEEE!", "AIIEEE!", "ARRGH!", "ARRGGHH!", "AWK!", "AWKKKKKK!", "BAM!", "BANG!", "BANG-ETH!", "BIFF!",
     "BLOOP!", "BLURP!", "BOFF!", "BONK!", "BONG!", "BOOM!", "CLANK!", "CLANK-EST!", "CLASH!", "CLICK!",
     "CLUNK!", "CLUNK-ETH!", "CRACK!", "CRAAACK!", "CRASH!", "CRRAAACK!", "CRUNCH!", "CRUNCH-ETH!", "EEE-YOW!",
@@ -21,17 +21,17 @@
   const CURSOR_GAP = 25;
   const SVG_NS = "http://www.w3.org/2000/svg";
 
-  const readTokens = (names) => {
+  const readPaletteTokens = (names) => {
     const root = getComputedStyle(document.documentElement);
     return names.map((name) => root.getPropertyValue(name).trim()).filter(Boolean);
   };
 
-  const colors = readTokens(COLOR_TOKENS);
-  const burstFills = readTokens(BURST_TOKENS);
-  const pick = (items) => items[Math.floor(Math.random() * items.length)];
+  const wordColors = readPaletteTokens(COLOR_TOKENS);
+  const starburstFills = readPaletteTokens(BURST_TOKENS);
+  const pickOne = (items) => items[Math.floor(Math.random() * items.length)];
   const randomBetween = (min, max) => min + Math.random() * (max - min);
 
-  const burstPoints = (spikes) =>
+  const starburstPoints = (spikes) =>
     Array.from({ length: spikes * 2 }, (_, i) => {
       const angle = (Math.PI * i) / spikes - Math.PI / 2;
       const radius = (i % 2 === 0 ? 46 : 22) * randomBetween(0.88, 1.12);
@@ -40,7 +40,7 @@
       return `${x},${y}`;
     }).join(" ");
 
-  const spawnBurst = (clientX, clientY) => {
+  const stampSoundEffect = (clientX, clientY) => {
     const placeRight = clientX < window.innerWidth / 2;
 
     const pow = document.createElement("div");
@@ -52,25 +52,25 @@
       "--pow-tx": placeRight ? "0%" : "-100%",
       "--pow-rot": `${randomBetween(-15, 15).toFixed(2)}deg`,
       "--pow-size": `${Math.floor(randomBetween(28, 41))}px`,
-      "--pow-color": pick(colors),
-      "--pow-fill": pick(burstFills)
+      "--pow-color": pickOne(wordColors),
+      "--pow-fill": pickOne(starburstFills)
     }).forEach(([token, value]) => pow.style.setProperty(token, value));
 
     const svg = document.createElementNS(SVG_NS, "svg");
     svg.setAttribute("viewBox", "0 0 100 100");
     const polygon = document.createElementNS(SVG_NS, "polygon");
-    polygon.setAttribute("points", burstPoints(Math.floor(randomBetween(9, 13))));
+    polygon.setAttribute("points", starburstPoints(Math.floor(randomBetween(9, 13))));
     svg.append(polygon);
 
     const label = document.createElement("span");
-    label.textContent = pick(WORDS);
+    label.textContent = pickOne(SOUND_EFFECTS);
 
     pow.append(svg, label);
     pow.addEventListener("animationend", () => pow.remove(), { once: true });
     document.body.append(pow);
   };
 
-  const burstOrigin = (event, fallbackEl) => {
+  const pointOfImpact = (event, fallbackEl) => {
     if (event.detail !== 0) return [event.clientX, event.clientY];
     const el = fallbackEl ?? (event.target instanceof Element ? event.target : null);
     const rect = el?.getBoundingClientRect();
@@ -79,39 +79,39 @@
       : [window.innerWidth / 2, window.innerHeight / 2];
   };
 
-  if (triggerEls.length && colors.length && burstFills.length) {
+  if (armSwitches.length && wordColors.length && starburstFills.length) {
     let armed = false;
-    let locked = false;
+    let lockedOff = false;
 
-    const burstOnClick = (event) => {
-      if (calmMotion.matches) return;
+    const stampOnEveryClick = (event) => {
+      if (reducedMotion.matches) return;
       if (event.target instanceof Element && event.target.closest(".fighter")) return;
-      spawnBurst(...burstOrigin(event));
+      stampSoundEffect(...pointOfImpact(event));
     };
 
-    const disarm = () => {
+    const stopStamping = () => {
       if (!armed) return;
       armed = false;
-      document.removeEventListener("click", burstOnClick, { capture: true });
+      document.removeEventListener("click", stampOnEveryClick, { capture: true });
     };
 
     document.addEventListener("holyclicks:disable", () => {
-      locked = true;
-      disarm();
+      lockedOff = true;
+      stopStamping();
     });
 
-    triggerEls.forEach((triggerEl) => {
-      triggerEl.addEventListener("click", (event) => {
-        if (locked || calmMotion.matches) return;
+    armSwitches.forEach((armSwitch) => {
+      armSwitch.addEventListener("click", (event) => {
+        if (lockedOff || reducedMotion.matches) return;
 
         if (armed) {
-          disarm();
+          stopStamping();
           return;
         }
 
         armed = true;
-        document.addEventListener("click", burstOnClick, { capture: true });
-        spawnBurst(...burstOrigin(event, triggerEl));
+        document.addEventListener("click", stampOnEveryClick, { capture: true });
+        stampSoundEffect(...pointOfImpact(event, armSwitch));
       });
     });
   }
