@@ -322,3 +322,35 @@ test("clicking him again while he walks does not start a second departure", asyn
   expect(walks, "only one walk should ever be scheduled").toHaveLength(1);
   expect(log.arcFields, "he should arrive once and charge once").toBe(1);
 });
+
+test("the page rides up with him so the ring is on screen when he lands", async ({ page }) => {
+  test.setTimeout(120_000);
+
+  await openSite(page);
+  await page.evaluate(
+    (selector) => document.querySelector(selector).scrollIntoView({ block: "end" }),
+    SELECTORS.footer
+  );
+  await expect.poll(() => page.evaluate(() => Math.round(window.scrollY))).toBeGreaterThan(500);
+
+  const downAtHisFeet = await page.evaluate(() => Math.round(window.scrollY));
+
+  const { clicksTaken } = await growthClicksUntilHeLeaves(page);
+  expect(clicksTaken, "a handful of clicks should send him on his way").toBeTruthy();
+  await waitForMarker(page, SELECTORS.villain, MARKERS.landed);
+
+  const afterTheFlight = await page.evaluate(() => Math.round(window.scrollY));
+
+  expect(
+    afterTheFlight,
+    "the flight should have carried the reader back to the top"
+  ).toBeLessThan(downAtHisFeet);
+
+  expect(
+    await page.evaluate((selector) => {
+      const ring = document.querySelector(selector).getBoundingClientRect();
+      return ring.bottom > 0 && ring.top < window.innerHeight;
+    }, SELECTORS.ring),
+    "the ring he lands in should be on screen, or nobody sees what happens next"
+  ).toBe(true);
+});
