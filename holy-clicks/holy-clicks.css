@@ -7,33 +7,33 @@
   --burst-1: var(--gold, #f5c451);
   --burst-2: var(--accent, #67e8f9);
   --burst-3: var(--green, #7ee0a8);
-  --sk-cape: var(--green, #7ee0a8);
-  --sk-tunic: #45596e;
-  --sk-tights: #415161;
-  --sk-boot: #3d4854;
-  --sk-limb: #45596e;
-  --sk-skin: #b8c6d8;
-  --sk-mask: #060910;
-  --sk-plate: #37485a;
-  --sk-ridge: #55697e;
-  --sk-jaw: #8d9aab;
-  --sk-eye: var(--green, #7ee0a8);
-  --sk-emblem: var(--green, #7ee0a8);
-  --lt-skin: #8a5a3c;
-  --lt-nose: #70452c;
-  --lt-lips: #4f2755;
-  --lt-hair: #1a1310;
-  --lt-shoulder: #1b5340;
-  --lt-suit: #123a2c;
-  --lt-lower: #0e2f24;
-  --lt-boot: #0a2019;
-  --lt-belt: var(--green, #7ee0a8);
-  --lt-eye: #ffffff;
-  --lt-iris: #6b4423;
-  --lt-pupil: #000000;
-  --lt-lash: #120c08;
-  --lt-line: #04070c;
-  --sk-line: #060910;
+  --villain-cape: var(--green, #7ee0a8);
+  --villain-tunic: #45596e;
+  --villain-tights: #415161;
+  --villain-boot: #3d4854;
+  --villain-limb: #45596e;
+  --villain-skin: #b8c6d8;
+  --villain-mask: #060910;
+  --villain-plate: #37485a;
+  --villain-ridge: #55697e;
+  --villain-jaw: #8d9aab;
+  --villain-eye: var(--green, #7ee0a8);
+  --villain-emblem: var(--green, #7ee0a8);
+  --heroine-skin: #8a5a3c;
+  --heroine-nose: #70452c;
+  --heroine-lips: #4f2755;
+  --heroine-hair: #1a1310;
+  --heroine-shoulder: #1b5340;
+  --heroine-suit: #123a2c;
+  --heroine-lower: #0e2f24;
+  --heroine-boot: #0a2019;
+  --heroine-belt: var(--green, #7ee0a8);
+  --heroine-eye: #ffffff;
+  --heroine-iris: #6b4423;
+  --heroine-pupil: #000000;
+  --heroine-lash: #120c08;
+  --heroine-line: #04070c;
+  --villain-line: #060910;
 }
 
 /* ---------- The two fighters as buttons ----------------- */
@@ -101,7 +101,7 @@
 }
 
 .fighter svg g {
-  stroke: var(--sk-line);
+  stroke: var(--villain-line);
 }
 
 .fighter svg,
@@ -117,55 +117,55 @@
 }
 
 /* ---------- Villain body-part colours ------------------- */
-.sk-cape { fill: var(--sk-cape); }
-.sk-tunic { fill: var(--sk-tunic); }
-.sk-tights { fill: var(--sk-tights); }
-.sk-boot { fill: var(--sk-boot); }
-.sk-limb { fill: var(--sk-limb); }
-.sk-belt { fill: var(--sk-cape); }
-.sk-skin { fill: var(--sk-skin); }
-.sk-mask { fill: var(--sk-mask); }
-.sk-emblem { fill: var(--sk-emblem); }
-.sk-plate { fill: var(--sk-plate); }
-.sk-ridge { fill: var(--sk-ridge); }
-.sk-jaw { fill: var(--sk-jaw); }
-.sk-seg { fill: var(--sk-mask); stroke: none; }
+.villain-cape { fill: var(--villain-cape); }
+.villain-tunic { fill: var(--villain-tunic); }
+.villain-tights { fill: var(--villain-tights); }
+.villain-boot { fill: var(--villain-boot); }
+.villain-limb { fill: var(--villain-limb); }
+.villain-belt { fill: var(--villain-cape); }
+.villain-skin { fill: var(--villain-skin); }
+.villain-mask { fill: var(--villain-mask); }
+.villain-emblem { fill: var(--villain-emblem); }
+.villain-plate { fill: var(--villain-plate); }
+.villain-ridge { fill: var(--villain-ridge); }
+.villain-jaw { fill: var(--villain-jaw); }
+.villain-seg { fill: var(--villain-mask); stroke: none; }
 
 .heroine svg g {
-  stroke: var(--lt-line);
+  stroke: var(--heroine-line);
   stroke-width: 1.05;
 }
 
 /* ---------- Heroine body-part colours ------------------- */
-.lt-hair { fill: var(--lt-hair); }
-.lt-skin { fill: var(--lt-skin); }
-.lt-arm,
-.lt-torso { fill: var(--lt-suit); }
-.lt-lower { fill: var(--lt-lower); }
-.lt-shoulder { fill: var(--lt-shoulder); }
-.lt-boot { fill: var(--lt-boot); }
-.lt-glove,
-.lt-cuff,
-.lt-collar,
-.lt-belt,
-.lt-emblem { fill: var(--lt-belt); }
-.lt-bar { fill: var(--lt-line); }
+.heroine-hair { fill: var(--heroine-hair); }
+.heroine-skin { fill: var(--heroine-skin); }
+.heroine-arm,
+.heroine-torso { fill: var(--heroine-suit); }
+.heroine-lower { fill: var(--heroine-lower); }
+.heroine-shoulder { fill: var(--heroine-shoulder); }
+.heroine-boot { fill: var(--heroine-boot); }
+.heroine-glove,
+.heroine-cuff,
+.heroine-collar,
+.heroine-belt,
+.heroine-emblem { fill: var(--heroine-belt); }
+.heroine-bar { fill: var(--heroine-line); }
 
-.lt-eye { fill: var(--lt-eye); stroke: none; }
-.lt-iris { fill: var(--lt-iris); stroke: none; }
-.lt-pupil { fill: var(--lt-pupil); stroke: none; }
-.lt-nose { fill: var(--lt-nose); stroke: none; }
-.lt-lips { fill: var(--lt-lips); stroke: none; }
+.heroine-eye { fill: var(--heroine-eye); stroke: none; }
+.heroine-iris { fill: var(--heroine-iris); stroke: none; }
+.heroine-pupil { fill: var(--heroine-pupil); stroke: none; }
+.heroine-nose { fill: var(--heroine-nose); stroke: none; }
+.heroine-lips { fill: var(--heroine-lips); stroke: none; }
 
-.lt-lash {
+.heroine-lash {
   fill: none;
-  stroke: var(--lt-lash);
+  stroke: var(--heroine-lash);
   stroke-width: 0.34;
   stroke-linecap: round;
 }
 
-.sk-eye {
-  fill: var(--sk-eye);
+.villain-eye {
+  fill: var(--villain-eye);
   stroke: none;
 }
 

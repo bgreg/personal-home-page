@@ -33,10 +33,10 @@
   const ARCS_PER_LIMB = 3;
   const ARC_FAN = 15;
   const EXTREMITIES = [
-    { limb: ".sk-arm-l", root: { x: 18.5, y: 19.35 }, tip: { x: 11, y: 24.9 } },
-    { limb: ".sk-arm-r", root: { x: 28.3, y: 19.05 }, tip: { x: 35.85, y: 11.95 } },
-    { limb: ".sk-boot.sk-leg-l", root: { x: 19.35, y: 29.5 }, tip: { x: 17.2, y: 45 } },
-    { limb: ".sk-boot.sk-leg-r", root: { x: 24.8, y: 29.5 }, tip: { x: 28.6, y: 44.3 } }
+    { limb: ".villain-arm-l", root: { x: 18.5, y: 19.35 }, tip: { x: 11, y: 24.9 } },
+    { limb: ".villain-arm-r", root: { x: 28.3, y: 19.05 }, tip: { x: 35.85, y: 11.95 } },
+    { limb: ".villain-boot.villain-leg-l", root: { x: 19.35, y: 29.5 }, tip: { x: 17.2, y: 45 } },
+    { limb: ".villain-boot.villain-leg-r", root: { x: 24.8, y: 29.5 }, tip: { x: 28.6, y: 44.3 } }
   ];
   const LAUNCH_MS = 1100;
   const LAUNCH_EXIT_MARGIN = 40;
@@ -45,20 +45,20 @@
   const HEROINE_STANDOFF = 26;
   const EYE_HEIGHT = { atmo: 8.85, corner: 9.4 };
   const MUZZLE_CLEARANCE = 13;
-  const HEROINE_FIRING_HAND = ".lt-glove.lt-arm-r";
+  const HEROINE_FIRING_HAND = ".heroine-glove.heroine-arm-r";
   const LASER_ROUNDS = 3;
   const WRECK_BURST_MS = 460;
   const WRECK_FALL_MS = 2600;
   const WRECK_STAGGER = 26;
   const WRECK_PIECES = [
-    { sel: ".sk-cape-l", pivot: { x: 12, y: 28 }, to: { x: 9.4, y: 43.2 }, spin: 104 },
-    { sel: ".sk-cape-r", pivot: { x: 30, y: 25 }, to: { x: 35.4, y: 43.6 }, spin: -98 },
-    { sel: ".sk-tunic, .sk-ridge:not(.sk-gorget), .sk-seg, .sk-belt, .sk-emblem", pivot: { x: 22, y: 22.6 }, to: { x: 22.4, y: 43.4 }, spin: 86 },
-    { sel: ".sk-arm-l", pivot: { x: 15, y: 22 }, to: { x: 9.6, y: 46.4 }, spin: 72 },
-    { sel: ".sk-arm-r", pivot: { x: 32, y: 15 }, to: { x: 34.4, y: 46.6 }, spin: -116 },
-    { sel: ".sk-leg-l", pivot: { x: 17.5, y: 36 }, to: { x: 14.2, y: 47.6 }, spin: 102 },
-    { sel: ".sk-leg-r", pivot: { x: 27, y: 36 }, to: { x: 28.8, y: 47.8 }, spin: -82 },
-    { sel: ".sk-skin, .sk-mask, .sk-jaw, .sk-gorget, .sk-eye", pivot: { x: 22, y: 9 }, to: { x: 20.4, y: 38.6 }, spin: 22 }
+    { sel: ".villain-cape-l", pivot: { x: 12, y: 28 }, to: { x: 9.4, y: 43.2 }, spin: 104 },
+    { sel: ".villain-cape-r", pivot: { x: 30, y: 25 }, to: { x: 35.4, y: 43.6 }, spin: -98 },
+    { sel: ".villain-tunic, .villain-ridge:not(.villain-gorget), .villain-seg, .villain-belt, .villain-emblem", pivot: { x: 22, y: 22.6 }, to: { x: 22.4, y: 43.4 }, spin: 86 },
+    { sel: ".villain-arm-l", pivot: { x: 15, y: 22 }, to: { x: 9.6, y: 46.4 }, spin: 72 },
+    { sel: ".villain-arm-r", pivot: { x: 32, y: 15 }, to: { x: 34.4, y: 46.6 }, spin: -116 },
+    { sel: ".villain-leg-l", pivot: { x: 17.5, y: 36 }, to: { x: 14.2, y: 47.6 }, spin: 102 },
+    { sel: ".villain-leg-r", pivot: { x: 27, y: 36 }, to: { x: 28.8, y: 47.8 }, spin: -82 },
+    { sel: ".villain-skin, .villain-mask, .villain-jaw, .villain-gorget, .villain-eye", pivot: { x: 22, y: 9 }, to: { x: 20.4, y: 38.6 }, spin: 22 }
   ];
   const BEAM_MS = 230;
   const BEAM_GAP = 190;
