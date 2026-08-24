@@ -17,6 +17,7 @@ html {
   --border: #1c2740;
   --border-strong: #2c3743;
   --text: #e8eef6;
+  --heading: #fff;
   --secondary: #9fb0c4;
   --muted: #5a6b82;
   --dim: #434f63;
@@ -349,6 +350,7 @@ section {
 }
 
 h2 {
+  color: var(--heading);
   font-family: var(--display);
   font-weight: 600;
   font-size: var(--fs-h2);
