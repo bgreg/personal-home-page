@@ -5,6 +5,8 @@ export const SELECTORS = {
   heroine: ".heroine",
   stage: ".hero",
   stageContent: ".hero-inner",
+  sectionHeading: ".section-head h2",
+  cardCopy: ".project-card p",
   ring: ".orbit",
   ringDot: ".orbit-sat",
   planet: ".planet",

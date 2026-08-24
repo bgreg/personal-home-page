@@ -173,3 +173,26 @@ test("a fire already on the page is not lit a second time", async ({ page }) => 
     "the fire already burning should be left alone"
   ).toBe("true");
 });
+
+test("the fire repaints the body text but leaves the section headings white", async ({ page }) => {
+  test.setTimeout(120_000);
+
+  const readInk = () =>
+    page.evaluate((contract) => ({
+      heading: getComputedStyle(document.querySelector(contract.heading)).color,
+      body: getComputedStyle(document.querySelector(contract.body)).color
+    }), { heading: SELECTORS.sectionHeading, body: SELECTORS.cardCopy });
+
+  await openSite(page);
+  const before = await readInk();
+
+  await driveToDefeat(page);
+  await settleAfterDefeat(page);
+  await expect
+    .poll(async () => (await readInk()).body, { timeout: 20_000 })
+    .not.toBe(before.body);
+
+  const after = await readInk();
+  expect(after.heading, "the section headings should stay exactly as they were").toBe(before.heading);
+  expect(after.heading, "and that colour should be white").toBe("rgb(255, 255, 255)");
+});
