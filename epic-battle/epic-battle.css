@@ -16,33 +16,33 @@
   animation: none;
 }
 
-.villain.is-walking .sk-leg-l,
-.villain.is-walking .sk-leg-r,
-.villain.is-walking .sk-arm-l,
-.villain.is-walking .sk-arm-r {
+.villain.is-walking .villain-leg-l,
+.villain.is-walking .villain-leg-r,
+.villain.is-walking .villain-arm-l,
+.villain.is-walking .villain-arm-r {
   transform-box: view-box;
   animation-duration: var(--sk-step, 460ms);
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
 }
 
-.villain.is-walking .sk-leg-l {
+.villain.is-walking .villain-leg-l {
   transform-origin: 19.3px 29.5px;
   animation-name: sk-stride;
 }
 
-.villain.is-walking .sk-leg-r {
+.villain.is-walking .villain-leg-r {
   transform-origin: 24.8px 29.5px;
   animation-name: sk-stride;
   animation-delay: calc(var(--sk-step, 460ms) / -2);
 }
 
-.villain.is-walking .sk-arm-r {
+.villain.is-walking .villain-arm-r {
   transform-origin: 28.3px 19px;
   animation-name: sk-swing;
 }
 
-.villain.is-walking .sk-arm-l {
+.villain.is-walking .villain-arm-l {
   transform-origin: 18.5px 19.3px;
   animation-name: sk-swing;
   animation-delay: calc(var(--sk-step, 460ms) / -2);
@@ -76,165 +76,165 @@
   scale: 1 1;
 }
 
-.villain.is-landed .sk-cape {
+.villain.is-landed .villain-cape {
   display: none;
 }
 
-.villain.is-landed .sk-leg-l,
-.villain.is-landed .sk-leg-r,
-.villain.is-landed .sk-arm-l,
-.villain.is-landed .sk-arm-r {
+.villain.is-landed .villain-leg-l,
+.villain.is-landed .villain-leg-r,
+.villain.is-landed .villain-arm-l,
+.villain.is-landed .villain-arm-r {
   transform-box: view-box;
 }
 
-.villain.is-landed .sk-leg-l {
+.villain.is-landed .villain-leg-l {
   transform-origin: 19.3px 29.5px;
   rotate: -13.1deg;
 }
 
-.villain.is-landed .sk-leg-r {
+.villain.is-landed .villain-leg-r {
   transform-origin: 24.8px 29.5px;
   rotate: 17.8deg;
 }
 
-.villain.is-landed .sk-arm-l {
+.villain.is-landed .villain-arm-l {
   transform-origin: 18.5px 19.3px;
   rotate: 36.5deg;
 }
 
-.villain.is-landed .sk-arm-r {
+.villain.is-landed .villain-arm-r {
   transform-origin: 28.3px 19px;
   rotate: 43.2deg;
 }
 
 /* ---------- Beat 3: charging up, the corrupted palette ---- */
 :root {
-  --sk-charge-eye: #ff2f2f;
-  --sk-charge-core: #ff8a6a;
-  --sk-charge-suit: #a22b24;
-  --sk-charge-pants: #88342c;
-  --sk-charge-boot: #4a1b18;
-  --sk-charge-belt: #ff2f2f;
-  --sk-charge-helmet: #98a4b2;
-  --sk-charge-emblem: #ff5a3c;
-  --sk-charge-plate: #7d2019;
-  --sk-charge-ridge: #b8382e;
-  --sk-charge-jaw: #7c8794;
-  --sk-charge-arc: var(--green, #7ee0a8);
+  --villain-charge-eye: #ff2f2f;
+  --villain-charge-core: #ff8a6a;
+  --villain-charge-suit: #a22b24;
+  --villain-charge-pants: #88342c;
+  --villain-charge-boot: #4a1b18;
+  --villain-charge-belt: #ff2f2f;
+  --villain-charge-helmet: #98a4b2;
+  --villain-charge-emblem: #ff5a3c;
+  --villain-charge-plate: #7d2019;
+  --villain-charge-ridge: #b8382e;
+  --villain-charge-jaw: #7c8794;
+  --villain-charge-arc: var(--green, #7ee0a8);
 }
 
-.villain.is-landed .sk-tunic,
-.villain.is-landed .sk-limb {
+.villain.is-landed .villain-tunic,
+.villain.is-landed .villain-limb {
   animation: sk-suit-ignite 2.2s ease-in 0.6s forwards;
 }
 
-.villain.is-landed .sk-boot {
-  animation: sk-boot-ignite 2.2s ease-in 0.6s forwards;
+.villain.is-landed .villain-boot {
+  animation: villain-boot-ignite 2.2s ease-in 0.6s forwards;
 }
 
-.villain.is-landed .sk-belt {
-  animation: sk-belt-ignite 2.2s ease-in 0.6s forwards;
+.villain.is-landed .villain-belt {
+  animation: villain-belt-ignite 2.2s ease-in 0.6s forwards;
 }
 
-.villain.is-landed .sk-skin {
+.villain.is-landed .villain-skin {
   animation: sk-helmet-ignite 2.2s ease-in 0.6s forwards;
 }
 
-.villain.is-landed .sk-plate {
-  animation: sk-plate-ignite 2.2s ease-in 0.6s forwards;
+.villain.is-landed .villain-plate {
+  animation: villain-plate-ignite 2.2s ease-in 0.6s forwards;
 }
 
-.villain.is-landed .sk-ridge {
-  animation: sk-ridge-ignite 2.2s ease-in 0.6s forwards;
+.villain.is-landed .villain-ridge {
+  animation: villain-ridge-ignite 2.2s ease-in 0.6s forwards;
 }
 
-.villain.is-landed .sk-jaw {
-  animation: sk-jaw-ignite 2.2s ease-in 0.6s forwards;
+.villain.is-landed .villain-jaw {
+  animation: villain-jaw-ignite 2.2s ease-in 0.6s forwards;
 }
 
-@keyframes sk-plate-ignite {
-  from { fill: var(--sk-plate); }
-  to { fill: var(--sk-charge-plate); }
+@keyframes villain-plate-ignite {
+  from { fill: var(--villain-plate); }
+  to { fill: var(--villain-charge-plate); }
 }
 
-@keyframes sk-ridge-ignite {
-  from { fill: var(--sk-ridge); }
-  to { fill: var(--sk-charge-ridge); }
+@keyframes villain-ridge-ignite {
+  from { fill: var(--villain-ridge); }
+  to { fill: var(--villain-charge-ridge); }
 }
 
-@keyframes sk-jaw-ignite {
-  from { fill: var(--sk-jaw); }
-  to { fill: var(--sk-charge-jaw); }
+@keyframes villain-jaw-ignite {
+  from { fill: var(--villain-jaw); }
+  to { fill: var(--villain-charge-jaw); }
 }
 
 @keyframes sk-suit-ignite {
-  from { fill: var(--sk-tunic); }
-  to { fill: var(--sk-charge-suit); }
+  from { fill: var(--villain-tunic); }
+  to { fill: var(--villain-charge-suit); }
 }
 
-@keyframes sk-boot-ignite {
-  from { fill: var(--sk-boot); }
-  to { fill: var(--sk-charge-boot); }
+@keyframes villain-boot-ignite {
+  from { fill: var(--villain-boot); }
+  to { fill: var(--villain-charge-boot); }
 }
 
-@keyframes sk-belt-ignite {
-  from { fill: var(--sk-cape); }
-  to { fill: var(--sk-charge-belt); }
+@keyframes villain-belt-ignite {
+  from { fill: var(--villain-cape); }
+  to { fill: var(--villain-charge-belt); }
 }
 
 @keyframes sk-helmet-ignite {
-  from { fill: var(--sk-skin); }
-  to { fill: var(--sk-charge-helmet); }
+  from { fill: var(--villain-skin); }
+  to { fill: var(--villain-charge-helmet); }
 }
 
-.villain.is-landed .sk-tights {
+.villain.is-landed .villain-tights {
   animation: sk-pants-ignite 2.2s ease-in 0.6s forwards;
 }
 
-.villain.is-landed .sk-emblem {
-  animation: sk-emblem-ignite 2.2s ease-in 0.6s forwards;
+.villain.is-landed .villain-emblem {
+  animation: villain-emblem-ignite 2.2s ease-in 0.6s forwards;
 }
 
-@keyframes sk-emblem-ignite {
+@keyframes villain-emblem-ignite {
   from {
-    fill: var(--sk-emblem);
+    fill: var(--villain-emblem);
   }
   to {
-    fill: var(--sk-charge-emblem);
+    fill: var(--villain-charge-emblem);
   }
 }
 
 @keyframes sk-pants-ignite {
   from {
-    fill: var(--sk-tights);
+    fill: var(--villain-tights);
   }
   to {
-    fill: var(--sk-charge-pants);
+    fill: var(--villain-charge-pants);
   }
 }
 
-.villain.is-landed .sk-eye {
+.villain.is-landed .villain-eye {
   animation:
-    sk-eye-ignite 2.2s ease-in 0.6s forwards,
-    sk-eye-pulse 1.9s ease-in-out 2.8s infinite;
+    villain-eye-ignite 2.2s ease-in 0.6s forwards,
+    villain-eye-pulse 1.9s ease-in-out 2.8s infinite;
 }
 
-@keyframes sk-eye-ignite {
+@keyframes villain-eye-ignite {
   from {
-    fill: var(--sk-eye);
+    fill: var(--villain-eye);
   }
   to {
-    fill: var(--sk-charge-eye);
+    fill: var(--villain-charge-eye);
   }
 }
 
-@keyframes sk-eye-pulse {
+@keyframes villain-eye-pulse {
   0%,
   100% {
-    filter: drop-shadow(0 0 1.4px var(--sk-charge-eye));
+    filter: drop-shadow(0 0 1.4px var(--villain-charge-eye));
   }
   50% {
-    filter: drop-shadow(0 0 3.6px var(--sk-charge-core));
+    filter: drop-shadow(0 0 3.6px var(--villain-charge-core));
   }
 }
 
@@ -246,11 +246,11 @@
 
 .sk-arc {
   fill: none;
-  stroke: var(--sk-charge-arc);
+  stroke: var(--villain-charge-arc);
   stroke-width: 1.3;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 1.6px var(--sk-charge-arc));
+  filter: drop-shadow(0 0 1.6px var(--villain-charge-arc));
   opacity: 0;
 }
 
@@ -299,17 +299,17 @@
 
 /* ---------- Charged palette without animation: reduced motion, and the wreckage ---- */
 .villain-wreck {
-  --sk-tunic: var(--sk-charge-suit);
-  --sk-limb: var(--sk-charge-suit);
-  --sk-cape: var(--sk-charge-suit);
-  --sk-tights: var(--sk-charge-pants);
-  --sk-boot: var(--sk-charge-boot);
-  --sk-plate: var(--sk-charge-plate);
-  --sk-ridge: var(--sk-charge-ridge);
-  --sk-jaw: var(--sk-charge-jaw);
-  --sk-skin: var(--sk-charge-helmet);
-  --sk-eye: var(--sk-charge-eye);
-  --sk-emblem: var(--sk-charge-emblem);
+  --villain-tunic: var(--villain-charge-suit);
+  --villain-limb: var(--villain-charge-suit);
+  --villain-cape: var(--villain-charge-suit);
+  --villain-tights: var(--villain-charge-pants);
+  --villain-boot: var(--villain-charge-boot);
+  --villain-plate: var(--villain-charge-plate);
+  --villain-ridge: var(--villain-charge-ridge);
+  --villain-jaw: var(--villain-charge-jaw);
+  --villain-skin: var(--villain-charge-helmet);
+  --villain-eye: var(--villain-charge-eye);
+  --villain-emblem: var(--villain-charge-emblem);
 }
 
 .villain-wreck {
@@ -318,8 +318,8 @@
 }
 
 
-.villain-wreck .sk-belt {
-  fill: var(--sk-charge-belt);
+.villain-wreck .villain-belt {
+  fill: var(--villain-charge-belt);
 }
 
 
@@ -391,36 +391,36 @@
   animation: none;
 }
 
-.heroine.is-buff .lt-arm-l,
-.heroine.is-buff .lt-arm-r,
-.heroine.is-buff .lt-torso,
-.heroine.is-buff .lt-shoulder,
-.heroine.is-buff .lt-collar,
-.heroine.is-buff .lt-belt {
+.heroine.is-buff .heroine-arm-l,
+.heroine.is-buff .heroine-arm-r,
+.heroine.is-buff .heroine-torso,
+.heroine.is-buff .heroine-shoulder,
+.heroine.is-buff .heroine-collar,
+.heroine.is-buff .heroine-belt {
   transform-box: view-box;
   animation-duration: 760ms;
   animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   animation-fill-mode: forwards;
 }
 
-.heroine.is-buff .lt-arm-l {
+.heroine.is-buff .heroine-arm-l {
   transform-origin: 18.45px 17.4px;
   animation-name: sk-buff-limb;
 }
 
-.heroine.is-buff .lt-arm-r {
+.heroine.is-buff .heroine-arm-r {
   transform-origin: 25.55px 17.4px;
   animation-name: heroine-take-aim;
 }
 
-.heroine.is-buff .lt-torso,
-.heroine.is-buff .lt-shoulder,
-.heroine.is-buff .lt-collar {
+.heroine.is-buff .heroine-torso,
+.heroine.is-buff .heroine-shoulder,
+.heroine.is-buff .heroine-collar {
   transform-origin: 22px 24.6px;
   animation-name: sk-buff-torso;
 }
 
-.heroine.is-buff .lt-belt {
+.heroine.is-buff .heroine-belt {
   transform-origin: 22px 24.4px;
   animation-name: sk-buff-belt;
 }
@@ -476,18 +476,18 @@
   animation: sk-forcefield 2.6s ease-in-out infinite alternate;
 }
 
-.heroine.is-summoned .lt-iris {
+.heroine.is-summoned .heroine-iris {
   fill: var(--green, #7ee0a8);
 }
 
-.heroine.is-summoned .lt-eye,
-.heroine.is-summoned .lt-iris,
-.heroine.is-summoned .lt-pupil {
+.heroine.is-summoned .heroine-eye,
+.heroine.is-summoned .heroine-iris,
+.heroine.is-summoned .heroine-pupil {
   filter: drop-shadow(0 0 1.4px var(--green, #7ee0a8))
     drop-shadow(0 0 3px color-mix(in srgb, var(--green, #7ee0a8) 70%, transparent));
 }
 
-.heroine.is-summoned .lt-pupil {
+.heroine.is-summoned .heroine-pupil {
   fill: color-mix(in srgb, var(--green, #7ee0a8) 35%, #000);
 }
 

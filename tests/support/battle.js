@@ -21,19 +21,19 @@ export const SELECTORS = {
   inferno: ".inferno",
   wreck: ".villain-wreck",
   bodyPart: "svg g > *",
-  villainCape: ".sk-cape",
-  villainCapeLeft: ".sk-cape-l",
-  villainTunic: ".sk-tunic",
-  villainEye: ".sk-eye",
-  villainArmLeft: ".sk-arm-l",
-  villainArmRight: ".sk-arm-r",
-  villainArmLeftLimb: ".sk-limb.sk-arm-l",
-  villainArmRightLimb: ".sk-limb.sk-arm-r",
-  loosePlate: '[class="sk-plate"]',
-  heroineFiringArm: ".lt-arm-r",
-  heroineFiringHand: ".lt-glove.lt-arm-r",
-  heroineEye: ".lt-eye",
-  heroineHead: "circle.lt-skin",
+  villainCape: ".villain-cape",
+  villainCapeLeft: ".villain-cape-l",
+  villainTunic: ".villain-tunic",
+  villainEye: ".villain-eye",
+  villainArmLeft: ".villain-arm-l",
+  villainArmRight: ".villain-arm-r",
+  villainArmLeftLimb: ".villain-limb.villain-arm-l",
+  villainArmRightLimb: ".villain-limb.villain-arm-r",
+  loosePlate: '[class="villain-plate"]',
+  heroineFiringArm: ".heroine-arm-r",
+  heroineFiringHand: ".heroine-glove.heroine-arm-r",
+  heroineEye: ".heroine-eye",
+  heroineHead: "circle.heroine-skin",
   burst: ".pow"
 };
 
@@ -71,7 +71,7 @@ export const TOKENS = {
   grow: "--sk-grow",
   rally: "--sk-rally",
   step: "--sk-step",
-  cape: "--sk-cape",
+  cape: "--villain-cape",
   ringSize: "--orbit-size"
 };
 
