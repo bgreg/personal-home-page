@@ -1,3 +1,4 @@
+/* ---------- Palette both fighters and the bursts read ---- */
 :root {
   --pow-1: var(--accent, #67e8f9);
   --pow-2: var(--gold, #f5c451);
@@ -35,6 +36,7 @@
   --sk-line: #060910;
 }
 
+/* ---------- The two fighters as buttons ----------------- */
 .fighter {
   appearance: none;
   padding: 0;
@@ -53,6 +55,7 @@
   cursor: pointer;
 }
 
+/* ---------- Figure sizing and the idle hover ------------ */
 .fighter svg,
 .fighter svg * {
   cursor: pointer;
@@ -65,6 +68,7 @@
   z-index: 101;
 }
 
+/* ---------- Where the villain stands in the footer ------ */
 .villain,
 .villain-wreck {
   position: absolute;
@@ -112,6 +116,7 @@
   animation: fighter-float 3.6s ease-in-out infinite alternate;
 }
 
+/* ---------- Villain body-part colours ------------------- */
 .sk-cape { fill: var(--sk-cape); }
 .sk-tunic { fill: var(--sk-tunic); }
 .sk-tights { fill: var(--sk-tights); }
@@ -131,6 +136,7 @@
   stroke-width: 1.05;
 }
 
+/* ---------- Heroine body-part colours ------------------- */
 .lt-hair { fill: var(--lt-hair); }
 .lt-skin { fill: var(--lt-skin); }
 .lt-arm,
@@ -168,6 +174,7 @@
   to { translate: 0 var(--sk-float, 4px); }
 }
 
+/* ---------- Comic-book sound effect stamped at the cursor ---- */
 .pow {
   position: fixed;
   left: var(--pow-x);
