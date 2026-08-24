@@ -40,6 +40,7 @@
   ];
   const LAUNCH_MS = 1100;
   const LAUNCH_EXIT_MARGIN = 40;
+  const RISE_SETTLE_MS = 2200;
   const HEROINE_OVER_VILLAIN = 1.1;
   const HEROINE_FLY_MS = 1500;
   const HEROINE_STANDOFF = 26;
@@ -234,6 +235,26 @@
 
     artwork.append(field);
   };
+
+  const followHimUp = () =>
+    new Promise((settled) => {
+      if (window.scrollY <= 1) {
+        settled();
+        return;
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      const stopWatching = () => {
+        window.clearInterval(watch);
+        window.clearTimeout(giveUp);
+        settled();
+      };
+      const watch = window.setInterval(() => {
+        if (window.scrollY <= 1) stopWatching();
+      }, 40);
+      const giveUp = window.setTimeout(stopWatching, RISE_SETTLE_MS);
+    });
 
   const arriveInTheOrbitRing = () => {
     const hero = document.querySelector(".hero");
@@ -660,12 +681,15 @@
       { duration: CROUCH_MS, easing: "ease-out", fill: "forwards" }
     ).finished;
 
+    const rising = followHimUp();
+
     await villain.animate(launchArcFrames({ tilt, rise, drift }), {
       duration: LAUNCH_MS,
       easing: "linear",
       fill: "forwards"
     }).finished;
 
+    await rising;
     arriveInTheOrbitRing();
   };
 
