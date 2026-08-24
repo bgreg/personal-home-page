@@ -293,6 +293,7 @@
 
     document.body.classList.add("is-showdown");
     heroine.classList.add("is-summoned");
+    if (heroineWins) villain.classList.add("is-challenged");
 
     await heroine.animate(
       [

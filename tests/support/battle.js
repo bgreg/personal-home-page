@@ -59,6 +59,7 @@ export const MARKERS = {
   buff: "is-buff",
   charging: "is-charging",
   showdown: "is-showdown",
+  challenged: "is-challenged",
   victory: "is-victory",
   aftermath: "is-aftermath",
   inferno: "is-inferno",

@@ -450,7 +450,7 @@
   transition: opacity 600ms ease;
 }
 
-body.is-showdown .villain .sk-arc-field {
+.villain.is-challenged .sk-arc-field {
   opacity: 0;
 }
 

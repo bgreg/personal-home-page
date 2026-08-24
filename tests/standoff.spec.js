@@ -9,6 +9,7 @@ import {
   waitForMarker,
   readLog,
   SETTLE_MS,
+  driveToDefeat,
   SELECTORS,
   MARKERS
 } from "./support/battle.js";
@@ -177,4 +178,42 @@ test("she flies in only after the rally, and the page clears for the fight", asy
     log.stamps[`${SELECTORS.heroine} ${MARKERS.summoned}`],
     "she should not take off before she has rallied"
   ).toBeGreaterThanOrEqual(log.stamps[`${SELECTORS.heroine} ${MARKERS.rallying}`]);
+});
+
+test("his lightning dies only when she is the one who answers", async ({ page }) => {
+  test.setTimeout(120_000);
+
+  await driveToStandoff(page);
+
+  await expect(page.locator(SELECTORS.villain)).toHaveClass(new RegExp(MARKERS.challenged));
+  await expect
+    .poll(
+      () =>
+        page.evaluate(
+          (contract) =>
+            getComputedStyle(
+              document.querySelector(`${contract.villain} ${contract.arcField}`)
+            ).opacity,
+          { villain: SELECTORS.villain, arcField: SELECTORS.arcField }
+        ),
+      { timeout: 10_000 }
+    )
+    .toBe("0");
+});
+
+test("his lightning keeps burning when he is the one who calls her out", async ({ page }) => {
+  test.setTimeout(120_000);
+
+  await driveToDefeat(page);
+
+  await expect(page.locator(SELECTORS.villain)).not.toHaveClass(new RegExp(MARKERS.challenged));
+  expect(
+    await page.evaluate(
+      (contract) =>
+        getComputedStyle(document.querySelector(`${contract.villain} ${contract.arcField}`))
+          .opacity,
+      { villain: SELECTORS.villain, arcField: SELECTORS.arcField }
+    ),
+    "his charge should still be lit on his own path"
+  ).toBe("1");
 });
