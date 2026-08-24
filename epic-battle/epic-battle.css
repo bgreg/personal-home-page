@@ -476,8 +476,12 @@
   animation: sk-forcefield 2.6s ease-in-out infinite alternate;
 }
 
-.heroine.is-summoned .heroine-iris {
+.heroine.is-summoned .heroine-eye {
   fill: var(--green, #7ee0a8);
+}
+
+.heroine.is-summoned .heroine-iris {
+  fill: color-mix(in srgb, var(--green, #7ee0a8) 55%, #fff);
 }
 
 .heroine.is-summoned .heroine-eye,
@@ -488,7 +492,7 @@
 }
 
 .heroine.is-summoned .heroine-pupil {
-  fill: color-mix(in srgb, var(--green, #7ee0a8) 35%, #000);
+  fill: color-mix(in srgb, var(--green, #7ee0a8) 25%, #fff);
 }
 
 @keyframes sk-forcefield {
