@@ -75,6 +75,23 @@ body::before {
   outline-offset: 3px;
 }
 
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 200;
+  padding: 0.6rem 1.1rem;
+  background: rgba(6, 9, 16, 0.95);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
 /* ---------- Header / nav ---------- */
 header {
   position: fixed;
