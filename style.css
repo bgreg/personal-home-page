@@ -701,6 +701,10 @@ h2 {
   display: none;
 }
 
+.game-stage[data-game="life"] .game-overlay {
+  background: rgba(6, 9, 16, 0.56);
+}
+
 .overlay-title {
   font-family: var(--display);
   font-size: 1.5rem;
