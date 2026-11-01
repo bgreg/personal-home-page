@@ -1119,6 +1119,10 @@
       stats: () => ({ gen, alive, gliders }),
 
       reset() {
+        /* the board plumbing resets once for the idle preview and again on
+           start; a board nothing has happened to yet is kept, so what the
+           preview shows is what runs */
+        if (actors.length && gen === 0 && scene === "life") return;
         gen = 0;
         since = 0;
         frozen = false;

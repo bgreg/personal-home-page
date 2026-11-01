@@ -33,6 +33,47 @@ const waitForAct = (page, name) =>
     { timeout: 40_000 }
   );
 
+/* Reads the board back off the canvas as a grid of live cells. */
+const readBoard = (page) =>
+  page.evaluate((selector) => {
+    const canvas = document.querySelector(selector);
+    const cell = 8;
+    const cols = 480 / cell;
+    const rows = 320 / cell;
+    const scale = canvas.width / 480;
+    const data = canvas.getContext("2d").getImageData(0, 0, canvas.width, canvas.height).data;
+    const cells = [];
+    for (let y = 0; y < rows; y++) {
+      let row = "";
+      for (let x = 0; x < cols; x++) {
+        const px = Math.round((x * cell + cell / 2) * scale);
+        const py = Math.round((y * cell + cell / 2) * scale);
+        const i = (py * canvas.width + px) * 4;
+        row += data[i] + data[i + 1] + data[i + 2] > 300 ? "#" : ".";
+      }
+      cells.push(row);
+    }
+    return cells;
+  }, CANVAS);
+
+/* Conway's rules on a board with dead edges, exactly as the game applies them. */
+const nextGeneration = (board) =>
+  board.map((row, y) =>
+    [...row]
+      .map((here, x) => {
+        let n = 0;
+        for (let dy = -1; dy <= 1; dy++) {
+          for (let dx = -1; dx <= 1; dx++) {
+            if (!dx && !dy) continue;
+            const line = board[y + dy];
+            if (line && line[x + dx] === "#") n += 1;
+          }
+        }
+        return n === 3 || (here === "#" && n === 2) ? "#" : ".";
+      })
+      .join("")
+  );
+
 const redPixels = (page) =>
   page.evaluate((selector) => {
     const canvas = document.querySelector(selector);
@@ -53,6 +94,21 @@ test("the card presents a plain Game of Life", async ({ page }) => {
   expect(Number(await page.locator(READOUT("alive")).textContent()), "the seed is populated").toBeGreaterThan(100);
   expect(await act(page), "nothing has happened yet").toBe("life");
   expect(await redPixels(page), "the board starts in the site palette").toBe(0);
+});
+
+test("the first eighty generations are the real rules, cell for cell", async ({ page }) => {
+  await openTheBoard(page);
+  const seed = await readBoard(page);
+  expect(seed.join("").split("#").length - 1, "the seed was read off the canvas").toBeGreaterThan(100);
+
+  let expected = seed;
+  for (let generation = 0; generation < 80; generation += 1) expected = nextGeneration(expected);
+
+  await start(page);
+  await waitForAct(page, "hang");
+  const frozen = await readBoard(page);
+
+  expect(frozen, "the board at the hang is what Conway's rules make of the seed").toEqual(expected);
 });
 
 test("the rules run honestly once the board is started", async ({ page }) => {
